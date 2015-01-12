@@ -1,0 +1,24 @@
+{
+  "name": "foodlr-core",
+  "version": "0.0.0",
+  "homepage": "https://github.com/Tarabyte/foodlr-core",
+  "authors": [
+    "tarabyte"
+  ],
+  "description": "Foodlr admin panel.",
+  "main": "index.js",
+  "keywords": [
+    "foodlr",
+    "core",
+    "admin"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
