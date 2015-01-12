@@ -7,7 +7,7 @@ var coffee = require('coffee-script');
 
 coffee.register();
 
-var sourceJs = ['./src/**/*.js', 'index.js'];
+var sourceJs = ['./server/**/*.js'];
 var tests = './test/**/[^_]*'; // _something is not a test but a fixture of whatever
 var testSrc = './test/**/*'; //all files
 
