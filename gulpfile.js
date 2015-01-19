@@ -6,7 +6,7 @@ var mocha = require('gulp-mocha');
 var coffee = require('coffee-script');
 var connect = require('gulp-connect');
 var proxy = require('proxy-middleware');
-var url = require('url');
+var _ = require('lodash');
 
 
 coffee.register();
@@ -85,6 +85,9 @@ gulp.task('backend', function(next) {
 gulp.task('watch', function() {
   gulp.watch(sourceJs, ['lint', 'test']);
   gulp.watch(sourceJs.concat(testSrc), ['test']);
+  gulp.watch('client/**/*', _.debounce(function() {
+    return gulp.src('client').pipe(connect.reload());
+  }, 1000));
 });
 
 gulp.task('default', ['lint', 'test', 'watch', 'server']);
