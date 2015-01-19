@@ -8,6 +8,8 @@
     <meta name="description" content="Панель администратора foodlr.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="fav.png">
+    <link rel="stylesheet" type="text/css" href="vendor/bootswatch/darkly/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="vendor/font-awesome/css/font-awesome.css">
   </head>
 
   <body>
@@ -17,8 +19,14 @@
     <!--[if lt IE 10]>
             <p class="browserupgrade">Ты используеешь устаревший браузер. :) Нужно что-нибудь сильно поновее.</p>
     <![endif]-->
-    <p>
-      Здесь будет располагаться панель администратора.
-    </p>
+    <div class="container-fluid" ng-app="app">
+      <ng-include src="'templates/header.html'"></ng-include>
+      <div ui-view></div>
+      <ng-include src="'templates/footer.html'"></ng-include>
+    </div>
+    <script src="vendor/jquery/dist/jquery.js"></script>
+    <script src="vendor/angular/angular.js"></script>
+    <script src="vendor/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="src/app.js"></script>
   </body>
 </html>
