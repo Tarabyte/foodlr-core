@@ -1,6 +1,6 @@
 /*global angular*/
 angular
-  .module('app', ['ui.router'])
+  .module('app', ['ui.router', 'auth'])
   .config(['$stateProvider', '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
       $urlRouterProvider.otherwise('/');
@@ -11,4 +11,11 @@ angular
         templateUrl: 'templates/index.html'
       });
 
+  }])
+  .run(['$rootScope', 'SessionService', function($rootScope, SessionService) {
+      $rootScope.$on('$stateChangeStart', function(){
+        console.log(arguments);
+      });
+
+      SessionService.doSmth();
   }]);
