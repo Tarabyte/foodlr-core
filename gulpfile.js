@@ -75,7 +75,8 @@ gulp.task('backend', function(next) {
     if (error !== null) {
       console.log('exec error: ' + error);
     }
-  });
+  }).stdout.pipe(process.stdout);
+
   next();
 });
 
