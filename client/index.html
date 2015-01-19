@@ -19,15 +19,17 @@
     <!--[if lt IE 10]>
             <p class="browserupgrade">Ты используеешь устаревший браузер. :) Нужно что-нибудь сильно поновее.</p>
     <![endif]-->
-    <div class="container-fluid" ng-app="app">
+    <div class="container-fluid" ng-app="app" ng-cloak>
       <ng-include src="'templates/header.html'"></ng-include>
       <div ui-view></div>
       <ng-include src="'templates/footer.html'"></ng-include>
     </div>
     <script src="vendor/jquery/dist/jquery.js"></script>
     <script src="vendor/angular/angular.js"></script>
+    <script src="vendor/angular-resource/angular-resource.js"></script>
     <script src="vendor/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="src/auth.js"></script>
+    <script src="src/lb-services.js"></script>
+    <script src="src/auth/auth.js"></script>
     <script src="src/app.js"></script>
   </body>
 </html>

@@ -13,9 +13,5 @@ angular
 
   }])
   .run(['$rootScope', 'SessionService', function($rootScope, SessionService) {
-      $rootScope.$on('$stateChangeStart', function(){
-        console.log(arguments);
-      });
-
-      SessionService.doSmth();
+      $rootScope.$on('$stateChangeStart', SessionService.checkAccess.bind(SessionService));
   }]);
