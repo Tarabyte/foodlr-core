@@ -1,0 +1,27 @@
+{
+  "name": "rubric",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "properties": {
+    "caption": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "string"
+    },
+    "active": {
+      "type": "boolean",
+      "required": true,
+      "default": true
+    },
+    "order": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": []
+}

@@ -1,5 +1,4 @@
-require './_bootstrap.coffee'
-app = require '../server/server.js'
+{app} = require './_bootstrap.coffee'
 
 describe 'Default admin', ->
   it 'should have user collection', ->

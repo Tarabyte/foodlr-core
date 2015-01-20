@@ -81,6 +81,23 @@ gulp.task('backend', function(next) {
 });
 
 /**
+ * Generate angular services.
+ */
+gulp.task('generate-services', function(next) {
+  require('child_process')
+  .exec('lb-ng ./server/server.js ./client/src/lb-services.js',
+    function (error, stdout, stderr) {
+      console.log('stdout: ' + stdout);
+      console.log('stderr: ' + stderr);
+      if (error !== null) {
+        console.log('exec error: ' + error);
+      }
+      next();
+  }).stdout.pipe(process.stdout);
+
+});
+
+/**
  * Big Brother.
  */
 gulp.task('watch', function() {

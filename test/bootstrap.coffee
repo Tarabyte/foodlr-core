@@ -1,4 +1,4 @@
-{should} = require './_bootstrap.coffee'
+{should, app} = require './_bootstrap.coffee'
 
 describe 'Test', ->
   it 'should be ok', ->
@@ -7,3 +7,6 @@ describe 'Test', ->
   it 'should exists', ->
     should.exist.should.be.a 'function'
     should.not.exist undefined
+
+  it 'should load app', ->
+    app.should.be.defined

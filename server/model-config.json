@@ -25,5 +25,9 @@
   "Role": {
     "dataSource": "db",
     "public": false
+  },
+  "rubric": {
+    "dataSource": "mongo",
+    "public": true
   }
 }
