@@ -1,9 +1,26 @@
 <header class="navbar navbar-top navbar-default">
   <a class="navbar-brand" ui-sref="index">Foodlr</a>
+  <nav class="nav navbar-nav navbar-left" is-logged>
+    <li ui-sref-active="active">
+      <a ui-sref="index"><fa icon="tachometer"/> Главная</a>
+    </li>
+    <li ui-sref-active="active">
+      <a ui-sref="rubricator"><fa icon="th-list"/> Рубрики</a>
+    </li>
+    <li ui-sref-active="active">
+      <a ui-sref="recepies"><fa icon="cutlery"/> Рецепты</a>
+    </li>
+    <li ui-sref-active="active">
+      <a ui-sref="profiles"><fa icon="users"/> Профили</a>
+    </li>
+  </nav>
   <div class="navbar-right"></div>
   <nav class="nav navbar-nav navbar-right">
     <li ui-sref-active="active" is-not-logged>
-      <a ui-sref="login">Войти</a>
+      <a ui-sref="login"><fa icon="sign-in"/> Войти</a>
+    </li>
+    <li is-logged>
+      <logout></logout>
     </li>
   </nav>
 

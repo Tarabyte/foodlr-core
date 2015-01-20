@@ -1,6 +1,6 @@
 /*global angular*/
 angular
-  .module('app', ['ui.router', 'auth'])
+  .module('app', ['ui.router', 'auth', 'utils'])
   .config(['$stateProvider', '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
       $urlRouterProvider.otherwise('/');

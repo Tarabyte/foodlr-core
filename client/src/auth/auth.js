@@ -64,6 +64,19 @@ angular
       }
     };
   }])
+  .directive('logout', ['SessionService', '$compile', function(SessionService, $compile) {
+    var tmpl = $compile('<a href="#/" ng-click="logout()"><fa icon="sign-out"/> Выйти</a>');
+    return {
+      restrict: 'E',
+      scope: true,
+      controller: function($scope) {
+        $scope.logout = SessionService.signOut.bind(SessionService);
+      },
+      link: function(scope, element) {
+        element.replaceWith(tmpl(scope));
+      }
+    };
+  }])
   .service('SessionService', ['$injector', function($injector) {
     var authService = $injector.get('LoopBackAuth'),
         User = $injector.get('User'),
