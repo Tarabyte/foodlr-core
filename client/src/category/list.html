@@ -1,0 +1,42 @@
+<ol class="breadcrumb">
+  <li class="active">Категории</li>
+</ol>
+<div class=="row">
+  <div class="col-sm-10 col-sm-offset-1">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Название</th>
+          <th>Действия</th>
+          <th>Активно</th>
+          <th>Номер</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in list">
+          <td>
+            <a ui-sref="categories.item({id: item.id})">{{item.caption}}</a>
+            <div class="text-muted small">{{item.description}}</div>
+          </td>
+          <td>
+              <button type="button" class="btn btn-sm btn-danger" title="Удалить" ng-click="remove(item.id)"><fa icon="trash"/></button>
+          </td>
+          <td>{{item.active ? 'Да': 'Нет'}}</td>
+          <td>{{item.order}}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4">
+            <form class="form-inline" ng-submit="add()">
+              <button type="submit" class="btn btn-success" title="Добавить"><fa icon="plus"/></button>
+              <input type="text" class="form-control" id="caption" placeholder="Название" ng-model="item.caption" required>
+              <input type="number" class="form-control" id="order" placeholder="Номер (опционально)" ng-model="item.order">
+              <input type="text" class="form-control" id="description" placeholder="Описание" ng-model="item.description">
+            </form>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

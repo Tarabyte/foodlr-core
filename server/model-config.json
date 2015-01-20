@@ -29,5 +29,9 @@
   "rubric": {
     "dataSource": "mongo",
     "public": true
+  },
+  "category": {
+    "dataSource": "mongo",
+    "public": true
   }
 }

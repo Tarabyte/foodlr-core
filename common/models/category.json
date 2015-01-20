@@ -1,0 +1,27 @@
+{
+  "name": "category",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "properties": {
+    "caption": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "string"
+    },
+    "order": {
+      "type": "number",
+      "required": true
+    },
+    "active": {
+      "type": "boolean",
+      "required": true,
+      "default": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": []
+}
