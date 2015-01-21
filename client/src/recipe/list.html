@@ -1,0 +1,24 @@
+<ol class="breadcrumb">
+  <li class="active">Рецепты</li>
+</ol>
+<div class=="row">
+  <div class="col-xs-10 col-xs-offset-2">
+    <ul class="nav nav-pills">
+      <li ng-repeat="category in categories" ng-class="{active: category.id===currentCategory}">
+        <a ng-click="selectCategory(category.id)" href="javascript: void 0;">{{category.caption}}</a>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-2">
+    <ul class="nav nav-pills nav-stacked">
+      <li ng-repeat="rubric in rubrics" ng-class="{active: rubric.id===currentRubric}">
+        <a ng-click="selectRubric(rubric.id)" href="javascript: void 0;">{{rubric.caption}}</a>
+      </li>
+    </ul>
+  </div>
+  <div class="col-xs-10">
+    Здесь должна быть таблица
+  </div>
+</div>

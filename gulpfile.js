@@ -7,6 +7,7 @@ var coffee = require('coffee-script');
 var connect = require('gulp-connect');
 var proxy = require('proxy-middleware');
 var _ = require('lodash');
+var less = require('gulp-less');
 
 
 coffee.register();
@@ -15,6 +16,7 @@ var sourceJs = ['./server/**/*.js'];
 var tests = './test/**/[^_]*'; // _something is not a test but a fixture of whatever
 var testSrc = './test/**/*'; //all files
 var client = 'client';
+var lessSrc = './client/styles/**/*.less';
 
 /**
  * Lint source files
@@ -83,18 +85,29 @@ gulp.task('backend', function(next) {
 /**
  * Generate angular services.
  */
-gulp.task('generate-services', function(next) {
-  require('child_process')
-  .exec('lb-ng ./server/server.js ./client/src/lb-services.js',
-    function (error, stdout, stderr) {
-      console.log('stdout: ' + stdout);
-      console.log('stderr: ' + stderr);
-      if (error !== null) {
-        console.log('exec error: ' + error);
-      }
-      next();
-  }).stdout.pipe(process.stdout);
+gulp.task('generate-services', function(done) {
+  var generateServices = require('loopback-sdk-angular').services;
+  var app = require('./server/server');
 
+  var client = generateServices(app, 'lbServices', '/api');
+  require('fs')
+  .writeFile('./client/src/lb-services.js', client, function() {
+    done();
+    this.process.exit();
+  });
+});
+
+/**
+ * Compile less files.
+ */
+gulp.task('less', function() {
+  return gulp.src(lessSrc)
+    .pipe(less().on('error', function(error) {
+      console.log(error);
+      this.emit('end');
+      this.end();
+    }))
+    .pipe(gulp.dest('./client/styles/'));
 });
 
 /**

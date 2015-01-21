@@ -6,7 +6,7 @@ angular.module('category', ['lbServices'])
 
     $scope.list = [];
     function reload() {
-      Collection.find({filter: {order: ['order ASC']}}).$promise.then(function(data) {
+      Collection.find().$promise.then(function(data) {
         $scope.list = data;
       });
     }
@@ -17,6 +17,15 @@ angular.module('category', ['lbServices'])
       if(confirm('Вы действительно хотите удалить категорию?')){
         Collection.deleteById({id: id}).$promise.then(reload);
       }
+    };
+
+    $scope.toggle = function(id) {
+      var item = $scope.list.filter(function(item){
+        return item.id === id
+      })[0];
+      Collection.toggle(item).$promise.then(function() {
+        item.active = !item.active;
+      });
     };
 
     $scope.item = {};
@@ -43,17 +52,19 @@ angular.module('category', ['lbServices'])
        });
      }
 
+     function go() {
+       $state.go('categories.list');
+     }
+
      reload();
 
      $scope.save = function() {
-       Collection.upsert($scope.item).$promise.then(reload);
+       Collection.upsert($scope.item).$promise.then(go);
      };
 
      $scope.remove = function() {
       if(confirm('Вы действительно хотите удалить категорию?')){
-        Collection.deleteById($scope.item).$promise.then(function() {
-          $state.go('categories.list');
-        });
+        Collection.deleteById($scope.item).$promise.then(go);
       }
      };
 

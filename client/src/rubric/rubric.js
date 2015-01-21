@@ -2,12 +2,12 @@
 angular.module('rubric', ['lbServices'])
   .controller('RubricListCtrl', ['$scope', '$injector',
    function($scope, $injector) {
-    var Rubric = $injector.get('Rubric');
+    var Collection = $injector.get('Rubric');
 
-    $scope.rubrics = [];
+    $scope.list = [];
     function reload() {
-      Rubric.find({filter: {order: ['order ASC']}}).$promise.then(function(data) {
-        $scope.rubrics = data;
+      Collection.find().$promise.then(function(data) {
+        $scope.list = data;
       });
     }
 
@@ -15,45 +15,56 @@ angular.module('rubric', ['lbServices'])
 
     $scope.remove = function(id) {
       if(confirm('Вы действительно хотите удалить рубрику?')){
-        Rubric.deleteById({id: id}).$promise.then(reload);
+        Collection.deleteById({id: id}).$promise.then(reload);
       }
     };
 
-    $scope.rubric = {};
+    $scope.toggle = function(id) {
+      var item = $scope.list.filter(function(item){
+        return item.id === id
+      })[0];
+      Collection.toggle(item).$promise.then(function() {
+        item.active = !item.active;
+      });
+    };
+
+    $scope.item = {};
     $scope.add = function() {
-      var data = $scope.rubric;
+      var data = $scope.item;
       if(data.order == null) {
-        data.order = $scope.rubrics.length;
+        data.order = $scope.list.length;
       }
-      Rubric.create(data).$promise.then(function() {
-        $scope.rubric = {};
+      Collection.create(data).$promise.then(function() {
+        $scope.item = {};
         reload();
       });
     };
   }])
   .controller('RubricItemCtrl', ['$scope', '$injector',
    function($scope, $injector){
-     var Rubric = $injector.get('Rubric'),
+     var Collection = $injector.get('Rubric'),
          $state = $injector.get('$state'),
-         id = $state.params.rubricId;
+         id = $state.params.id;
 
      function reload() {
-       Rubric.findById({id: id}).$promise.then(function(item) {
-         $scope.rubric = item;
+       Collection.findById({id: id}).$promise.then(function(item) {
+         $scope.item = item;
        });
+     }
+
+     function go() {
+       $state.go('rubrics.list');
      }
 
      reload();
 
      $scope.save = function() {
-       Rubric.upsert($scope.rubric).$promise.then(reload);
+       Collection.upsert($scope.item).$promise.then(go);
      };
 
      $scope.remove = function() {
       if(confirm('Вы действительно хотите удалить рубрику?')){
-        Rubric.deleteById($scope.rubric).$promise.then(function() {
-          $state.go('rubrics.list');
-        });
+        Collection.deleteById($scope.item).$promise.then(go);
       }
      };
 
@@ -71,7 +82,7 @@ angular.module('rubric', ['lbServices'])
       controller: 'RubricListCtrl'
     })
     .state('rubrics.item', {
-      url: '/:rubricId',
+      url: '/:id',
       templateUrl: 'src/rubric/item.html',
       controller: 'RubricItemCtrl'
     });

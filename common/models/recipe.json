@@ -1,0 +1,46 @@
+{
+  "name": "recipe",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "properties": {
+    "caption": {
+      "type": "string",
+      "required": true
+    },
+    "content": {
+      "type": "string",
+      "required": true
+    },
+    "calories": {
+      "type": "number",
+      "required": true
+    },
+    "fat": {
+      "type": "number"
+    },
+    "carb": {
+      "type": "number"
+    },
+    "prot": {
+      "type": "number"
+    },
+    "active": {
+      "type": "boolean",
+      "required": true,
+      "default": true
+    },
+    "ingredients": {
+      "type": [
+        "object"
+      ],
+      "required": true
+    },
+    "portions": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": []
+}

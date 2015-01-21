@@ -12,7 +12,7 @@
   },
   "AccessToken": {
     "dataSource": "db",
-    "public": false
+    "public": true
   },
   "ACL": {
     "dataSource": "db",
@@ -31,6 +31,10 @@
     "public": true
   },
   "category": {
+    "dataSource": "mongo",
+    "public": true
+  },
+  "recipe": {
     "dataSource": "mongo",
     "public": true
   }

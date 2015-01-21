@@ -20,6 +20,9 @@
       "default": true
     }
   },
+  "scope": {
+    "order": "order"
+  },
   "validations": [],
   "relations": {},
   "acls": [],
