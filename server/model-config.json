@@ -37,5 +37,13 @@
   "recipe": {
     "dataSource": "mongo",
     "public": true
+  },
+  "nutrient": {
+    "dataSource": "mongo",
+    "public": true
+  },
+  "product": {
+    "dataSource": "mongo",
+    "public": true
   }
 }

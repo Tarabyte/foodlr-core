@@ -1,10 +1,7 @@
 {
-  "name": "rubric",
+  "name": "nutrient",
   "base": "PersistedModel",
   "idInjection": true,
-  "scope": {
-    "order": "order"
-  },
   "properties": {
     "caption": {
       "type": "string",
@@ -13,24 +10,21 @@
     "description": {
       "type": "string"
     },
+    "order": {
+      "type": "number",
+      "required": true
+    },
     "active": {
       "type": "boolean",
       "required": true,
       "default": true
-    },
-    "order": {
-      "type": "number",
-      "required": true
     }
+  },
+  "scope": {
+    "order": "order"
   },
   "validations": [],
-  "relations": {
-    "recipes": {
-      "type": "hasAndBelongsToMany",
-      "model": "recipe",
-      "foreignKey": ""
-    }
-  },
+  "relations": {},
   "acls": [],
   "methods": []
 }

@@ -1,23 +1,25 @@
 /*global angular*/
-angular.module('rubric', ['lbServices', 'crud'])
-  .config(['$stateProvider', function ($stateProvider) {
+angular
+  .module('nutrient', ['crud'])
+  .config(['$stateProvider', function($stateProvider) {
     $stateProvider
-    .state('rubrics', {
-      url: '/rubrics',
+    .state('nutrients', {
+      url: '/nutrients',
       abstract: true,
       template: '<div ui-view/>',
       data: {
-        collection: 'Rubric',
-        title: 'Рубрики',
-        root: 'rubrics'
+        collection: 'Nutrient',
+        title: 'Нутриеты',
+        root: 'nutrients'
+
       }
     })
-    .state('rubrics.list', {
+    .state('nutrients.list', {
       url: '',
       templateUrl: 'src/utils/list.html',
       controller: 'DefaultListCtrl as ctrl'
     })
-    .state('rubrics.item', {
+    .state('nutrients.item', {
       url: '/:id',
       templateUrl: 'src/utils/item.html',
       controller: 'ItemCtrl as ctrl'

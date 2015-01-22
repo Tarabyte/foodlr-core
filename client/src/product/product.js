@@ -1,23 +1,25 @@
 /*global angular*/
-angular.module('rubric', ['lbServices', 'crud'])
-  .config(['$stateProvider', function ($stateProvider) {
+angular
+  .module('product', ['crud'])
+  .config(['$stateProvider', function($stateProvider) {
     $stateProvider
-    .state('rubrics', {
-      url: '/rubrics',
+    .state('products', {
+      url: '/products',
       abstract: true,
       template: '<div ui-view/>',
       data: {
-        collection: 'Rubric',
-        title: 'Рубрики',
-        root: 'rubrics'
+        collection: 'Product',
+        title: 'Продукты',
+        root: 'products'
+
       }
     })
-    .state('rubrics.list', {
+    .state('products.list', {
       url: '',
       templateUrl: 'src/utils/list.html',
       controller: 'DefaultListCtrl as ctrl'
     })
-    .state('rubrics.item', {
+    .state('products.item', {
       url: '/:id',
       templateUrl: 'src/utils/item.html',
       controller: 'ItemCtrl as ctrl'

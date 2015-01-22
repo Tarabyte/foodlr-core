@@ -40,7 +40,18 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "rubrics": {
+      "type": "hasAndBelongsToMany",
+      "model": "rubric",
+      "foreignKey": ""
+    },
+    "category": {
+      "type": "belongsTo",
+      "model": "category",
+      "foreignKey": ""
+    }
+  },
   "acls": [],
   "methods": []
 }

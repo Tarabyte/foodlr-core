@@ -1,6 +1,6 @@
 /*global angular*/
 'use strict';
-angular.module('recipe', ['lbServices'])
+angular.module('recipe', ['lbServices', 'crud'])
   .controller('RecipeListCtrl', ['$scope', '$injector', function($scope, $injector) {
     var options = {},
         Recipe = $injector.get('Recipe'),
@@ -54,11 +54,14 @@ angular.module('recipe', ['lbServices'])
     .state('recipies', {
       url: '/recipies',
       abstract: true,
-      template: '<div ui-view/>'
+      template: '<div ui-view/>',
+      data: {
+        collection: 'Rubric'
+      }
     })
     .state('recipies.list', {
       url: '',
       templateUrl: 'src/recipe/list.html',
-      controller: 'RecipeListCtrl'
+      controller: 'ListCtrl as ctrl'
     });
   }]);
