@@ -1,15 +1,12 @@
 <ol class="breadcrumb">
-  <li class="active">Рецепты</li>
+  <li class="active">{{ctrl.data.title}}</li>
 </ol>
 <div class=="row">
-  <div class="col-xs-10 col-xs-offset-2">
-    <ul class="nav nav-pills">
-      <li ng-repeat="category in categories" ng-class="{active: category.id===currentCategory}">
-        <a ng-click="selectCategory(category.id)" href="javascript: void 0;">{{category.caption}}</a>
-      </li>
-    </ul>
+  <div class="btn-group col-xs-offset-2">
+    <a class="btn btn-success" ui-sref="recipies.new"><fa icon="plus"/> Добавить</a>
   </div>
 </div>
+
 <div class="row">
   <div class="col-xs-2">
     <ul class="nav nav-pills nav-stacked">
@@ -18,8 +15,36 @@
       </li>
     </ul>
   </div>
-  <div class="col-xs-10">
-    {{ctrl.a}} , {{a}}
-    <span ng-click="ctrl.doSmth()">doSmth</span>
+  <div class="col-xs-8">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Название</th>
+          <th>Действия</th>
+          <th>Калорийность</th>
+          <th>Рецепт</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in list">
+          <td><a ui-sref="{{ctrl.data.root}}.item({id: item.id})">{{item.caption}}</a></td>
+          <td>
+            <button class="btn btn-sm btn-danger" ng-click="ctrl.remove(item.id)"><fa icon="trash"/></button>
+          </td>
+          <td>{{item.calories}}
+            <div ng-if="item.fat || item.prot ||item.carb">{{item.fat}} : {{item.prot}} : {{item.carb}}</div>
+          </td>
+          <td>{{item.content}}</td>
+        </tr>
+      </tbody>
+
+    </table>
+  </div>
+  <div class="col-xs-2">
+    <ul class="nav nav-pills nav-stacked">
+      <li ng-repeat="category in categories" ng-class="{active: category.id===currentCategory}">
+        <a ng-click="selectCategory(category.id)" href="javascript: void 0;">{{category.caption}}</a>
+      </li>
+    </ul>
   </div>
 </div>

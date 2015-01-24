@@ -52,11 +52,14 @@ function ListCtrl($scope, $injector) {
     presave: function(item) {
       return item;
     },
+    postsave: angular.noop,
     save: function() {
-      var item = this.presave($scope.item);
+      var me = this,
+          item = me.presave($scope.item);
       Collection.save(item).$promise.then(function() {
         clean();
         fetch();
+        me.postsave();
       });
     },
     remove: function(id) {
@@ -128,7 +131,7 @@ function ItemCtrl($scope, $injector) {
       list = data.root + '.list';
 
   function fetch() {
-    Collection.findById({id: id}).$promise.then(function(data) {
+    $scope.item = Collection.findById({id: id}).$promise.then(function(data) {
       $scope.item = data;
     });
   }

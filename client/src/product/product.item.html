@@ -1,0 +1,76 @@
+<form class="form-horizontal" ng-submit="ctrl.save()">
+  <div class="form-group">
+    <label for="caption" class="col-sm-2 control-label">Название</label>
+    <div class="col-sm-8">
+      <input type="text" id="caption" name="caption" class="form-control" placeholder="Название" required ng-model="item.caption">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="description" class="col-sm-2 control-label">Описание</label>
+    <div class="col-sm-8">
+      <textarea id="description" name="description" class="form-control" placeholder="Описание" ng-model="item.description"></textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-2 col-sm-offset-2">
+      <label for="calories" class="control-label">Калорийность</label>
+    </div>
+    <div class="col-sm-2">
+      <label for="fats" class="control-label">Жиры</label>
+    </div>
+    <div class="col-sm-2">
+      <label for="proteins" class="control-label">Белки</label>
+    </div>
+    <div class="col-sm-2">
+      <label for="carbs" class="control-label">Углеводы</label>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-2 col-sm-offset-2">
+      <input type="number" step="any" id="calories" name="calories" class="form-control" placeholder="Калорийность" required ng-model="item.calories">
+    </div>
+    <div class="col-sm-2">
+      <input type="number" step="any" id="fats" name="fats" class="form-control" placeholder="Ж" ng-model="item.fats">
+    </div>
+    <div class="col-sm-2">
+      <input type="number" step="any" id="proteins" name="proteins" class="form-control" placeholder="Б" ng-model="item.proteins">
+    </div>
+    <div class="col-sm-2">
+      <input type="number" step="any" id="carbs" name="carbs" class="form-control" placeholder="У" ng-model="item.carbs">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-4 col-sm-offset-2">
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="nutrient in item.nutrients" ng-if="$even">
+          <div class="input-group input-group-sm">
+            <span class="input-group-addon">{{nutrient.caption}}</span>
+            <input type="number" ng-model="nutrient.value" class="form-control" step="any">
+            <span class="input-group-addon">{{nutrient.unit}}</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="col-sm-4">
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="nutrient in item.nutrients" ng-if="$odd">
+          <div class="input-group input-group-sm">
+            <span class="input-group-addon">{{nutrient.caption}}</span>
+            <input type="number" ng-model="nutrient.value" class="form-control" step="any">
+            <span class="input-group-addon">{{nutrient.unit}}</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-4 col-sm-offset-6">
+      <div class="bth-group pull-right">
+        <button type="submit" class="btn btn-success"><fa icon="save"/> Сохранить</button>
+        <button type="button" class="btn btn-danger" ng-click="ctrl.remove()"><fa icon="trash"/> Удалить</button>
+        <button type="button" class="btn btn-link" ng-click="ctrl.list()">Отмена</button>
+      </div>
+    </div>
+  </div>
+</form>

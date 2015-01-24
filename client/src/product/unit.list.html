@@ -1,6 +1,3 @@
-<ol class="breadcrumb" ng-if="!ctrl.data.hideHeader">
-  <li class="active">{{ctrl.data.title}}</li>
-</ol>
 <div class=="row">
   <div class="col-sm-10 col-sm-offset-1">
     <table class="table table-bordered table-striped">
@@ -9,6 +6,8 @@
           <th>Название</th>
           <th>Действия</th>
           <th>Активно</th>
+          <th>Аббревиатура</th>
+          <th>Множитель</th>
           <th>Номер</th>
         </tr>
       </thead>
@@ -16,7 +15,6 @@
         <tr ng-repeat="item in list">
           <td>
             <a ui-sref="{{ctrl.data.root}}.item({id: item.id})">{{item.caption}}</a>
-            <div class="text-muted small">{{item.description}}</div>
           </td>
           <td>
               <button type="button" class="btn btn-sm btn-danger" title="Удалить" ng-click="ctrl.remove(item.id)"><fa icon="trash"/></button>
@@ -24,17 +22,20 @@
             <button type="button" class="btn btn-sm btn-success" title="Активировать" ng-click="ctrl.toggle(item.id)" ng-show="!item.active"><fa icon="check"/></button>
           </td>
           <td>{{item.active ? 'Да': 'Нет'}}</td>
+          <td>{{item.abbreviation}}</td>
+          <td>{{item.multiplier}}</td>
           <td>{{item.order}}</td>
         </tr>
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="4">
+          <td colspan="6">
             <form class="form-inline" ng-submit="ctrl.save()">
               <button type="submit" class="btn btn-success" title="Добавить"><fa icon="plus"/></button>
               <input type="text" class="form-control" id="caption" placeholder="Название" ng-model="item.caption" required>
-              <input type="number" class="form-control" id="order" placeholder="Номер (опционально)" ng-model="item.order">
-              <input type="text" class="form-control" id="description" placeholder="Описание" ng-model="item.description">
+              <input type="text" class="form-control" id="caption" placeholder="Сокращение" ng-model="item.abbreviation" required>
+              <input type="number" class="form-control" id="caption" placeholder="Множитель" ng-model="item.multiplier" step="any">
+
             </form>
           </td>
         </tr>
