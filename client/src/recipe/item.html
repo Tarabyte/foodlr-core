@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
   <li><a ui-sref="{{ctrl.data.root}}.list">{{ctrl.data.title}}</a></li>
-  <li class="active">{{item.caption}}</li>
+  <li class="active">Новый рецепт</li>
 </ol>
 
 <form class="form-horizontal" ng-submit="ctrl.save()">
@@ -10,23 +10,78 @@
       <input type="text" id="caption" name="caption" class="form-control" placeholder="Название" required ng-model="item.caption">
     </div>
   </div>
-  <div class="form-group">
-    <label for="order" class="col-sm-2 control-label">Номер</label>
+   <div class="form-group">
+    <label for="content" class="col-sm-2 control-label">Способ приготовления</label>
     <div class="col-sm-8">
-      <input type="number" id="order" name="order" class="form-control" placeholder="Номер" ng-model="item.order">
+      <textarea id="content" name="content" class="form-control" placeholder="Рецепт" ng-model="item.content" rows="10"></textarea>
     </div>
   </div>
   <div class="form-group">
-    <label for="description" class="col-sm-2 control-label">Описание</label>
-    <div class="col-sm-8">
-      <textarea id="description" name="description" class="form-control" placeholder="Описание" ng-model="item.description"></textarea>
+    <div class="col-sm-2 col-sm-offset-2">
+      <label for="calories" class="control-label">Калорийность</label>
+    </div>
+    <div class="col-sm-2">
+      <label for="fats" class="control-label">Жиры</label>
+    </div>
+    <div class="col-sm-2">
+      <label for="proteins" class="control-label">Белки</label>
+    </div>
+    <div class="col-sm-2">
+      <label for="carbs" class="control-label">Углеводы</label>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-2 col-sm-offset-2">
+      <input type="number" step="any" id="calories" name="calories" class="form-control" placeholder="Калорийность" required ng-model="item.calories">
+    </div>
+    <div class="col-sm-2">
+      <input type="number" step="any" id="fats" name="fats" class="form-control" placeholder="Ж" ng-model="item.fats">
+    </div>
+    <div class="col-sm-2">
+      <input type="number" step="any" id="proteins" name="proteins" class="form-control" placeholder="Б" ng-model="item.proteins">
+    </div>
+    <div class="col-sm-2">
+      <input type="number" step="any" id="carbs" name="carbs" class="form-control" placeholder="У" ng-model="item.carbs">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-8 col-sm-offset-2">
+      <table class="table table-condensed table-striped">
+        <thead>
+          <tr>
+            <th>Продукт</th>
+            <th>Количество</th>
+            <th>Текст</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="ingredient in item.ingredients">
+            <td>{{ingredient.caption}}</td>
+            <td><input type="number" class="form-control" placeholder="Количество" ng-model="ingredient.val"></td>
+            <td><input type="text" class="form-control" placeholder="Количество прописью" ng-model="ingredient.txt"></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">
+              <div class="form-inline">
+                <button type="button" class="btn btn-success" title="Добавить" ng-click="ctrl.addIngredient()"><fa icon="plus"/></button>
+                <select ng-model="ingredient.product" ng-options="product.caption for product in products track by product.id"></select>
+                <div class="input-group"><input type="number" class="form-control" placeholder="Количество" ng-model="ingredient.val"><span class="input-group-addon">г.</span>
+                  </div>
+                <input type="text" class="form-control" placeholder="Количество прописью" ng-model="ingredient.txt">
+              </div>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
     </div>
   </div>
   <div class="form-group">
     <div class="col-sm-4 col-sm-offset-6">
       <div class="bth-group pull-right">
-        <button type="submit" class="btn btn-success"><fa icon="save"/> Сохранить</button>
-        <button type="button" class="btn btn-danger" ng-click="ctrl.remove()"><fa icon="trash"/> Удалить</button>
+        <button type="submit" class="btn btn-success"><fa icon="plus"/> Создать</button>
+
         <button type="button" class="btn btn-link" ng-click="ctrl.list()">Отмена</button>
       </div>
     </div>

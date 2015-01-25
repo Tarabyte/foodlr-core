@@ -1,21 +1,20 @@
 <ol class="breadcrumb">
   <li class="active">{{ctrl.data.title}}</li>
 </ol>
-<div class=="row">
-  <div class="btn-group col-xs-offset-2">
-    <a class="btn btn-success" ui-sref="recipies.new"><fa icon="plus"/> Добавить</a>
-  </div>
-</div>
-
 <div class="row">
   <div class="col-xs-2">
     <ul class="nav nav-pills nav-stacked">
       <li ng-repeat="rubric in rubrics" ng-class="{active: rubric.id===currentRubric}">
-        <a ng-click="selectRubric(rubric.id)" href="javascript: void 0;">{{rubric.caption}}</a>
+        <a ng-click="ctrl.selectRubric(rubric.id)" href="javascript: void 0;">{{rubric.caption}}</a>
       </li>
     </ul>
   </div>
   <div class="col-xs-8">
+    <div class="row">
+      <div class="col-xs-4">
+        <a class="btn btn-success" ui-sref="recipies.new">Добавить</a>
+      </div>
+    </div>
     <table class="table">
       <thead>
         <tr>
@@ -26,7 +25,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="item in list">
+        <tr ng-repeat="item in items">
           <td><a ui-sref="{{ctrl.data.root}}.item({id: item.id})">{{item.caption}}</a></td>
           <td>
             <button class="btn btn-sm btn-danger" ng-click="ctrl.remove(item.id)"><fa icon="trash"/></button>
@@ -37,13 +36,36 @@
           <td>{{item.content}}</td>
         </tr>
       </tbody>
-
+      <tbody ng-if="!items.length">
+        <tr>
+          <td colspan="4">Нет записей</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4">
+            <ul class="pagination" style="margin: 0;">
+              <li ng-class="{disabled: page===1}">
+                <a ng-click="ctrl.prev()" href="javascript: void 0;">&laquo;</a>
+              </li>
+              <li ng-repeat="current in pageList" ng-class="{active: current===page}">
+                <a ng-click="ctrl.goto(current)" href="javascript: void 0;">{{current}}</a>
+              </li>
+              <li ng-class="{disabled: page===pageList.length}">
+                <a ng-click="ctrl.next()" href="javascript: void 0;">&raquo;</a>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      </tfoot>
     </table>
+
+
   </div>
   <div class="col-xs-2">
     <ul class="nav nav-pills nav-stacked">
       <li ng-repeat="category in categories" ng-class="{active: category.id===currentCategory}">
-        <a ng-click="selectCategory(category.id)" href="javascript: void 0;">{{category.caption}}</a>
+        <a ng-click="ctrl.selectCategory(category.id)" href="javascript: void 0;">{{category.caption}}</a>
       </li>
     </ul>
   </div>

@@ -34,6 +34,11 @@
     },
     "carbs": {
       "type": "number"
+    },
+    "nutrients": {
+      "type": [
+        "object"
+      ]
     }
   },
   "validations": [],
