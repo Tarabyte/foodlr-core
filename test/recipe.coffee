@@ -1,4 +1,4 @@
-{app} = require './_bootstrap.coffee'
+{app, should} = require './_bootstrap.coffee'
 
 {Recipe} = app.models
 

@@ -116,9 +116,10 @@ gulp.task('less', function() {
 gulp.task('watch', function() {
   gulp.watch(sourceJs, ['lint', 'test']);
   gulp.watch(sourceJs.concat(testSrc), ['test']);
+  gulp.watch(lessSrc, ['less']);
   gulp.watch('client/**/*', _.debounce(function() {
     return gulp.src('client').pipe(connect.reload());
   }, 1000));
 });
 
-gulp.task('default', ['lint', 'test', 'watch', 'server']);
+gulp.task('default', ['lint', 'test', 'less', 'watch', 'server']);

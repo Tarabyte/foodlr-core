@@ -21,7 +21,10 @@
           <th>Название</th>
           <th>Действия</th>
           <th>Калорийность</th>
+          <th>Порций</th>
           <th>Рецепт</th>
+          <th>Категория</th>
+          <th>Рубрики</th>
         </tr>
       </thead>
       <tbody>
@@ -31,9 +34,14 @@
             <button class="btn btn-sm btn-danger" ng-click="ctrl.remove(item.id)"><fa icon="trash"/></button>
           </td>
           <td>{{item.calories}}
-            <div ng-if="item.fat || item.prot ||item.carb">{{item.fat}} : {{item.prot}} : {{item.carb}}</div>
+            <div class="text-muted small" ng-if="item.fats || item.proteins ||item.carbs">{{item.fats}} : {{item.proteins}} : {{item.carbs}}</div>
           </td>
-          <td>{{item.content}}</td>
+          <td>{{::item.portions}}</td>
+          <td>{{::item.content|limitTo:100}}...</td>
+          <td><span class="label label-info">{{::item.category.caption}}</span></td>
+          <td>
+            <span class="label label-primary label-rubric" ng-repeat="rubric in item.rubrics"> {{::rubric.caption}} </span>
+          </td>
         </tr>
       </tbody>
       <tbody ng-if="!items.length">

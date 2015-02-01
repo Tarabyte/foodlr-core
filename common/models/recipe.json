@@ -15,13 +15,13 @@
       "type": "number",
       "required": true
     },
-    "fat": {
+    "fats": {
       "type": "number"
     },
-    "carb": {
+    "carbs": {
       "type": "number"
     },
-    "prot": {
+    "proteins": {
       "type": "number"
     },
     "active": {
@@ -36,21 +36,18 @@
       "required": true
     },
     "portions": {
-      "type": "number"
+      "type": "number",
+      "default": 1
+    },
+    "rubrics": {
+      "type": ["object"]
+    },
+    "category": {
+      "type": "object"
     }
   },
   "validations": [],
   "relations": {
-    "rubrics": {
-      "type": "hasAndBelongsToMany",
-      "model": "rubric",
-      "foreignKey": ""
-    },
-    "category": {
-      "type": "belongsTo",
-      "model": "category",
-      "foreignKey": ""
-    }
   },
   "acls": [],
   "methods": []

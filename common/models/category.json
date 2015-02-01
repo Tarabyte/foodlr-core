@@ -25,11 +25,6 @@
   },
   "validations": [],
   "relations": {
-    "recipes": {
-      "type": "hasMany",
-      "model": "recipe",
-      "foreignKey": ""
-    }
   },
   "acls": [],
   "methods": []
