@@ -240,10 +240,14 @@ function RecipeItemCtrl($scope, $injector) {
     },
 
     makeRecipe: function(item) {
+      var portionWeight;
       if(item.rubrics) {
         item.rubrics.forEach(function(rubric) {
           selectedRubrics[rubric.id] = true;
         });
+      }
+      if(item.category && item.category.portionWeight !== item.portionWeight) {
+        portionWeight = item.portionWeight;
       }
       Object.defineProperties(item, {
         rubrics: {
@@ -262,6 +266,36 @@ function RecipeItemCtrl($scope, $injector) {
             return $scope.categories.filter(function(item) {
               return item.id === id;
             })[0];
+          }
+        },
+        weight: {
+          enumerable: false,
+          get: function() {
+            return item.ingredients.reduce(function(acc, ingredient){
+              return acc + ingredient.val;
+            }, 0);
+          }
+        },
+
+        portionWeight: {
+          enumerable: true,
+          get: function() {
+            if(portionWeight) {
+              return portionWeight;
+            }
+            if(this.category) {
+              return this.category.portionWeight;
+            }
+            return 1;
+          },
+          set: function(val) {
+            portionWeight = val;
+          }
+        },
+        portions: {
+          enumerable: true,
+          get: function() {
+            return Math.round(this.weight / this.portionWeight);
           }
         }
       });
@@ -283,7 +317,7 @@ function RecipeItemCtrl($scope, $injector) {
                 return acc;
               }, {weight: 0, val: 0});
 
-              return result.val/result.weight;
+              return result.val/result.weight || 0;
             }
             else {
               return value;
