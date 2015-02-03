@@ -72,7 +72,7 @@ function RecipeListCtlr($scope, $injector) {
     var options = {
       size: size,
       page: page - 1
-    }, filter = {where: {}};
+    }, filter = {where: {}, fields: {ingredients: false}};
 
     options.filter = filter;
 
