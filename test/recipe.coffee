@@ -58,4 +58,55 @@ describe 'Recipies', ->
 
         done()
 
+  describe.only 'Auditable', ->
+    recipe = null
+    beforeEach (done) ->
+      data =
+        caption: "Test recipe #{Math.random()}"
+        content: "#{new Date} content #{Math.random()}"
+        calories: 100
+        ingredients: [{}]
+
+      Recipe.create data, (err, item) ->
+        if err
+          console.log 'Error on creating recipe %s', err.message
+        else
+          recipe = item
+        done()
+
+    afterEach (done) ->
+      if recipe
+        recipe.remove (err) ->
+          if err
+            console.log 'Error on deleting recipe %s', err.message
+          done()
+      else
+        done()
+
+    it 'should be defined', ->
+      recipe.should.be.defined
+
+    it 'should have createdAt field', ->
+      recipe.createdAt.should.be.a 'Date'
+
+    it 'should have lastModifiedAt field', (done) ->
+      recipe.lastModifiedAt.should.be.a 'Date'
+
+      recipe.lastModifiedAt.valueOf().should.be.equal recipe.createdAt.valueOf()
+      done()
+
+
+    it 'should update lastModifiedAt field', (done) ->
+      recipe.caption = 'Something else'
+      modified = recipe.lastModifiedAt.valueOf()
+      recipe.save (err, data) ->
+        if err
+          false.should.be.ok
+        else
+          data.lastModifiedAt.valueOf().should.be.gt modified
+
+        done()
+
+
+
 
