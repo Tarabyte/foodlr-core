@@ -46,9 +46,9 @@
           </td>
           <td>{{::item.portions}}</td>
           <td>{{::item.content|limitTo:100}}...</td>
-          <td><span class="label label-info">{{::item.category.caption}}</span></td>
+          <td><span class="label label-info label-category" ng-click="ctrl.selectCategory(item.category.id)">{{::item.category.caption}}</span></td>
           <td>
-            <span class="label label-primary label-rubric" ng-repeat="rubric in item.rubrics"> {{::rubric.caption}} </span>
+            <span class="label label-primary label-rubric" ng-repeat="rubric in item.rubrics" ng-click="ctrl.selectRubric(rubric.id)"> {{::rubric.caption}} </span>
           </td>
         </tr>
       </tbody>

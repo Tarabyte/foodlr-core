@@ -105,11 +105,11 @@ function RecipeListCtlr($scope, $injector) {
 
   angular.extend(this, {
     selectCategory: function(id) {
-      $scope.currentCategory = id;
+      $scope.currentCategory = $scope.currentCategory === id ? 0 : id;
       setPage(1);
     },
     selectRubric: function(id) {
-      $scope.currentRubric = id;
+      $scope.currentRubric = $scope.currentRubric === id ? 0 : id;
       setPage(1);
     },
     remove: function(id) {
