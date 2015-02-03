@@ -60,7 +60,10 @@
     </div>
   </div>
   <div class="form-group">
-    <div class="col-sm-2 col-sm-offset-5">
+    <div class="col-sm-3 col-sm-offset-2">
+      <span class="pull-right">На 100 г. готового продукта:</span>
+    </div>
+    <div class="col-sm-2">
       <input type="number" step="any" id="calories" name="calories" class="form-control" placeholder="Калорийность" required ng-model="item.calories" ng-hide="isCalculationMagic">
       <span ng-bind="item.calories" ng-show="isCalculationMagic"></span>
     </div>

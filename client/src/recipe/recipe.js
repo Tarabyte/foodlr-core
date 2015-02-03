@@ -273,14 +273,17 @@ function RecipeItemCtrl($scope, $injector) {
           get: function() {
             if($scope.isCalculationMagic) {
               //calculate magically
-              return item.ingredients.reduce(function(acc, ingredient){
+              var result = item.ingredients.reduce(function(acc, ingredient){
                 var id = ingredient.product,
                     product = instance.productsCache[id];
                 if(product) {
-                  acc += ingredient.val*product[prop]/100; //assuming for 100 g
+                  acc.weight += ingredient.val;
+                  acc.val += ingredient.val*product[prop];
                 }
                 return acc;
-              }, 0);
+              }, {weight: 0, val: 0});
+
+              return result.val/result.weight;
             }
             else {
               return value;
