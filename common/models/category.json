@@ -21,6 +21,11 @@
       "type": "boolean",
       "required": true,
       "default": true
+    },
+    "portionWeight": {
+      "type": "number",
+      "required": true,
+      "default": 100
     }
   },
   "validations": [],

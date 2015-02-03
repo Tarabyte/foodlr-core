@@ -19,7 +19,7 @@ angular.module('category', ['lbServices', 'crud'])
     })
     .state('categories.item', {
       url: '/:id',
-      templateUrl: 'src/utils/item.html',
+      templateUrl: 'src/category/item.html',
       controller: 'ItemCtrl as ctrl'
     });
 
