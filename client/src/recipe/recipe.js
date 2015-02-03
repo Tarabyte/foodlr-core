@@ -6,11 +6,22 @@ function RecipeListCtlr($scope, $injector) {
       Rubric = $injector.get('Rubric'),
       Category = $injector.get('Category'),
       $state = $injector.get('$state'),
-      page = 1, size = 10;
+      page = 1, size = 10, search = "";
 
 
   $scope.currentCategory = 0;
   $scope.currentRubric = 0;
+
+  Object.defineProperty($scope, 'search', {
+    enumerable: true,
+    get: function() {
+      return search;
+    },
+    set: function(val) {
+      search = val;
+      fetch();
+    }
+  });
 
   Rubric.active().$promise.then(function(data) {
     data.unshift({caption: 'Все', id: 0});
@@ -71,6 +82,18 @@ function RecipeListCtlr($scope, $injector) {
     }
     if($scope.currentRubric) {
       filter.where['rubrics.id'] = $scope.currentRubric;
+    }
+    if(search) {
+      var tokens = search.split(' ').filter(Boolean);
+      if(tokens.length > 1) { //fulltext mode
+        filter.where.$text = {search: search};
+      }
+      else {
+        filter.where.or = [
+          {caption: {like: search}},
+          {content: {like: search}}
+        ];
+      }
     }
     Recipe.paginate(options).$promise.then(function(data) {
       $scope.items = data.data;

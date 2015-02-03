@@ -14,6 +14,12 @@
       <div class="col-xs-4">
         <a class="btn btn-success" ui-sref="recipies.new">Добавить</a>
       </div>
+      <div class="col-xs-4 col-xs-offset-4">
+        <div class="input-group pull-right">
+          <input type="search" placeholder="Найти" class="form-control" ng-model="search" ng-model-options="{debounce: 500}">
+          <span class="input-group-addon"><fa icon="search"/></span>
+        </div>
+      </div>
     </div>
     <table class="table">
       <thead>

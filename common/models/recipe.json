@@ -50,5 +50,21 @@
   "relations": {
   },
   "acls": [],
-  "methods": []
+  "methods": [],
+  "indexes": {
+    "fulltext": {
+      "keys" : {
+        "caption": "text",
+        "content": "text"
+      },
+      "options": {
+        "default_language": "russian",
+        "weights": {
+          "caption": 10,
+          "content": 1
+        }
+      }
+    }
+  }
+
 }

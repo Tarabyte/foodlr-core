@@ -71,7 +71,9 @@ gulp.task('server', ['backend'], function() {
  * Run backend server.
  */
 gulp.task('backend', function(next) {
-  require('child_process').exec('slc run', function (error, stdout, stderr) {
+  //process.env.DEBUG = "loopback:connector:mongodb";
+
+  require('child_process').exec('slc run', process, function (error, stdout, stderr) {
     console.log('stdout: ' + stdout);
     console.log('stderr: ' + stderr);
     if (error !== null) {
