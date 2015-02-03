@@ -1,29 +1,23 @@
 {
-  "name": "nutrient",
+  "name": "ProductCategory",
   "base": "PersistedModel",
   "idInjection": true,
-  "scope": {
-    "order": "order"
-  },
   "properties": {
     "caption": {
       "type": "string",
       "required": true
     },
-    "description": {
-      "type": "string"
-    },
     "order": {
       "type": "number",
       "required": true
+    },
+    "description": {
+      "type": "string"
     },
     "active": {
       "type": "boolean",
       "required": true,
       "default": true
-    },
-    "unit": {
-      "type": "object"
     }
   },
   "validations": [],

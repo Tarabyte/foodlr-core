@@ -2,6 +2,21 @@
   "name": "recipe",
   "base": "PersistedModel",
   "idInjection": true,
+  "indexes": {
+    "fulltext": {
+      "keys": {
+        "caption": "text",
+        "content": "text"
+      },
+      "options": {
+        "default_language": "russian",
+        "weights": {
+          "caption": 10,
+          "content": 1
+        }
+      }
+    }
+  },
   "properties": {
     "caption": {
       "type": "string",
@@ -40,31 +55,16 @@
       "default": 1
     },
     "rubrics": {
-      "type": ["object"]
+      "type": [
+        "object"
+      ]
     },
     "category": {
       "type": "object"
     }
   },
   "validations": [],
-  "relations": {
-  },
+  "relations": {},
   "acls": [],
-  "methods": [],
-  "indexes": {
-    "fulltext": {
-      "keys" : {
-        "caption": "text",
-        "content": "text"
-      },
-      "options": {
-        "default_language": "russian",
-        "weights": {
-          "caption": 10,
-          "content": 1
-        }
-      }
-    }
-  }
-
+  "methods": []
 }

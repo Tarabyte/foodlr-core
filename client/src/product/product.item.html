@@ -12,6 +12,15 @@
     </div>
   </div>
   <div class="form-group">
+    <label for="category" class="col-sm-2 control-label">Категория</label>
+    <div class="btn-group col-sm-8">
+      <label class="btn" ng-repeat="category in categories track by category.id"
+          ng-class="{'btn-info':category.id===item.category.id}">
+        <input type="radio" value="{{category.id}}" name="category" ng-model="$parent.categoryId">{{category.caption}}
+      </label>
+    </div>
+  </div>
+  <div class="form-group">
     <div class="col-sm-2 col-sm-offset-2">
       <label for="calories" class="control-label">Калорийность</label>
     </div>

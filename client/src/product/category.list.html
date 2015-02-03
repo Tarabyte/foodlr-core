@@ -7,8 +7,6 @@
           <th>Действия</th>
           <th>Активно</th>
           <th>Номер</th>
-          <th>Пищевая ценность (ЖБУ)</th>
-          <th>Категория</th>
         </tr>
       </thead>
       <tbody>
@@ -24,9 +22,6 @@
           </td>
           <td>{{item.active ? 'Да': 'Нет'}}</td>
           <td>{{item.order}}</td>
-          <td>{{item.calories}} ({{item.fats}} | {{item.proteins}} | {{item.carbs}})
-          </td>
-          <td>{{item.category.caption}}</td>
         </tr>
       </tbody>
       <tfoot>
@@ -35,7 +30,6 @@
             <form class="form-inline" ng-submit="ctrl.save()">
               <button type="submit" class="btn btn-success" title="Добавить"><fa icon="plus"/></button>
               <input type="text" class="form-control" id="caption" placeholder="Название" ng-model="item.caption" required>
-              <input type="number" class="form-control" id="calories" placeholder="Калории" ng-model="item.calories" required step="any">
               <input type="text" class="form-control" id="description" placeholder="Описание" ng-model="item.description">
             </form>
           </td>

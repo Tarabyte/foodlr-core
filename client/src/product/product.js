@@ -31,6 +31,26 @@ angular
       templateUrl: 'src/product/product.item.html',
       controller: 'ProductItemCtrl as ctrl'
     })
+    .state('products.categories', {
+      url: '/categories',
+      abstract: true,
+      template: '<div ui-view/>',
+      data: {
+        collection: 'ProductCategory',
+        title: 'Категории',
+        root: 'products.categories'
+      }
+    })
+    .state('products.categories.list', {
+      url: '/list',
+      templateUrl: 'src/product/category.list.html',
+      controller: 'DefaultListCtrl as ctrl'
+    })
+    .state('products.categories.item', {
+      url: '/:id',
+      templateUrl: 'src/utils/item.html',
+      controller: 'ItemCtrl as ctrl'
+    })
     .state('products.nutrients', {
       url: '/nutrients',
       abstract: true,
@@ -137,13 +157,31 @@ NutrientItemCtrl.$inject = ['$scope', '$injector'];
  */
 function ProductItemCtrl($scope, $injector) {
   var Nutrient = $injector.get('Nutrient'),
+      ProductCategory = $injector.get('ProductCategory'),
       $controller = $injector.get('$controller'),
       instance = $controller('ItemCtrl', {
         $scope: $scope,
         $injector: $injector
       });
 
+  ProductCategory.active().$promise.then(function(items) {
+    $scope.categories = items;
+  });
+
+  $scope.categoryId = null;
+
+
   $scope.item.then(function() {
+    $scope.categoryId = $scope.item.category && $scope.item.category.id;
+    Object.defineProperty($scope.item, 'category', {
+      enumerable: true,
+      get: function() {
+        return $scope.categories.filter(function(category){
+          return category.id === $scope.categoryId;
+        })[0];
+      }
+    });
+
     Nutrient.active().$promise.then(function(nutrients) {
       var fulfilled = $scope.item.nutrients,
           byId = fulfilled ? fulfilled.reduce(function(acc, item){

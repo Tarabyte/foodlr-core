@@ -49,5 +49,9 @@
   "unit": {
     "dataSource": "mongo",
     "public": true
+  },
+  "ProductCategory": {
+    "dataSource": "mongo",
+    "public": true
   }
 }
