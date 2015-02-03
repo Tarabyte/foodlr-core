@@ -112,7 +112,20 @@ function RecipeListCtlr($scope, $injector) {
         setPage(--page);
       }
     },
-    data: $state.$current.data
+    data: $state.$current.data,
+    /**
+     * Toggle Active state
+     */
+    toggle: function(id) {
+      var item = $scope.items.filter(function(item){
+        return item.id === id;
+      })[0];
+      if(item) {
+        Recipe.toggle({id: id}).$promise.then(function() {
+          item.active = !item.active;
+        });
+      }
+    }
   });
 }
 
