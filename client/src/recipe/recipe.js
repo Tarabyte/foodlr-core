@@ -175,6 +175,9 @@ function RecipeItemCtrl($scope, $injector) {
     $scope.rubrics = data;
   });
 
+  function ingredientTitle(ingredient) {
+    return ingredient.caption + ' ' + ingredient.val + ' г.';
+  }
 
   angular.extend(instance, {
     data: data,
@@ -197,7 +200,7 @@ function RecipeItemCtrl($scope, $injector) {
       ingredient.product = product.id;
       ingredient.caption = product.caption;
       if(!ingredient.txt) {
-        ingredient.txt = ingredient.val + ' г.';
+        ingredient.txt = ingredientTitle(ingredient);
       }
 
       $scope.item.ingredients.push(ingredient);
@@ -210,7 +213,7 @@ function RecipeItemCtrl($scope, $injector) {
 
     recalculateIngredientText: function(index) {
       var item = $scope.item.ingredients[index];
-      item.txt = item.val + ' г.';
+      item.txt = ingredientTitle(item);
     },
 
     makeRecipe: function(item) {
