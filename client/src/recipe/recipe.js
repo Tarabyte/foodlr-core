@@ -209,6 +209,12 @@ function RecipeItemCtrl($scope, $injector) {
 
   angular.extend(instance, {
     data: data,
+    /**
+     * Grouping function for product list.
+     */
+    groupProducts: function(product) {
+      return product.category? product.category.caption : 'Без категории';
+    },
     save: function() {
       Recipe.upsert($scope.item).$promise.then(go);
     },

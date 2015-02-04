@@ -111,7 +111,7 @@
                 <div class="col-xs-4">
                   <ui-select ng-model="ingredient.product" class="product-select" theme="bootstrap" reset-search-input="true">
                     <ui-select-match placeholder="Поиск продукта">{{$select.selected.caption}}</ui-select-match>
-        <ui-select-choices repeat="product in products| filter: $select.search| orderBy: 'caption'">
+        <ui-select-choices group-by="ctrl.groupProducts" repeat="product in products| filter: $select.search| orderBy: 'caption'">
           <div ng-bind-html="product.caption | highlight: $select.search"></div>
         </ui-select-choices>
                   </ui-select>
