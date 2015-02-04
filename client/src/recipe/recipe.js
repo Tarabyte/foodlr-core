@@ -1,6 +1,12 @@
 /*global angular*/
 'use strict';
 
+function round(val, to) {
+  to = typeof to === 'number' ? to : 2;
+  to = Math.pow(10, to);
+  return Math.round(val*to) / to;
+}
+
 function RecipeListCtlr($scope, $injector) {
   var Recipe = $injector.get('Recipe'),
       Rubric = $injector.get('Rubric'),
@@ -294,7 +300,7 @@ function RecipeItemCtrl($scope, $injector) {
         portions: {
           enumerable: true,
           get: function() {
-            return Math.round(this.weight / this.portionWeight);
+            return round(this.weight / this.portionWeight, 0);
           }
         }
       });
@@ -316,7 +322,7 @@ function RecipeItemCtrl($scope, $injector) {
                 return acc;
               }, {weight: 0, val: 0});
 
-              return result.val/result.weight || 0;
+              return round(result.val/result.weight) || 0;
             }
             else {
               return value;
