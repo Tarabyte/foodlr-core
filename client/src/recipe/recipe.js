@@ -174,7 +174,6 @@ function RecipeItemCtrl($scope, $injector) {
 
   function emptyIngredient() {
     $scope.ingredient = {};
-    $scope.ingredient.product = $scope.products[0];
   }
 
   function go() {
@@ -388,7 +387,7 @@ function EditRecipeItemCtrl($scope, $injector) {
 
 EditRecipeItemCtrl.$inject = ['$scope', '$injector'];
 
-angular.module('recipe', ['lbServices', 'crud'])
+angular.module('recipe', ['lbServices', 'crud', 'ui.select', 'ngSanitize'])
   .controller('RecipeListCtrl', RecipeListCtlr)
   .controller('NewRecipeItemCtrl', NewRecipeItemCtrl)
   .controller('EditRecipeItemCtrl', EditRecipeItemCtrl)

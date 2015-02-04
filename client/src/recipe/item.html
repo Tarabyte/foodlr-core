@@ -106,13 +106,22 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="3">
-              <div class="form-inline">
-                <button type="button" class="btn btn-success" title="Добавить" ng-click="ctrl.addIngredient()"><fa icon="plus"/></button>
-                <select ng-model="ingredient.product" ng-options="product.caption for product in products track by product.id"></select>
-                <div class="input-group"><input type="number" class="form-control" placeholder="Количество" ng-model="ingredient.val"><span class="input-group-addon">г.</span>
+            <td colspan="4">
+              <div class="row">
+                <div class="col-xs-4">
+                  <ui-select ng-model="ingredient.product" class="product-select" theme="bootstrap" reset-search-input="true">
+                    <ui-select-match placeholder="Поиск продукта">{{$select.selected.caption}}</ui-select-match>
+        <ui-select-choices repeat="product in products| filter: $select.search">
+          <div ng-bind-html="product.caption | highlight: $select.search"></div>
+        </ui-select-choices>
+                  </ui-select>
+                </div>
+                <div class="col-xs-8 form-inline">
+
+                  <div class="input-group"><input type="number" class="form-control" placeholder="Количество" ng-model="ingredient.val" ng-keypress="$event.which===13&&(ctrl.addIngredient()||$event.preventDefault())"><span class="input-group-addon">г.</span>
                   </div>
-                <input type="text" class="form-control" placeholder="Количество прописью" ng-model="ingredient.txt">
+                  <button type="button" class="btn btn-success" title="Добавить" ng-click="ctrl.addIngredient()"><fa icon="plus"/> Добавить</button>
+                </div>
               </div>
             </td>
           </tr>
