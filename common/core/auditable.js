@@ -4,31 +4,21 @@
  * * modifiedAt
  */
 
-function before(pre, run) {
-  if(!run) {
-    return function(next, instance) {
-      pre(instance);
-      next();
-    };
-  }
-  return function(next, instance) {
-    pre(instance);
-    run(next, instance);
-  };
-}
-
 module.exports = function(Model) {
   Model.defineProperty('createdAt', {type: 'date'});
   Model.defineProperty('lastModifiedAt', {type: 'date'});
 
-  Model.beforeCreate  = before(function(instance) {
-    instance.createdAt = instance.lastModifiedAt = new Date();
-  }, Model.beforeCreate);
+  Model.observe('before save', function(ctx, next) {
+    var instance, timestamp = new Date();
 
-  Model.beforeSave = before(function(instance) {
-    if(instance.createdAt == null) {
-      instance.createdAt = new Date(); //old instances.
+    instance = ctx.instance || ctx.data;
+
+    if(!instance.createdAt) { //old instances or creating
+        instance.createdAt = timestamp;
     }
-    instance.lastModifiedAt = new Date();
-  }, Model.beforeSave);
+
+    instance.lastModifiedAt = timestamp;
+
+    next();
+  });
 };

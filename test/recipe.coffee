@@ -2,6 +2,8 @@
 
 {Recipe} = app.models
 
+_ = require 'lodash'
+
 describe 'Recipies', ->
   it 'should be defined', ->
     app.models.should.have.property 'Recipe'
@@ -35,11 +37,12 @@ describe 'Recipies', ->
       else
         done()
 
-    it 'should be created', ->
+    it 'should be created', (done) ->
       recipe.should.be.define
+      done()
 
     it 'should be searchable by content', (done) ->
-      Recipe.find where: $text: search: recipe.content[2..25], (err, result) ->
+      Recipe.find where: $text: search: recipe.content[2..], (err, result) ->
         if err
           false.should.be.ok
         else
@@ -58,7 +61,7 @@ describe 'Recipies', ->
 
         done()
 
-  describe.only 'Auditable', ->
+  describe 'Auditable', ->
     recipe = null
     beforeEach (done) ->
       data =
@@ -99,14 +102,16 @@ describe 'Recipies', ->
     it 'should update lastModifiedAt field', (done) ->
       recipe.caption = 'Something else'
       modified = recipe.lastModifiedAt.valueOf()
-      recipe.save (err, data) ->
-        if err
-          false.should.be.ok
-        else
-          data.lastModifiedAt.valueOf().should.be.gt modified
+      check = ->
+        recipe.save (err, data) ->
+          if err
+            false.should.be.ok
+          else
+            data.lastModifiedAt.valueOf().should.be.gt modified
 
-        done()
+          done()
 
+      _.delay check, 10
 
 
 

@@ -31,11 +31,14 @@
           <th>Рецепт</th>
           <th>Категория</th>
           <th>Рубрики</th>
+          <th>История</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="item in items">
-          <td><a ui-sref="{{ctrl.data.root}}.item({id: item.id})">{{item.caption}}</a></td>
+          <td>
+            <a ui-sref="{{ctrl.data.root}}.item({id: item.id})">{{item.caption}}</a>
+          </td>
           <td>
             <button type="button" class="btn btn-sm btn-danger" ng-click="ctrl.remove(item.id)"><fa icon="trash"/></button>
             <button type="button" class="btn btn-sm btn-warning" title="Деактивировать" ng-click="ctrl.toggle(item.id)" ng-show="item.active"><fa icon="ban"/></button>
@@ -50,16 +53,21 @@
           <td>
             <span class="label label-primary label-rubric" ng-repeat="rubric in item.rubrics" ng-click="ctrl.selectRubric(rubric.id)"> {{::rubric.caption}} </span>
           </td>
+          <td>
+            <div class="small text-muted" ng-if="item.lastModifiedAt">
+              {{item.lastModifiedAt | date: 'dd.MM.yyyy HH:mm'}}
+            </div>
+          </td>
         </tr>
       </tbody>
       <tbody ng-if="!items.length">
         <tr>
-          <td colspan="4">Нет записей</td>
+          <td colspan="8">Нет записей</td>
         </tr>
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="4">
+          <td colspan="8">
             <ul class="pagination" style="margin: 0;">
               <li ng-class="{disabled: page===1}">
                 <a ng-click="ctrl.prev()" href="javascript: void 0;">&laquo;</a>
