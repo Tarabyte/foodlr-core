@@ -53,5 +53,9 @@
   "ProductCategory": {
     "dataSource": "mongo",
     "public": true
+  },
+  "container": {
+    "dataSource": "images",
+    "public": true
   }
 }

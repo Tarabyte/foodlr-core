@@ -113,5 +113,53 @@ describe 'Recipies', ->
 
       _.delay check, 10
 
+  describe.only 'Imageable', ->
+    it 'should have images property', ->
+      definition = Recipe.definition.properties.images
+      definition.should.be.defined
+      definition.type.should.be.an 'array'
+      definition.type[0].should.be.equal Object
+
+    describe 'Container for images', ->
+      recipe = null
+      before (done) ->
+        data =
+          caption: "Test recipe #{Date.now()}"
+          content: "Test recipe content #{Math.random()}"
+          ingredients: [{}]
+          calories: 100
+
+        Recipe.upsert data, (err, instance) ->
+          if err
+            console.log 'Error creating a recipe %s', err.message
+          else
+            recipe = instance
+
+          done()
+
+      after (done) ->
+        if recipe
+          recipe.delete (err) ->
+            if err
+              console.log 'Error deleting recipe %s', err.message
+            else
+              recipe = null
+            done()
+
+      it 'should be defined', ->
+        recipe.should.be.defined
+
+
+      it 'should have a container', (done) ->
+        recipe.getContainer (err, container) ->
+          if err
+            console.log 'Error on getting container %s', err.message
+            false.should.be.ok
+          else
+            container.should.be.defined
+
+          done()
+
+
 
 
