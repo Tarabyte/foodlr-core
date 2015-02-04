@@ -216,8 +216,12 @@ function RecipeItemCtrl($scope, $injector) {
       return product.category? product.category.caption : 'Без категории';
     },
     save: function() {
-      Recipe.upsert($scope.item).$promise.then(go);
+      Recipe.upsert($scope.item)
+        .$promise
+        .then(instance.afterSave.bind(instance));
     },
+
+    afterSave: go,
 
     list: go,
     productsCache: productsCache,
@@ -357,7 +361,10 @@ function NewRecipeItemCtrl($scope, $injector) {
 
   angular.extend(instance, {
     title: 'Новый рецепт',
-    isNew: false
+    isNew: false,
+    afterSave: function(data) {
+      $injector.get('$state').go('recipies.item', {id: data.id});
+    }
   });
 
   return instance;
