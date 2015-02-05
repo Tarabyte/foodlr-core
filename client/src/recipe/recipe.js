@@ -361,7 +361,7 @@ function NewRecipeItemCtrl($scope, $injector) {
 
   angular.extend(instance, {
     title: 'Новый рецепт',
-    isNew: false,
+    isNew: true,
     afterSave: function(data) {
       $injector.get('$state').go('recipies.item', {id: data.id});
     }
@@ -375,10 +375,13 @@ NewRecipeItemCtrl.$inject = ['$scope', '$injector'];
 function EditRecipeItemCtrl($scope, $injector) {
   var instance = new RecipeItemCtrl($scope, $injector),
       Recipe = $injector.get('Recipe'),
-      id = $injector.get('$state').params.id;
+      id = $injector.get('$state').params.id,
+      FileUploader = $injector.get('FileUploader');
+
 
   Recipe.findById({id: id}).$promise.then(function(recipe){
-    var category = recipe.category;
+    var category = recipe.category, uploader, images = recipe.images || [],
+        container = 'api/containers/recipe_' + id;
     instance.makeRecipe(recipe);
     if(recipe.portions == null) {
       recipe.portions = 1;
@@ -387,11 +390,47 @@ function EditRecipeItemCtrl($scope, $injector) {
       $scope.categoryId = category.id;
     }
     $scope.item = recipe;
+
+    uploader = $scope.uploader = new FileUploader({
+      url: container + '/upload',
+      autoUpload: true
+    });
+
+    $scope.item.images = images;
+
+    uploader.onSuccessItem = function(_, data){
+      var file = data.result.files.file[0];
+      images.push({
+        name: file.name,
+        type: file.type,
+        src: container + '/download/' + file.name
+      });
+    };
+
   });
 
   angular.extend(instance, {
     id: id,
     title: 'Редактирование рецепта',
+    isNew: false,
+    removeImage: function(img){
+      var item = $scope.item,
+          images = item.images,
+          index = images.indexOf(img);
+
+      if(index >= 0) {
+        images.splice(index, 1);
+        if(img.name === item.mainImg) {
+          item.mainImg = undefined;
+
+          if(images.length) { //set first as main
+            item.mainImg = images[0].name;
+          }
+
+        }
+      }
+
+    },
     remove: function() {
       if(confirm('Вы действительно хотите удалить рецепт?')) {
         Recipe.removeById($scope.item).$promise.then(function(){
@@ -406,7 +445,8 @@ function EditRecipeItemCtrl($scope, $injector) {
 
 EditRecipeItemCtrl.$inject = ['$scope', '$injector'];
 
-angular.module('recipe', ['lbServices', 'crud', 'ui.select', 'ngSanitize'])
+angular.module('recipe', ['lbServices', 'crud', 'ui.select',
+                          'ngSanitize', 'angularFileUpload'])
   .controller('RecipeListCtrl', RecipeListCtlr)
   .controller('NewRecipeItemCtrl', NewRecipeItemCtrl)
   .controller('EditRecipeItemCtrl', EditRecipeItemCtrl)
