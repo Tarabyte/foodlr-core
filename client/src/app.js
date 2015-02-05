@@ -12,12 +12,12 @@ angular
         controller: ['$scope', function($scope) {
           $scope.recipeColumns = [
             {caption: 'Название', tmpl: 'link'},
-            {caption: 'Категория', tmpl: '{{item.category.caption}}'}
+            {caption: 'Категория', tmpl: 'categoryLabel'}
           ];
 
           $scope.productColumns = [
             {caption: 'Название', tmpl: 'link'},
-            {caption: 'Категория', tmpl: '{{item.category.caption}}'}
+            {caption: 'Категория', tmpl: 'categoryLabel'}
           ];
         }],
         templateUrl: 'templates/index.html'

@@ -39,6 +39,9 @@ Column.prototype.renderFn = function(item, $scope) {
 };
 
 tmpls.link = '<a href="#/{{$scope.root}}/{{item.id}}">{{item.caption}}</a>';
+tmpls.categoryLabel =
+  '<span class="label label-info">' +
+  '{{item.category.caption}}</span>';
 
 function RecentDirectiveCtrl($scope, $injector) {
   var Collection = $injector.get($scope.collection),
