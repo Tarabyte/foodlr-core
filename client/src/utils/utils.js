@@ -7,4 +7,9 @@ angular.module('utils', ['recent'])
         element.replaceWith('<i class="fa fa-' + attrs.icon + '"></i>');
       }
     };
+})
+.filter('html', function() {
+  return function(txt) {
+    return String(txt).replace(/<[^>]+(>|$)/gm, '');
+  };
 });

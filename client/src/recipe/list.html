@@ -47,7 +47,7 @@
             <div class="text-muted small" ng-if="item.fats || item.proteins ||item.carbs">ЖБУ: {{::item.fats}} : {{::item.proteins}} : {{::item.carbs}}</div>
             <div class="small text-muted">Порций: {{::item.portions}}</div>
           </td>
-          <td>{{::item.content|limitTo:100}}...</td>
+          <td>{{::item.content|limitTo:100 |html}}...</td>
           <td><span class="label label-info label-category" ng-click="ctrl.selectCategory(item.category.id)">{{::item.category.caption}}</span></td>
           <td>
             <span class="label label-primary label-rubric" ng-repeat="rubric in item.rubrics" ng-click="ctrl.selectRubric(rubric.id)"> {{::rubric.caption}} </span>
