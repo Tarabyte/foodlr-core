@@ -1,5 +1,15 @@
-<h1>Стартовая страница</h1>
+<div class="page-header">
+    <h1>Главная страница</h1>
+</div>
 
-<div class="col-sm-2">
-  <a ui-sref="login">На страницу входа</a>
+<div class="row">
+  <div class="col-sm-6">
+    <h2><a ui-sref="recipies.list">Рецептики</a> <a ui-sref="recipies.new" class="btn btn-success btn-sm"><fa icon="plus"/></a></h2>
+    <recent collection="Recipe" root="recipies" columns="[{caption: 'Название', tmpl: 'link'}, {caption: 'Категория', tmpl: '\{\{item.category.caption\}\}'}]"></recent>
+  </div>
+
+  <div class="col-sm-6">
+    <h2><a ui-sref="products.main.list">Продуктики</a></h2>
+    <recent collection="Product" root="products" columns="[{caption: 'Название', tmpl: 'link'}, {caption: 'Категория', tmpl: '\{\{item.category.caption\}\}'}]"></recent>
+  </div>
 </div>

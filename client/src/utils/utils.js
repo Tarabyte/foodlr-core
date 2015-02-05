@@ -1,5 +1,5 @@
 /*global angular*/
-angular.module('utils', [])
+angular.module('utils', ['recent'])
   .directive('fa', function() {
     return {
       restrict: 'E',

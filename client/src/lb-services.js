@@ -4584,6 +4584,42 @@ module.factory(
 
         /**
          * @ngdoc method
+         * @name lbServices.Product#recent
+         * @methodOf lbServices.Product
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `filter` – `{object=}` - 
+         *
+         * @param {function(Array.<Object>,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Array.<Object>} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Product` object.)
+         * </em>
+         */
+        "recent": {
+          isArray: true,
+          url: urlBase + "/products/recent",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
          * @name lbServices.Product#archive
          * @methodOf lbServices.Product
          *

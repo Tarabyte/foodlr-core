@@ -1,0 +1,12 @@
+<table class="table table-condensed">
+  <thead>
+    <tr>
+      <th ng-repeat="column in columnDefs">{{::column.caption}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="item in items">
+      <td ng-repeat="column in columnDefs" ng-bind-html="column.renderFn(item, this)"></td>
+    </tr>
+  </tbody>
+</table>

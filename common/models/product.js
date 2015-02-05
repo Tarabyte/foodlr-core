@@ -1,3 +1,5 @@
+var recent = require('../core/recent');
+
 module.exports = function(Product) {
-  return Product;
+  recent(Product);
 };
