@@ -25,7 +25,7 @@ function RecipeListCtlr($scope, $injector) {
     },
     set: function(val) {
       search = val;
-      fetch();
+      setPage(1);
     }
   });
 
@@ -450,7 +450,7 @@ function EditRecipeItemCtrl($scope, $injector) {
 EditRecipeItemCtrl.$inject = ['$scope', '$injector'];
 
 angular.module('recipe', ['lbServices', 'crud', 'ui.select',
-                          'ngSanitize', 'angularFileUpload'])
+                          'ngSanitize', 'angularFileUpload', 'textAngular'])
   .controller('RecipeListCtrl', RecipeListCtlr)
   .controller('NewRecipeItemCtrl', NewRecipeItemCtrl)
   .controller('EditRecipeItemCtrl', EditRecipeItemCtrl)
