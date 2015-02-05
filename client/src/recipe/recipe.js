@@ -405,6 +405,10 @@ function EditRecipeItemCtrl($scope, $injector) {
         type: file.type,
         src: container + '/download/' + file.name
       });
+
+      if(images.length === 1) { //set first image to be main
+        recipe.mainImg = file.name;
+      }
     };
 
   });

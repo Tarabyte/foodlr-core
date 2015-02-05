@@ -18,7 +18,7 @@
         <div ng-if="item" class="col-sm-2 well" nv-file-over nv-file-drop uploader="uploader"> Перетащите файлы для загрузки или
 
           <div>
-            <input type="file" nv-file-select uploader="uploader"/>
+            <input type="file" nv-file-select uploader="uploader" multiple/>
           </div>
         </div>
         <div class="col-sm-10">
@@ -30,7 +30,7 @@
 
             </div>
             <div class="media-body">
-              <input type="text" ng-model="img.caption" class="form-control" placeholder="Описание картики">
+              <input type="text" ng-model="img.caption" class="form-control" placeholder="Описание картинки">
               <button type="button" class="btn btn-danger" ng-click="ctrl.removeImage(img)"><fa icon="trash"/></button>
               <label class="btn" ng-class="{'btn-info':item.mainImg===img.name}"><input type="radio" name="image_main" ng-model="item.mainImg" value="{{img.name}}"> Главная</label>
             </div>
