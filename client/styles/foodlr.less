@@ -57,4 +57,18 @@ html, body {
 
 #content {
   min-height: 400px;
+  background-color: @body-bg;
+
+
+  .popover a{
+    color: @link-color;
+
+    &:hover {
+      color: @link-hover-color;
+    }
+  }
+
+  a, a:hover {
+    color: inherit;
+  }
 }
