@@ -9,6 +9,17 @@ angular
       $stateProvider
       .state('index', {
         url: '/',
+        controller: ['$scope', function($scope) {
+          $scope.recipeColumns = [
+            {caption: 'Название', tmpl: 'link'},
+            {caption: 'Категория', tmpl: '{{item.category.caption}}'}
+          ];
+
+          $scope.productColumns = [
+            {caption: 'Название', tmpl: 'link'},
+            {caption: 'Категория', tmpl: '{{item.category.caption}}'}
+          ];
+        }],
         templateUrl: 'templates/index.html'
       });
 

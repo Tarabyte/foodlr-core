@@ -11,7 +11,7 @@ function RecentDirective($injector) {
     restrict: 'E',
     scope: {
       collection: "@",
-      columns: "@",
+      columns: "=",
       root: '@'
     },
     templateUrl: 'src/utils/recent.html',
@@ -51,9 +51,6 @@ function RecentDirectiveCtrl($scope, $injector) {
         tmpl: 'link'
       }
     ];
-  }
-  else {
-    columns = eval(columns);
   }
 
   $scope.columnDefs = columns.map(function(column){
