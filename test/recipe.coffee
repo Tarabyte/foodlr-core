@@ -14,10 +14,12 @@ describe 'Recipies', ->
 
   describe 'Full text searching', ->
     recipe = null
+    contentToken = 'pornopuper'
+    captionToken = 'abrakababrazavr'
     beforeEach (done) ->
       data =
-        caption: "Test recipe #{Math.random()}"
-        content: "#{new Date} content #{Math.random()}"
+        caption: "Test recipe #{captionToken} #{Math.random()}"
+        content: "#{new Date} #{contentToken} content #{Math.random()}"
         calories: 100
         ingredients: [{}]
 
@@ -42,7 +44,7 @@ describe 'Recipies', ->
       done()
 
     it 'should be searchable by content', (done) ->
-      Recipe.find where: $text: search: recipe.content[2..], (err, result) ->
+      Recipe.find where: $text: search: contentToken, (err, result) ->
         if err
           false.should.be.ok
         else
@@ -52,7 +54,7 @@ describe 'Recipies', ->
         done()
 
     it 'should be searchable by caption', (done) ->
-      Recipe.find where: $text: search: recipe.caption, (err, result) ->
+      Recipe.find where: $text: search: captionToken, (err, result) ->
         if err
           false.should.be.ok
         else
@@ -159,6 +161,78 @@ describe 'Recipies', ->
             container.should.be.defined
 
           done()
+
+    describe 'Sync files on save', ->
+      recipe = null
+      name = null
+      before (done) ->
+        data =
+          caption: "Test recipe #{Date.now()}"
+          content: "Test recipe content #{Math.random()}"
+          ingredients: [{}]
+          calories: 100
+
+        Recipe.upsert data, (err, instance) ->
+          if err
+            console.log 'Error creating a recipe %s', err.message
+            done()
+          else
+            recipe = instance
+            recipe.getContainer (err, container) ->
+              if err
+                console.log 'Error on getting container %s', err.message
+                done()
+              else
+                name = container.name
+                stream = app.models.container
+                  .uploadStream(name, 'test01.txt')
+
+                stream.end 'message 1'
+
+                stream = app.models.container
+                  .uploadStream(name, 'test02.txt')
+
+                stream.end 'message 2'
+                done()
+
+      after (done) ->
+        if recipe
+          recipe.delete (err) ->
+            if err
+              console.log 'Error deleting recipe %s', err.message
+            else
+              recipe = null
+            done()
+
+      it 'should allow to add files', (done) ->
+        app.models.container.getFiles name, (err, files) ->
+          if err
+            false.should.be.ok
+          else
+            files.should.be.an 'array'
+            files.length.should.be.equal 2
+          done()
+
+      it 'should remove files on save', (done) ->
+        recipe.images = [{
+          name: 'test01.txt'
+        }]
+
+        recipe.save (err, data) ->
+          if err
+            false.should.be.ok
+            done()
+          else
+            app.models.container.getFiles name, (err, files) ->
+              if err
+                false.should.be.ok
+              else
+                files.should.be.an 'array'
+                files.length.should.be.equal 1
+                files[0].name.should.be.equal 'test01.txt'
+              done()
+
+
 
   describe 'Recent', ->
     it 'should be a function', ->

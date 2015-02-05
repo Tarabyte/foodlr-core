@@ -17,14 +17,17 @@ module.exports = function(Model, options) {
     return options.prefix + inst.id.toString();
   }
 
+  function getContainers() {
+    return Model.app.models.container;
+  }
+
   /**
    * Create container for current instance
    */
   Model.prototype.createContainer = function(next) {
-    var container = getContainerName(this),
-        containers = Model.app.models.container;
+    var container = getContainerName(this);
 
-    containers.createContainer({name: container}, function(err, container){
+    getContainers().createContainer({name: container}, function(err, container){
       if(err) {
         console.log('Unable to create container %s', err.message);
       }
@@ -37,40 +40,56 @@ module.exports = function(Model, options) {
    * #getContainer instance method
    */
   Model.prototype.getContainer = function(next) {
-    var container = getContainerName(this),
-        containers = Model.app.models.container;
+    var container = getContainerName(this);
 
-    containers.getContainer(container, next);
+    getContainers().getContainer(container, next);
   };
 
   /**
    * Remove container
    */
   Model.prototype.dropContainer = function(next) {
-    var container = getContainerName(this),
-        containers = Model.app.models.container;
+    var container = getContainerName(this);
 
-    containers.destroyContainer(container, next);
+    getContainers().destroyContainer(container, next);
   };
 
   /**
    * Monitor lifecycle events to create|delete containers
+   * TODO Callback hell oh no!!!
    */
-
   Model.observe('after save', function(ctx, next) {
     var instance = ctx.instance;
     if(!instance) {
       next();
     }
     else {
-      instance.getContainer(function(err){
+      instance.getContainer(function(err, container){
+        var folder, actualFiles;
         if(err) {
-          instance.createContainer(function() {
-            next();
-          });
+          instance.createContainer(next);
         }
         else {
-          next();
+          folder = container.name;
+          actualFiles = (instance.images || []).reduce(function(acc, file){
+            acc[file.name] = 1;
+            return acc;
+          }, {});
+          getContainers().getFiles(folder, function(err, files) {
+            if(!err) {
+              files
+              .map(function(file){
+                return file.name;
+              })
+              .forEach(function(file){
+                if(!actualFiles[file]) {
+                  getContainers().removeFile(folder, file);
+                }
+              });
+            }
+
+            next();
+          });
         }
       });
     }
