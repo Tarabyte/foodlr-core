@@ -113,7 +113,7 @@ describe 'Recipies', ->
 
       _.delay check, 10
 
-  describe.only 'Imageable', ->
+  describe 'Imageable', ->
     it 'should have images property', ->
       definition = Recipe.definition.properties.images
       definition.should.be.defined
@@ -160,6 +160,29 @@ describe 'Recipies', ->
 
           done()
 
+  describe 'Recent', ->
+    it 'should be a function', ->
+      Recipe.recent.should.be.a 'function'
 
 
+    it 'should return sorted array', (done) ->
+      Recipe.recent null, (err, data) ->
+        if err
+          false.should.be.ok
+        else
+          data.should.be.defined
+          data.length.should.be.equal 10
+          data.filter (_, i) -> i > 0
+            .forEach (item, i) ->
+              item.createdAt.valueOf().should.be.lte data[i].createdAt.valueOf()
+        done()
 
+    it 'should allow to overide settings', (done) ->
+      Recipe.recent limit: 5, (err, data) ->
+        if err
+          false.should.be.ok
+        else
+          data.should.be.defined
+          data.length.should.be.equal 5
+
+        done()
