@@ -162,8 +162,10 @@ function ItemCtrl($scope, $injector) {
      */
     save: function() {
       var item = this.presave($scope.item);
-      Collection.upsert(item).$promise.then(go);
+      Collection.upsert(item).$promise.then(this.postsave.bind(this));
     },
+
+    postsave: go,
 
     /**
      * Remove item from the backend.

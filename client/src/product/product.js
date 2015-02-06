@@ -236,7 +236,8 @@ function ProductItemCtrl($scope, $injector) {
       if(index >= 0) {
         images.splice(index, 1);
       }
-    }
+    },
+    postsave: angular.noop
   });
 
   return instance;
