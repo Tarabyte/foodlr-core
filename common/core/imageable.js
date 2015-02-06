@@ -76,7 +76,7 @@ module.exports = function(Model, options) {
             return acc;
           }, {});
           getContainers().getFiles(folder, function(err, files) {
-            if(!err) {
+            if(!err && files && files.length) {
               files
               .map(function(file){
                 return file.name;
@@ -96,7 +96,7 @@ module.exports = function(Model, options) {
   });
 
   Model.observe('after delete', function(ctx, next) {
-    var container, containers;
+    var container;
 
     if(!ctx.where.id) {
       console.log('Duh, unable to delete multiple containers', ctx.where);
@@ -104,8 +104,7 @@ module.exports = function(Model, options) {
     }
     else {
       container = getContainerName(ctx.where); //expecting ids
-      containers = ctx.Model.app.models.container;
-      containers.destroyContainer(container, function() {
+      getContainers().destroyContainer(container, function() {
         next();
       });
     }
