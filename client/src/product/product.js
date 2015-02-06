@@ -1,6 +1,6 @@
 /*global angular*/
 angular
-  .module('product', ['crud'])
+  .module('product', ['crud', 'ngSanitize', 'angularFileUpload'])
   .config(['$stateProvider', function($stateProvider) {
     $stateProvider
     .state('products', {
@@ -162,7 +162,8 @@ function ProductItemCtrl($scope, $injector) {
       instance = $controller('ItemCtrl', {
         $scope: $scope,
         $injector: $injector
-      });
+      }),
+      FileUploader = $injector.get('FileUploader');
 
   ProductCategory.active().$promise.then(function(items) {
     $scope.categories = items;
@@ -172,6 +173,26 @@ function ProductItemCtrl($scope, $injector) {
 
 
   $scope.item.then(function() {
+    var item = $scope.item,
+        uploader, images = item.images || [],
+        container = 'api/containers/product_' + item.id;
+
+    uploader = $scope.uploader = new FileUploader({
+      url: container + '/upload',
+      autoUpload: true
+    });
+
+    $scope.item.images = images;
+
+    uploader.onSuccessItem = function(_, data){
+      var file = data.result.files.file[0];
+      images.push({
+        name: file.name,
+        type: file.type,
+        src: container + '/download/' + file.name
+      });
+    };
+
     $scope.categoryId = $scope.item.category && $scope.item.category.id;
     Object.defineProperty($scope.item, 'category', {
       enumerable: true,
@@ -204,6 +225,18 @@ function ProductItemCtrl($scope, $injector) {
         return data;
       });
     });
+  });
+
+  angular.extend(instance, {
+    removeImage: function(img) {
+       var item = $scope.item,
+          images = item.images,
+          index = images.indexOf(img);
+
+      if(index >= 0) {
+        images.splice(index, 1);
+      }
+    }
   });
 
   return instance;

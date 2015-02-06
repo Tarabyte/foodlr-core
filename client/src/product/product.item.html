@@ -12,6 +12,35 @@
     </div>
   </div>
   <div class="form-group">
+    <label for="images" class="col-sm-2 control-label">Картинки</label>
+    <div class="col-sm-8">
+      <div>
+        <div ng-if="item.id" class="col-sm-2 well" nv-file-over nv-file-drop uploader="uploader"> Перетащите файлы для загрузки или
+          <div>
+            <input type="file" nv-file-select uploader="uploader" multiple/>
+          </div>
+        </div>
+        <div class="col-sm-10">
+          <div class="media thumbnail" ng-repeat="img in item.images">
+            <div class="media-left">
+              <a href="{{img.src}}" target="_blank">
+                <img class="img-preview media-object" ng-src="{{img.src}}"/>
+              </a>
+
+            </div>
+            <div class="media-body">
+              <input type="text" ng-model="img.caption" class="form-control" placeholder="Описание картинки">
+              <button type="button" class="btn btn-danger" ng-click="ctrl.removeImage(img)"><fa icon="trash"/></button>
+            </div>
+            <div class="media-right">
+              <span class="media-caption">{{img.name}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
     <label for="category" class="col-sm-2 control-label">Категория</label>
     <div class="btn-group col-sm-8">
       <label class="btn" ng-repeat="category in categories track by category.id"
