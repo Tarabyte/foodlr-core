@@ -256,6 +256,24 @@ function RecipeItemCtrl($scope, $injector) {
       item.txt = ingredientTitle(item);
     },
 
+    moveIngredientUp: function(index) {
+      var item, ingredients;
+      if(index > 0) {
+        ingredients = $scope.item.ingredients;
+        item = ingredients[index];
+        ingredients[index] = ingredients[index - 1];
+        ingredients[index - 1] = item;
+      }
+    },
+    moveIngredientDown: function(index) {
+      var item, ingredients = $scope.item.ingredients;
+      if(index < ingredients.length - 1) {
+        item = ingredients[index];
+        ingredients[index] = ingredients[index + 1];
+        ingredients[index + 1] = item;
+      }
+    },
+
     makeRecipe: function(item) {
       var portionWeight;
       if(item.rubrics) {

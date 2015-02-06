@@ -131,6 +131,8 @@
             <td>
               <button type="button" class="btn btn-danger btn-sm" ng-click="ctrl.removeIngredient($index)" title="Убрать ингердиент"><fa icon="trash"/></button>
               <button type="button" class="btn btn-warning btn-sm" ng-click="ctrl.recalculateIngredientText($index)" title="Обновить количество прописью"><fa icon="eraser"/></button>
+              <button type="button" class="btn btn-default btn-sm" ng-click="ctrl.moveIngredientUp($index)" title="Вверх" ng-if="!$first"><fa icon="arrow-up"/></button>
+              <button type="button" class="btn btn-default btn-sm" ng-click="ctrl.moveIngredientDown($index)" title="Вниз" ng-if="!$last"><fa icon="arrow-down"/></button>
             </td>
             <td><input type="number" class="form-control" placeholder="Количество" ng-model="ingredient.val"></td>
             <td><input type="text" class="form-control" placeholder="Количество прописью" ng-model="ingredient.txt"></td>
