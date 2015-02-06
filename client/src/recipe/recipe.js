@@ -221,7 +221,9 @@ function RecipeItemCtrl($scope, $injector) {
         .then(instance.afterSave.bind(instance));
     },
 
-    afterSave: go,
+    afterSave: function(data) {
+      $injector.get('$state').go('recipies.item', {id: data.id});
+    },
 
     list: go,
     productsCache: productsCache,
@@ -361,10 +363,7 @@ function NewRecipeItemCtrl($scope, $injector) {
 
   angular.extend(instance, {
     title: 'Новый рецепт',
-    isNew: true,
-    afterSave: function(data) {
-      $injector.get('$state').go('recipies.item', {id: data.id});
-    }
+    isNew: true
   });
 
   return instance;
