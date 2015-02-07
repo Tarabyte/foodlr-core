@@ -1,13 +1,15 @@
 /*global angular*/
-angular.module('html', ['ngSanitize', 'textAngular'])
+angular.module('html', ['ngSanitize', 'textAngular', 'ui.select'])
   .config(['$provide',
     function($provide) {
       $provide.decorator('taTranslations', localize);
       $provide.decorator('taOptions', configOptions);
     }
   ]).
-  run(['taRegisterTool', 'taTranslations', function(taRegisterTool, taTranslations) {
+  run(['taRegisterTool', 'taTranslations',
+   function(taRegisterTool, taTranslations) {
     registerInsertLocalImage(taRegisterTool, taTranslations);
+    registerInsertProductLink(taRegisterTool, taTranslations);
   }]);
 
 var ru = {
@@ -100,8 +102,13 @@ var ru = {
   },
   insertLocalImage: {
     tooltip: 'Выбрать картинку'
+  },
+  insertProductLink: {
+    tooltip: 'Вставить ссылку на продукт'
   }
-}, insertLocalImageStr = 'insertLocalImage';
+},
+  insertLocalImageStr = 'insertLocalImage',
+  insertProductLinkStr = 'insertProductLink';
 
 function localize($delegate) {
   return angular.extend({}, $delegate, ru);
@@ -127,7 +134,7 @@ configOptions.$inject = ['$delegate'];
 function addCustomToolbar(options) {
   var toolbar = options.toolbar;
 
-  toolbar.push([insertLocalImageStr, 'insertProductLink']);
+  toolbar.push([insertLocalImageStr, insertProductLinkStr]);
 
   return options;
 }
@@ -154,8 +161,7 @@ function removeCounters(options) {
 /**
  * Add insert local image tool
  */
-
-var imageSeletorTmpl = [
+var imageSelectorTmpl = [
   '<div ng-if="active" style="position:absolute;">',
     '<ul>',
       '<li class="thumbnail" ng-repeat="img in images" ng-click="insertImage(img)">',
@@ -170,11 +176,12 @@ function registerInsertLocalImage(register, translation) {
   register(insertLocalImageStr, {
     iconclass: 'fa fa-plug',
     tooltiptext: translation.insertLocalImage.tooltip,
-    buttontext: imageSeletorTmpl,
+    buttontext: imageSelectorTmpl,
     action: function(later) {
       var $editor = this.$editor();
       if(this.active) { //close dropdown
         this.active = false;
+        this.cleanUp();
         later.resolve();
       }
       else { //activate
@@ -184,9 +191,68 @@ function registerInsertLocalImage(register, translation) {
           $editor.wrapSelection('insertImage', image.src, true);
           later.resolve();
         };
+
+        this.cleanUp = function() {
+          later.resolve();
+          this.cleanUp = null;
+        };
       }
+    }
+  });
+}
 
+/**
+ * Add insert product link tool
+ */
 
+var productSelectorTmpl = [
+  '<div ng-if="active" class="form-inline" style="position:absolute;">',
+  '<ui-select ng-model="product" on-select="insertLink()" class="product-select" theme="bootstrap" reset-search-input="true">',
+  '<ui-select-match placeholder="Поиск продукта">{{$select.selected.caption}}</ui-select-match>',
+  '<ui-select-choices repeat="product in products| filter: $select.search| orderBy: \'caption\'">',
+  '<div ng-bind-html="product.caption | highlight: $select.search"></div>',
+  '</ui-select-choices>',
+  '</ui-select>',
+  '/<div>'
+].join('');
+
+function registerInsertProductLink(register, translation) {
+  register(insertProductLinkStr, {
+    iconclass: 'fa fa-flask',
+    tooltiptext: translation.insertProductLink.tooltip,
+    buttontext: productSelectorTmpl,
+    action: function(later, selection) {
+      var $editor = this.$editor(),
+          scope = this;
+
+      if(this.active && this.product) {
+        this.active = false;
+        this.cleanUp();
+        later.resolve();
+      }
+      else {
+        this.active = true;
+        this.products = $editor.$parent.products;
+        this.insertLink = function() {
+          var product = this.product,
+              html = [
+                '<a title="', product.caption,
+                '" href="/product/', product.id, '"',
+                'class="product-link">',
+                product.caption,
+                '</a>'
+              ].join('');
+          selection();
+          $editor.wrapSelection('insertHTML', html, false);
+          scope.active = false;
+          this.product = null;
+          later.resolve();
+        };
+        this.cleanUp = function() {
+          later.resolve();
+          this.cleanUp = null;
+        };
+      }
     }
   });
 }
