@@ -3,6 +3,7 @@ angular.module('html', ['ngSanitize', 'textAngular'])
   .config(['$provide',
     function($provide) {
       $provide.decorator('taTranslations', localize);
+      $provide.decorator('taOptions', configOptions);
     }
   ]);
 
@@ -98,4 +99,48 @@ var ru = {
 
 function localize($delegate) {
   return angular.extend({}, $delegate, ru);
+}
+
+localize.$inject = ['$delegate'];
+
+/**
+ * Config editor options;
+ */
+function configOptions($deletage) {
+  $deletage = addCustomToolbar($deletage);
+  $deletage = removeCounters($deletage);
+
+  return $deletage;
+}
+
+configOptions.$inject = ['$delegate'];
+
+/**
+ * Add local image and product link tools.
+ */
+function addCustomToolbar(options) {
+  var toolbar = options.toolbar;
+
+  toolbar.push(['insertLocalImage', 'insertProductLink']);
+
+  return options;
+}
+
+/**
+ * Remove word and character counters
+ */
+function removeCounters(options) {
+  var toolbar = options.toolbar[3],
+      exclude = {
+        wordcount: 1,
+        charcount: 1
+      };
+
+  options.toolbar[3] =
+    toolbar.filter(function(tool) {
+    return !exclude[tool];
+  });
+
+
+  return options;
 }
