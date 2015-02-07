@@ -5,7 +5,10 @@ angular.module('html', ['ngSanitize', 'textAngular'])
       $provide.decorator('taTranslations', localize);
       $provide.decorator('taOptions', configOptions);
     }
-  ]);
+  ]).
+  run(['taRegisterTool', 'taTranslations', function(taRegisterTool, taTranslations) {
+    registerInsertLocalImage(taRegisterTool, taTranslations);
+  }]);
 
 var ru = {
   html: {
@@ -94,8 +97,11 @@ var ru = {
   },
   charcount: {
     tooltip: "Символов"
+  },
+  insertLocalImage: {
+    tooltip: 'Выбрать картинку'
   }
-};
+}, insertLocalImageStr = 'insertLocalImage';
 
 function localize($delegate) {
   return angular.extend({}, $delegate, ru);
@@ -121,7 +127,7 @@ configOptions.$inject = ['$delegate'];
 function addCustomToolbar(options) {
   var toolbar = options.toolbar;
 
-  toolbar.push(['insertLocalImage', 'insertProductLink']);
+  toolbar.push([insertLocalImageStr, 'insertProductLink']);
 
   return options;
 }
@@ -143,4 +149,44 @@ function removeCounters(options) {
 
 
   return options;
+}
+
+/**
+ * Add insert local image tool
+ */
+
+var imageSeletorTmpl = [
+  '<div ng-if="active" style="position:absolute;">',
+    '<ul>',
+      '<li class="thumbnail" ng-repeat="img in images" ng-click="insertImage(img)">',
+        '<img ng-src="{{img.src}}" class="img-preview">',
+      '</li>',
+    '</ul>',
+  '</div>'
+
+].join('');
+
+function registerInsertLocalImage(register, translation) {
+  register(insertLocalImageStr, {
+    iconclass: 'fa fa-plug',
+    tooltiptext: translation.insertLocalImage.tooltip,
+    buttontext: imageSeletorTmpl,
+    action: function(later) {
+      var $editor = this.$editor();
+      if(this.active) { //close dropdown
+        this.active = false;
+        later.resolve();
+      }
+      else { //activate
+        this.active = true;
+        this.images = $editor.$parent.item.images;
+        this.insertImage = function(image) {
+          $editor.wrapSelection('insertImage', image.src, true);
+          later.resolve();
+        };
+      }
+
+
+    }
+  });
 }
