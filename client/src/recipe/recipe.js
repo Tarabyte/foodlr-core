@@ -467,7 +467,7 @@ function EditRecipeItemCtrl($scope, $injector) {
 EditRecipeItemCtrl.$inject = ['$scope', '$injector'];
 
 angular.module('recipe', ['lbServices', 'crud', 'ui.select',
-                          'ngSanitize', 'angularFileUpload', 'textAngular'])
+                          'angularFileUpload', 'html'])
   .controller('RecipeListCtrl', RecipeListCtlr)
   .controller('NewRecipeItemCtrl', NewRecipeItemCtrl)
   .controller('EditRecipeItemCtrl', EditRecipeItemCtrl)
