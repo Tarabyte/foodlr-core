@@ -1,8 +1,24 @@
 /*global angular*/
 angular
   .module('auth', ['ui.router', 'lbServices'])
-  .config(['$stateProvider', '$urlRouterProvider',
-    function ($stateProvider, $urlRouterProvider) {
+  .config(['$httpProvider', function($httpProvider) {
+    $httpProvider
+      .interceptors
+      .push(['$q', '$injector', function($q, $injector) {
+        return {
+          responseError: function(rejection) {
+            var status = rejection.status;
+            if(status === 401 || status === 403) {
+              $injector.get('$state').go('login');
+              return;
+            }
+
+            return $q.reject(rejection);
+          }
+        };
+      }]);
+  }])
+  .config(['$stateProvider', function ($stateProvider) {
       $stateProvider
         .state('login', {
           url: '/login',
@@ -65,7 +81,7 @@ angular
     };
   }])
   .directive('logout', ['SessionService', '$compile', function(SessionService, $compile) {
-    var tmpl = $compile('<a href="#/" ng-click="logout()"><fa icon="sign-out"/> Выйти</a>');
+    var tmpl = $compile('<a href="#/login" ng-click="logout()"><fa icon="sign-out"/> Выйти</a>');
     return {
       restrict: 'E',
       scope: true,
@@ -99,10 +115,14 @@ angular
 
       isAccessExists = to.data && to.data.unprotected || this.isLogged();
 
-      if(! isAccessExists) {
+      if(!isAccessExists) {
         event.preventDefault(); //nah
         $state.go('login');
       }
+    };
+
+    this.toLogin = function() {
+      return $injector.get('$state').go('login');
     };
 
     this.signIn = function(user) {
