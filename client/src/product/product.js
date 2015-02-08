@@ -51,6 +51,26 @@ angular
       templateUrl: 'src/utils/item.html',
       controller: 'ItemCtrl as ctrl'
     })
+    .state('products.tags', {
+      url: '/tags',
+      abstract: true,
+      template: '<div ui-view/>',
+      data: {
+        collection: 'Tag',
+        title: 'Ярлыки',
+        root: 'products.tags'
+      }
+    })
+    .state('products.tags.list', {
+      url: '/list',
+      templateUrl: 'src/utils/list.html',
+      controller: 'DefaultListCtrl as ctrl'
+    })
+    .state('products.tags.item', {
+      url: '/:id',
+      templateUrl: 'src/utils/item.html',
+      controller: 'ItemCtrl as ctrl'
+    })
     .state('products.nutrients', {
       url: '/nutrients',
       abstract: true,
@@ -158,6 +178,8 @@ NutrientItemCtrl.$inject = ['$scope', '$injector'];
 function ProductItemCtrl($scope, $injector) {
   var Nutrient = $injector.get('Nutrient'),
       ProductCategory = $injector.get('ProductCategory'),
+      Tag = $injector.get('Tag'),
+      selectedTags = {},
       $controller = $injector.get('$controller'),
       instance = $controller('ItemCtrl', {
         $scope: $scope,
@@ -170,12 +192,24 @@ function ProductItemCtrl($scope, $injector) {
   });
 
   $scope.categoryId = null;
+  $scope.selectedTags = selectedTags;
+
+  Tag.active().$promise.then(function(tags) {
+    $scope.tags = tags;
+  });
 
 
   $scope.item.then(function() {
     var item = $scope.item,
         uploader, images = item.images || [],
-        container = 'api/containers/product_' + item.id;
+        container = 'api/containers/product_' + item.id,
+        tags = item.tags;
+
+    if(tags && tags.length) {
+      tags.forEach(function(tag) {
+        selectedTags[tag.id] = true;
+      });
+    }
 
     uploader = $scope.uploader = new FileUploader({
       url: container + '/upload',
@@ -183,6 +217,7 @@ function ProductItemCtrl($scope, $injector) {
     });
 
     $scope.item.images = images;
+
 
     uploader.onSuccessItem = function(_, data){
       var file = data.result.files.file[0];
@@ -194,12 +229,23 @@ function ProductItemCtrl($scope, $injector) {
     };
 
     $scope.categoryId = $scope.item.category && $scope.item.category.id;
-    Object.defineProperty($scope.item, 'category', {
-      enumerable: true,
-      get: function() {
-        return $scope.categories.filter(function(category){
-          return category.id === $scope.categoryId;
-        })[0];
+    Object.defineProperties($scope.item, {
+      category: {
+        enumerable: true,
+        get: function() {
+          return $scope.categories.filter(function(category){
+            return category.id === $scope.categoryId;
+          })[0];
+        }
+      },
+      tags: {
+        enumerable: true,
+        get: function() {
+          var selected = $scope.selectedTags || {};
+          return $scope.tags.filter(function(tag) {
+            return selected[tag.id];
+          });
+        }
       }
     });
 
@@ -237,7 +283,10 @@ function ProductItemCtrl($scope, $injector) {
         images.splice(index, 1);
       }
     },
-    postsave: angular.noop
+    postsave: angular.noop,
+    isTagSelected: function(tag) {
+      return $scope.selectedTags[tag.id];
+    }
   });
 
   return instance;

@@ -1,6 +1,8 @@
 @theme: slate;
+@labelGap: 5px;
 @import "../vendor/bootswatch/@{theme}/bootstrap.css";
 @import "../vendor/bootswatch/@{theme}/variables.less";
+
 
 .secondary-menu {
   margin-top: 0; //we don't want double margin
@@ -30,16 +32,15 @@ html, body {
 
 
 //all recipes list
-.label-rubric {
-  margin-right: 5px; //add separator
-  cursor: pointer; //reacts on click
+.label-rubric, .label-tag {
+  margin-right: @labelGap; //add separator
 
   &:last-child {
     margin-right: 0; //not for the last one.
   }
 }
 
-.label-category {
+.label-category, .label-rubric {
   cursor: pointer; //reacts on click
 }
 

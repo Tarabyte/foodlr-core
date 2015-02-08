@@ -61,6 +61,11 @@
     },
     "category": {
       "type": "object"
+    },
+    "tags": {
+      "type": [
+        "object"
+      ]
     }
   },
   "validations": [],

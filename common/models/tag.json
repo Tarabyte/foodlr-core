@@ -1,10 +1,7 @@
 {
-  "name": "product",
+  "name": "tag",
   "base": "PersistedModel",
   "idInjection": true,
-  "scope": {
-    "order": "order"
-  },
   "properties": {
     "caption": {
       "type": "string",
@@ -21,29 +18,6 @@
       "type": "boolean",
       "required": true,
       "default": true
-    },
-    "calories": {
-      "type": "number",
-      "required": true
-    },
-    "fats": {
-      "type": "number"
-    },
-    "proteins": {
-      "type": "number"
-    },
-    "carbs": {
-      "type": "number"
-    },
-    "nutrients": {
-      "type": [
-        "object"
-      ]
-    },
-    "tags": {
-      "type": [
-        "object"
-      ]
     }
   },
   "validations": [],

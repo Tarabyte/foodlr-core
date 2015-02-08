@@ -78,7 +78,7 @@ function RecipeListCtlr($scope, $injector) {
     var options = {
       size: size,
       page: page - 1
-    }, filter = {where: {}, fields: {ingredients: false}};
+    }, filter = {where: {}, fields: {ingredients: false, images: false}};
 
     options.filter = filter;
 
@@ -167,8 +167,10 @@ function RecipeItemCtrl($scope, $injector) {
       Product = $injector.get('Product'),
       Category = $injector.get('Category'),
       Rubric = $injector.get('Rubric'),
+      Tag = $injector.get('Tag'),
       productsCache = {},
       selectedRubrics = {},
+      selectedTags = {},
       instance = this;
 
 
@@ -176,6 +178,7 @@ function RecipeItemCtrl($scope, $injector) {
   $scope.rubrics = [];
   $scope.categories = [];
   $scope.selectedRubrics = selectedRubrics;
+  $scope.selectedTags = selectedTags;
 
 
   function emptyIngredient() {
@@ -201,6 +204,10 @@ function RecipeItemCtrl($scope, $injector) {
 
   Rubric.active().$promise.then(function(data) {
     $scope.rubrics = data;
+  });
+
+  Tag.active().$promise.then(function(items) {
+    $scope.tags = items;
   });
 
   function ingredientTitle(ingredient) {
@@ -274,6 +281,10 @@ function RecipeItemCtrl($scope, $injector) {
       }
     },
 
+    isTagSelected: function(tag) {
+      return selectedTags[tag.id];
+    },
+
     makeRecipe: function(item) {
       var portionWeight;
       if(item.rubrics) {
@@ -284,6 +295,12 @@ function RecipeItemCtrl($scope, $injector) {
       if(item.category && item.category.portionWeight !== item.portionWeight) {
         portionWeight = item.portionWeight;
       }
+      if(item.tags) {
+        item.tags.forEach(function(tag) {
+          selectedTags[tag.id] = true;
+        });
+      }
+
       Object.defineProperties(item, {
         rubrics: {
           enumerable: true,
@@ -291,6 +308,15 @@ function RecipeItemCtrl($scope, $injector) {
             var selected = selectedRubrics || {};
             return $scope.rubrics.filter(function(rubric){
               return selected[rubric.id];
+            });
+          }
+        },
+        tags: {
+          enumerable: true,
+          get: function() {
+            var selected = selectedTags || {};
+            return $scope.tags.filter(function(tag){
+              return selected[tag.id];
             });
           }
         },
