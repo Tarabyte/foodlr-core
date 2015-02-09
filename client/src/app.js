@@ -1,7 +1,7 @@
 /*global angular*/
 angular
   .module('app',
-    ['crud', 'ui.router', 'auth', 'utils', 'rubric', 'category', 'recipe', 'product'])
+    ['crud', 'ui.router', 'auth', 'utils', 'rubric', 'category', 'recipe', 'article', 'product'])
   .config(['$stateProvider', '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
       $urlRouterProvider.otherwise('/');
