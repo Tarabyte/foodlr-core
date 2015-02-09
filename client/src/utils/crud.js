@@ -1,6 +1,6 @@
 /*global angular*/
 'use strict';
-var crud = angular.module('crud', []),
+var crud = angular.module('crud', ['angular-growl']),
     extend = angular.extend;
 
 /**
@@ -15,6 +15,28 @@ function inherit(child, base) {
  * Controllers register.
  */
 crud
+  .config(['$httpProvider', function($httpProvider) {
+    $httpProvider
+      .interceptors
+      .push(['$q', 'growl', function($q, growl) {
+        return  {
+          responseError: function(rejection) {
+            if(rejection.status === 422) {
+              growl.error('Ошибка при сохранении.', {ttl: 10000});
+            }
+
+            return $q.reject(rejection);
+          },
+
+          response: function(response) {
+            if(response.config.method === 'PUT') {
+              growl.success('Сохранение прошло успешно.', {ttl: 2000});
+            }
+            return response;
+          }
+        };
+      }]);
+  }])
   .controller('ListCtrl', ListCtrl)
   .controller('DefaultListCtrl', DefaultListCtrl)
   .controller('ItemCtrl', ItemCtrl);

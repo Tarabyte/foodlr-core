@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="vendor/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="vendor/angular-ui-select/dist/select.css">
     <link rel="stylesheet" type="text/css" href="vendor/textAngular/src/textAngular.css">
+    <link rel="stylesheet" type="text/css" href="vendor/angular-growl-v2/build/angular-growl.css">
     <link rel="stylesheet" type="text/css" href="styles/foodlr.css">
   </head>
 
@@ -21,6 +22,7 @@
     <!--[if lt IE 10]>
             <p class="browserupgrade">Ты используешь устаревший браузер. :) Нужно что-нибудь сильно поновее.</p>
     <![endif]-->
+    <div growl></div>
     <div class="container-main">
       <ng-include src="'templates/header.html'"></ng-include>
       <div class="container-fluid" ui-view></div>
@@ -30,6 +32,7 @@
 
     <script src="vendor/jquery/dist/jquery.js"></script>
     <script src="vendor/angular/angular.js"></script>
+    <script src="vendor/angular-growl-v2/build/angular-growl.js"></script>
     <script src="vendor/angular-resource/angular-resource.js"></script>
     <script src="vendor/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="vendor/angular-ui-select/dist/select.js"></script>
