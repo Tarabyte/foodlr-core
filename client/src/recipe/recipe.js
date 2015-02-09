@@ -173,8 +173,6 @@ function RecipeItemCtrl($scope, $injector) {
       selectedTags = {},
       instance = this;
 
-
-  $scope.isCalculationMagic = true;
   $scope.rubrics = [];
   $scope.categories = [];
   $scope.selectedRubrics = selectedRubrics;
@@ -362,11 +360,11 @@ function RecipeItemCtrl($scope, $injector) {
       });
 
       'calories|fats|proteins|carbs'.split('|').forEach(function(prop){
-        var value = 0;
+        var value = item[prop]; //original value
         Object.defineProperty(item, prop, {
           enumerable: true,
           get: function() {
-            if($scope.isCalculationMagic) {
+            if($scope.item.isCalculationMagic) {
               //calculate magically
               var result = item.ingredients.reduce(function(acc, ingredient){
                 var id = ingredient.product,
@@ -398,7 +396,8 @@ function NewRecipeItemCtrl($scope, $injector) {
   var instance = new RecipeItemCtrl($scope, $injector);
   var item = {
       ingredients: [],
-      portions: 1
+      portions: 1,
+      isCalculationMagic: true
     };
 
   instance.makeRecipe(item);

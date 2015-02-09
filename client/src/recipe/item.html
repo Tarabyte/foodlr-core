@@ -86,7 +86,7 @@
   <div class="form-group">
     <div class="col-sm-3 col-sm-offset-2">
       <label>
-        <input type="checkbox" ng-model="isCalculationMagic"> Автомагический расчет
+        <input type="checkbox" ng-model="item.isCalculationMagic"> Автомагический расчет
       </label>
     </div>
     <div class="col-sm-2">
@@ -107,20 +107,20 @@
       <span class="pull-right">На 100 г. готового продукта:</span>
     </div>
     <div class="col-sm-2">
-      <input type="number" step="any" id="calories" name="calories" class="form-control" placeholder="Калорийность" required ng-model="item.calories" ng-hide="isCalculationMagic">
-      <span ng-bind="item.calories" ng-show="isCalculationMagic"></span>
+      <input type="number" step="any" id="calories" name="calories" class="form-control" placeholder="Калорийность" required ng-model="item.calories" ng-hide="item.isCalculationMagic">
+      <span ng-bind="item.calories" ng-show="item.isCalculationMagic"></span>
     </div>
     <div class="col-sm-1">
-      <input type="number" step="any" id="fats" name="fats" class="form-control" placeholder="Ж" ng-model="item.fats" ng-hide="isCalculationMagic">
-      <span ng-bind="item.fats" ng-show="isCalculationMagic"></span>
+      <input type="number" step="any" id="fats" name="fats" class="form-control" placeholder="Ж" ng-model="item.fats" ng-hide="item.isCalculationMagic">
+      <span ng-bind="item.fats" ng-show="item.isCalculationMagic"></span>
     </div>
     <div class="col-sm-1">
-      <input type="number" step="any" id="proteins" name="proteins" class="form-control" placeholder="Б" ng-model="item.proteins" ng-hide="isCalculationMagic">
-      <span ng-bind="item.proteins" ng-show="isCalculationMagic"></span>
+      <input type="number" step="any" id="proteins" name="proteins" class="form-control" placeholder="Б" ng-model="item.proteins" ng-hide="item.isCalculationMagic">
+      <span ng-bind="item.proteins" ng-show="item.isCalculationMagic"></span>
     </div>
     <div class="col-sm-1">
-      <input type="number" step="any" id="carbs" name="carbs" class="form-control" placeholder="У" ng-model="item.carbs" ng-hide="isCalculationMagic">
-      <span ng-bind="item.carbs" ng-show="isCalculationMagic"></span>
+      <input type="number" step="any" id="carbs" name="carbs" class="form-control" placeholder="У" ng-model="item.carbs" ng-hide="item.isCalculationMagic">
+      <span ng-bind="item.carbs" ng-show="item.isCalculationMagic"></span>
     </div>
   </div>
   <div class="form-group">
