@@ -7,7 +7,12 @@
     <h2><a ui-sref="recipies.list">Рецептики</a> <a ui-sref="recipies.new" class="btn btn-success btn-sm"><fa icon="plus"/></a></h2>
     <recent collection="Recipe" root="recipies" columns="recipeColumns"></recent>
   </div>
-
+  <div class="col-sm-6">
+    <h2><a ui-sref="articles.list">Статеички</a> <a ui-sref="articles.new" class="btn btn-success btn-sm"><fa icon="plus"/></a></h2>
+    <recent collection="Article" root="articles" columns="articleColumns"></recent>
+  </div>
+</div>
+<div class="row">
   <div class="col-sm-6">
     <h2><a ui-sref="products.main.list">Продуктики</a></h2>
     <recent collection="Product" root="products" columns="productColumns"></recent>

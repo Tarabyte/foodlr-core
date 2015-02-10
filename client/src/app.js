@@ -19,6 +19,11 @@ angular
             {caption: 'Название', tmpl: 'link'},
             {caption: 'Категория', tmpl: 'categoryLabel'}
           ];
+
+          $scope.articleColumns = [
+            {caption: 'Название', tmpl: 'link'},
+            {caption: 'Текст', tmpl: '{{::item.content|limitTo: 100|html}}...'}
+          ];
         }],
         templateUrl: 'templates/index.html'
       });
