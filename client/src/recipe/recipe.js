@@ -397,7 +397,8 @@ function NewRecipeItemCtrl($scope, $injector) {
   var item = {
       ingredients: [],
       portions: 1,
-      isCalculationMagic: true
+      isCalculationMagic: true,
+      publications: 1
     };
 
   instance.makeRecipe(item);

@@ -70,6 +70,10 @@
       "type": [
         "object"
       ]
+    },
+    "publications": {
+      "type": "number",
+      "default": 1
     }
   },
   "validations": [],

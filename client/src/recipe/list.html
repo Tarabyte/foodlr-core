@@ -37,6 +37,7 @@
         <tr ng-repeat="item in items">
           <td>
             <a ui-sref="{{ctrl.data.root}}.item({id: item.id})">{{::item.caption}}</a>
+            <span class="badge" title="Количество публикаций">{{::item.publications}}</span>
             <div>
               <span class="label label-default label-tag" ng-repeat="tag in item.tags"> {{::tag.caption}} </span>
             </div>
