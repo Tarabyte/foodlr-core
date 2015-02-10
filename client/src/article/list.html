@@ -43,7 +43,7 @@
           </td>
           <td>{{::item.content|limitTo:100 |html}}...</td>
           <td>
-            <span class="label label-primary label-rubric" ng-repeat="rubric in item.rubrics" ng-click="ctrl.selectRubric(rubric.id)"> {{::rubric.caption}} </span>
+            <span class="label label-primary label-rubric" ng-repeat="rubric in item.rubrics" ng-click="currentRubric = rubric.id"> {{::rubric.caption}} </span>
           </td>
           <td>
             <div class="small text-muted" ng-if="item.lastModifiedAt">
@@ -62,13 +62,13 @@
           <td colspan="7">
             <ul class="pagination" style="margin: 0;">
               <li ng-class="{disabled: page===1}">
-                <a ng-click="ctrl.prev()" href="javascript: void 0;">&laquo;</a>
+                <a ng-click="page = page - 1" href="javascript: void 0;">&laquo;</a>
               </li>
               <li ng-repeat="current in pageList" ng-class="{active: current===page}">
-                <a ng-click="ctrl.goto(current)" href="javascript: void 0;">{{current}}</a>
+                <a ng-click="page = current" href="javascript: void 0;">{{current}}</a>
               </li>
               <li ng-class="{disabled: page===pageList.length}">
-                <a ng-click="ctrl.next()" href="javascript: void 0;">&raquo;</a>
+                <a ng-click="page = page + 1" href="javascript: void 0;">&raquo;</a>
               </li>
             </ul>
           </td>

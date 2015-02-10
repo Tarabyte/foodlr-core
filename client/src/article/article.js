@@ -25,8 +25,10 @@ function ArticleListCtrl($scope, $injector) {
         return page;
       },
       set: function(val) {
-        page = val;
-        fetch();
+        if(val > 0 && val <= this.pageList.length) {
+          page = val;
+          fetch();
+        }
       }
     },
     currentRubric: {
@@ -122,12 +124,158 @@ function ArticleListCtrl($scope, $injector) {
       if(confirm('Вы действительно хотите удалить статью?')) {
         Rubric.deleteById({id: id}).$promise.then(first);
       }
+    },
+    /**
+     * Toggle Active state
+     */
+    toggle: function(id) {
+      var item = $scope.items.filter(function(item){
+        return item.id === id;
+      })[0];
+      if(item) {
+        Collection.toggle({id: id}).$promise.then(function() {
+          item.active = !item.active;
+        });
+      }
     }
   });
 
 }
 
 ArticleListCtrl.$inject = ['$scope', '$injector'];
+
+/**
+ * Item create|edit control
+ */
+function ArticleItemCtrl($scope, $injector) {
+  var $state = $injector.get('$state'),
+      data = $state.$current.data,
+      Collection = $injector.get(data.collection),
+      Rubric = $injector.get('Rubric'),
+      Product = $injector.get('Product');
+
+  angular.extend($scope, {
+    rubrics: [],
+    selectedRubrics: {},
+    products: []
+  });
+
+  Rubric.active().$promise.then(function(data) {
+    $scope.rubrics = data;
+  });
+
+  Product.active().$promise.then(function(data) {
+    $scope.products = data;
+  });
+
+
+  function initRubrics(rubrics) {
+    $scope.selectedRubrics = (rubrics || []).reduce(function(cache, rubric){
+      cache[rubric.id] = true;
+      return cache;
+    }, {});
+  }
+
+  angular.extend(this, {
+    data: data,
+    Collection: Collection,
+    wrapItem: function(item) {
+      initRubrics(item.rubrics);
+      Object.defineProperties(item, {
+        rubrics: {
+          enumerable: true,
+          get: function() {
+            var selected = $scope.selectedRubrics;
+            return $scope.rubrics.filter(function(rubric){
+              return selected[rubric.id];
+            });
+          }
+        }
+      });
+
+      return item;
+    },
+    list: function() {
+      $state.go(data.root + '.list');
+    },
+    afterSave: function(item) {
+      $state.go(data.root + '.item', {id: item.id});
+    },
+    save: function() {
+      Collection.upsert($scope.item).$promise.then(this.afterSave.bind(this));
+    },
+    remove: function() {
+      if(confirm('Вы действительно хотите удалить статью?')) {
+        Collection.deleteById({id: $scope.item.id})
+          .$promise.then(this.list.bind(this));
+      }
+    }
+
+  });
+}
+
+function NewArcticleItemCtrl($scope, $injector) {
+  var instance = new ArticleItemCtrl($scope, $injector);
+
+  $scope.item = instance.wrapItem({
+    rubrics: []
+  });
+
+  return angular.extend(instance, {
+    title: 'Новая статья',
+    isNew: true
+  });
+}
+
+NewArcticleItemCtrl.$inject = ['$scope', '$injector'];
+
+function EditArticleItemCtrl($scope, $injector) {
+  var instance = new ArticleItemCtrl($scope, $injector),
+      $state = $injector.get('$state'),
+      id = $state.params.id,
+      FileUploader = $injector.get('FileUploader');
+
+  instance.Collection.findById({id: id})
+    .$promise.then(function(item) {
+    var container = 'api/containers/news_' + id,
+        uploader = new FileUploader({
+          url: container + '/upload',
+          autoUpload: true
+        }),
+        images = item.images || [];
+
+    $scope.uploader = uploader;
+    $scope.item = instance.wrapItem(item);
+    $scope.item.images = images; //in case it was empty
+
+    uploader.onSuccessItem = function(_, data) {
+      var file = data.result.files.file[0];
+
+      images.push({
+        name: file.name,
+        type: file.type,
+        src: container + '/download/' + file.name
+      });
+    };
+
+  });
+
+  return angular.extend(instance, {
+    title: 'Редактирование статьи',
+    isNew: false,
+    removeImage: function(img) {
+      var index, images = $scope.item.images;
+      if(confirm('Вы действительно хотите удалить картинку?')) {
+        index = images.indexOf(img);
+        if(index >= 0) {
+          images.splice(index, 1);
+        }
+      }
+    }
+  });
+}
+
+EditArticleItemCtrl.$inject = ['$scope', '$injector'];
 
 angular.module('article', ['lbServices', 'crud',
                           'angularFileUpload', 'html'])
@@ -151,12 +299,14 @@ angular.module('article', ['lbServices', 'crud',
     .state('articles.new', {
       url: '/new',
       templateUrl: 'src/article/item.html',
-      controller: 'ItemCtrl as ctrl'
+      controller: 'NewArticleItemCtrl as ctrl'
     })
     .state('articles.item', {
       url: '/:id',
       templateUrl: 'src/article/item.html',
-      controller: 'ItemCtrl as ctrl'
+      controller: 'EditArticleItemCtrl as ctrl'
     });
   }])
-.controller('ArticleListCtrl', ArticleListCtrl);
+.controller('ArticleListCtrl', ArticleListCtrl)
+.controller('NewArticleItemCtrl', NewArcticleItemCtrl)
+.controller('EditArticleItemCtrl', EditArticleItemCtrl);
