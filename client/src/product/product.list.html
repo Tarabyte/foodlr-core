@@ -13,7 +13,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="item in list">
+        <tr ng-repeat="item in items">
           <td>
             <a ui-sref="{{ctrl.data.root}}.item({id: item.id})">{{item.caption}}</a>
             <div class="text-muted small">{{item.description|limitTo: 100}}...</div>
@@ -40,6 +40,21 @@
               <input type="number" class="form-control" id="calories" placeholder="Калории" ng-model="item.calories" required step="any">
               <input type="text" class="form-control" id="description" placeholder="Описание" ng-model="item.description">
             </form>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="7">
+            <ul class="pagination" style="margin: 0;">
+              <li ng-class="{disabled: page===1}">
+                <a ng-click="page = page - 1" href="javascript: void 0;">&laquo;</a>
+              </li>
+              <li ng-repeat="current in pageList" ng-class="{active: current===page}">
+                <a ng-click="page = current" href="javascript: void 0;">{{current}}</a>
+              </li>
+              <li ng-class="{disabled: page===pageList.length}">
+                <a ng-click="page = page + 1" href="javascript: void 0;">&raquo;</a>
+              </li>
+            </ul>
           </td>
         </tr>
       </tfoot>

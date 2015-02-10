@@ -122,7 +122,7 @@ function ArticleListCtrl($scope, $injector) {
     data: $state.$current.data,
     remove: function(id) {
       if(confirm('Вы действительно хотите удалить статью?')) {
-        Rubric.deleteById({id: id}).$promise.then(first);
+        Collection.deleteById({id: id}).$promise.then(first);
       }
     },
     /**

@@ -24,7 +24,7 @@ angular
     .state('products.main.list', {
       url: '',
       templateUrl: 'src/product/product.list.html',
-      controller: 'DefaultListCtrl as ctrl'
+      controller: 'ProductListCtrl as ctrl'
     })
     .state('products.main.item', {
       url: '/:id',
@@ -114,7 +114,8 @@ angular
   }])
 .controller('NutrientListCtrl', NutrientListCtrl)
 .controller('NutrientItemCtrl', NutrientItemCtrl)
-.controller('ProductItemCtrl', ProductItemCtrl);
+.controller('ProductItemCtrl', ProductItemCtrl)
+.controller('ProductListCtrl', ProductListCtrl);
 
 
 /**
@@ -173,7 +174,7 @@ NutrientItemCtrl.$inject = ['$scope', '$injector'];
 
 /**
  * Product Item Controller
- * Extend DefaultListCtrl
+ * Extend ItemCtrl
  */
 function ProductItemCtrl($scope, $injector) {
   var Nutrient = $injector.get('Nutrient'),
@@ -292,3 +293,119 @@ function ProductItemCtrl($scope, $injector) {
   return instance;
 }
 ProductItemCtrl.$inject = ['$scope', '$injector'];
+
+/**
+ * Product List Controller
+ */
+function ProductListCtrl($scope, $injector) {
+    var $state = $injector.get('$state'),
+      Collection = $injector.get('Product'),
+      page = 1,
+      size = 10,
+      pageList = [];
+
+  Object.defineProperties($scope, {
+    pageList: {
+      enumerable: true,
+      get: function() {
+        return pageList;
+      },
+      set: function(data) {
+        pageList = range(data.pages);
+      }
+    },
+    page: {
+      enumerable: true,
+      get: function() {
+        return page;
+      },
+      set: function(val) {
+        if(val > 0 && val <= this.pageList.length) {
+          page = val;
+          fetch();
+        }
+      }
+    },
+    item: {
+      enumerable: true,
+      value: {},
+      writable: true
+    }
+  });
+
+  function range(to) {
+    var start, end, middle;
+    to = to || 1;
+    start = [1, 2, 3];
+    end = [to-2, to-1, to];
+    middle = [page-1, page, page+1];
+
+
+    return start.concat(middle, end).filter(function(item) {
+      return item >0 && item <= to;
+    })
+    .sort()
+    .filter(function(item, i, array) {
+      return item !== array[i-1];
+    });
+  }
+
+  function fetch() {
+    var options = {
+      page: page - 1,
+      size: size
+    },
+    filter = {
+      where: {},
+      fields: {
+        images: false
+      }
+    };
+
+    options.filter = filter;
+
+    Collection.paginate(options).$promise.then(function(data) {
+      $scope.items = data.data;
+      $scope.pageList = data;
+    });
+  }
+
+  function first() {
+    $scope.page = 1;
+  }
+
+  fetch();
+
+  angular.extend(this, {
+    data: $state.$current.data,
+    remove: function(id) {
+      if(confirm('Вы действительно хотите удалить продукт?')) {
+        Collection.deleteById({id: id}).$promise.then(first);
+      }
+    },
+    /**
+     * Toggle Active state
+     */
+    toggle: function(id) {
+      var item = $scope.items.filter(function(item){
+        return item.id === id;
+      })[0];
+      if(item) {
+        Collection.toggle({id: id}).$promise.then(function() {
+          item.active = !item.active;
+        });
+      }
+    },
+
+    save: function() {
+      Collection.count().$promise.then(function(data) {
+        $scope.item.order = data.count;
+        Collection.upsert($scope.item).$promise.then(function(item) {
+          var id = item.id;
+          $state.go($state.$current.data.root + '.item', {id: id});
+        });
+      });
+    }
+  });
+}
+ProductListCtrl.$inject = ['$scope', '$injector'];

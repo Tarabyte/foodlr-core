@@ -40,6 +40,9 @@
         "object"
       ]
     },
+    "category": {
+      "type": "object"
+    },
     "tags": {
       "type": [
         "object"
