@@ -16,7 +16,7 @@
         <tr ng-repeat="item in list">
           <td>
             <a ui-sref="{{ctrl.data.root}}.item({id: item.id})">{{item.caption}}</a>
-            <div class="text-muted small">{{item.description}}</div>
+            <div class="text-muted small">{{item.description|limitTo: 100}}...</div>
           </td>
           <td>
               <button type="button" class="btn btn-sm btn-danger" title="Удалить" ng-click="ctrl.remove(item.id)"><fa icon="trash"/></button>
