@@ -7,7 +7,7 @@ var merge = require('merge'),
       /**
        * Top count to return.
        */
-      top: 10,
+      top: 5,
       /**
        * Order by field
        */

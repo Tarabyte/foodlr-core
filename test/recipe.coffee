@@ -245,18 +245,18 @@ describe 'Recipies', ->
           false.should.be.ok
         else
           data.should.be.defined
-          data.length.should.be.equal 10
+          data.length.should.be.equal 5
           data.filter (_, i) -> i > 0
             .forEach (item, i) ->
               item.createdAt.valueOf().should.be.lte data[i].createdAt.valueOf()
         done()
 
     it 'should allow to overide settings', (done) ->
-      Recipe.recent limit: 5, (err, data) ->
+      Recipe.recent limit: 10, (err, data) ->
         if err
           false.should.be.ok
         else
           data.should.be.defined
-          data.length.should.be.equal 5
+          data.length.should.be.equal 10
 
         done()
