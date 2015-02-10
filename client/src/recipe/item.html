@@ -54,7 +54,7 @@
       <input type="number" step="1" id="portionWeight" name="portionWeight" class="form-control" placeholder="Вес порции" required ng-model="item.portionWeight">
       Порций в рецепте: {{item.portions}} / Суммарный вес: {{item.weight}}
     </div>
-    <label for="publications" class="col-sm-2 control-label">Публикаций <span class="badge">{{item.publications}}</span> <button type="button" class="btn btn-sm btn-success" ng-click="item.publications = item.publications + 1"><fa icon="plus"/></button> <button type="button" class="btn btn-sm btn-danger" ng-click="item.publications = item.publications - 1" ng-show="item.publications > 1"><fa icon="minus"/></button>
+    <label for="publications" class="col-sm-2 control-label">Публикаций <span class="badge">{{item.publications}}</span> <button type="button" class="btn btn-sm btn-success" ng-click="item.publications = item.publications + 1"><fa icon="plus"/></button> <button type="button" class="btn btn-sm btn-danger" ng-click="item.publications = item.publications - 1" ng-show="item.publications > 0"><fa icon="minus"/></button>
     </label>
 
   </div>
