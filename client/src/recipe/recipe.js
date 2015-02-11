@@ -339,7 +339,7 @@ function RecipeItemCtrl($scope, $injector) {
         portionWeight: {
           enumerable: true,
           get: function() {
-            if(portionWeight) {
+            if(portionWeight != null) {
               return portionWeight;
             }
             if(this.category) {
@@ -355,6 +355,13 @@ function RecipeItemCtrl($scope, $injector) {
           enumerable: true,
           get: function() {
             return round(this.weight / this.portionWeight, 0);
+          }
+        },
+
+        caloriesPerPortion: {
+          enumerable: false,
+          get: function() {
+            return round(this.calories * this.portionWeight/100, 0);
           }
         }
       });
