@@ -7,9 +7,12 @@ angular
       .push(['$q', '$injector', function($q, $injector) {
         return {
           responseError: function(rejection) {
-            var status = rejection.status;
+            var status = rejection.status,
+                SessionService;
             if(status === 401 || status === 403) {
-              $injector.get('$state').go('login');
+              SessionService = $injector.get('SessionService');
+              SessionService.clear();
+              SessionService.toLogin();
               return;
             }
 
@@ -107,6 +110,11 @@ angular
 
     this.getCurrentUser = function() {
       return authService.currentUserData;
+    };
+
+    this.clear = function() {
+      authService.clearUser();
+      authService.clearStorage();
     };
 
     this.checkAccess = function(event, to) {
