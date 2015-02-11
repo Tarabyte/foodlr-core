@@ -12,4 +12,25 @@ angular.module('utils', ['recent'])
   return function(txt) {
     return String(txt).replace(/<[^>]+(>|$)/gm, '');
   };
+})
+.service('RangeService', function() {
+  return {
+    range: function(include, max) {
+      var start, middle, end;
+      max = max || 1;
+      include = include || 1;
+
+      start = [1, 2, 3];
+      middle = [include - 1, include, include + 1];
+      end = [max - 2, max - 1, max]
+
+      return start.concat(middle, end).filter(function(item) {
+        return item > 0 && item <= max;
+      })
+      .sort()
+      .filter(function(item, i, array) {
+        return item !== array[i-1];
+      });
+    }
+  };
 });

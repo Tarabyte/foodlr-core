@@ -1,0 +1,57 @@
+<div class=="row">
+  <div class="col-sm-10 col-sm-offset-1">
+    <div class="row">
+      <div class="col-xs-4">
+        <a class="btn btn-success" ui-sref="{{::ctrl.data.root}}.new">Добавить</a>
+      </div>
+    </div>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Название</th>
+          <th>Действия</th>
+          <th>Активен</th>
+          <th>Номер</th>
+          <th>Категория</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in items">
+          <td>
+            <a ui-sref="{{ctrl.data.root}}.item({id: item.id})">{{::item.caption}}</a>
+          </td>
+          <td>
+              <button type="button" class="btn btn-sm btn-danger" title="Удалить" ng-click="ctrl.remove(item.id)"><fa icon="trash"/></button>
+            <button type="button" class="btn btn-sm btn-warning" title="Деактивировать" ng-click="ctrl.toggle(item.id)" ng-show="item.active"><fa icon="ban"/></button>
+            <button type="button" class="btn btn-sm btn-success" title="Активировать" ng-click="ctrl.toggle(item.id)" ng-show="!item.active"><fa icon="check"/></button>
+          </td>
+          <td>{{item.active ? 'Да': 'Нет'}}</td>
+          <td>{{::item.order}}</td>
+          <td><span class="label label-info">{{::item.category.caption}}</span></td>
+        </tr>
+      </tbody>
+      <tbody ng-if="!items.length">
+        <tr>
+          <td colspan="5">Нет записей</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5">
+                        <ul class="pagination" style="margin: 0;">
+              <li ng-class="{disabled: page===1}">
+                <a ng-click="page = page - 1" href="javascript: void 0;">&laquo;</a>
+              </li>
+              <li ng-repeat="current in pageList" ng-class="{active: current===page}">
+                <a ng-click="page = current" href="javascript: void 0;">{{current}}</a>
+              </li>
+              <li ng-class="{disabled: page===pageList.length}">
+                <a ng-click="page = page + 1" href="javascript: void 0;">&raquo;</a>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

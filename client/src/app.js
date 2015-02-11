@@ -1,7 +1,8 @@
 /*global angular*/
 angular
   .module('app',
-    ['crud', 'ui.router', 'auth', 'utils', 'rubric', 'category', 'recipe', 'article', 'product'])
+    ['crud', 'ui.router', 'auth', 'utils', 'rubric', 'category', 'recipe',
+     'article', 'product', 'faq'])
   .config(['$stateProvider', '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
       $urlRouterProvider.otherwise('/');
@@ -23,6 +24,11 @@ angular
           $scope.articleColumns = [
             {caption: 'Название', tmpl: 'link'},
             {caption: 'Текст', tmpl: '{{::item.content|limitTo: 100|html}}...'}
+          ];
+
+          $scope.faqColumns = [
+            {caption: 'Вопрос', tmpl: 'link'},
+            {caption: 'Ответ', tmpl: '{{::item.content|limitTo: 100|html}}...'}
           ];
         }],
         templateUrl: 'templates/index.html'

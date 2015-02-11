@@ -65,5 +65,13 @@
   "article": {
     "dataSource": "mongo",
     "public": true
+  },
+  "FaqCategory": {
+    "dataSource": "mongo",
+    "public": true
+  },
+  "faq": {
+    "dataSource": "mongo",
+    "public": true
   }
 }
