@@ -12,6 +12,7 @@ function RecipeListCtlr($scope, $injector) {
       Rubric = $injector.get('Rubric'),
       Category = $injector.get('Category'),
       $state = $injector.get('$state'),
+      RangeService = $injector.get('RangeService'),
       page = 1, size = 10, search = "";
 
 
@@ -52,23 +53,6 @@ function RecipeListCtlr($scope, $injector) {
     }
   });
 
-  function range(to) {
-    var start, end, middle;
-    to = to || 1;
-    start = [1, 2, 3];
-    end = [to-2, to-1, to];
-    middle = [page-1, page, page+1];
-
-
-    return start.concat(middle, end).filter(function(item) {
-      return item >0 && item <= to;
-    })
-    .sort()
-    .filter(function(item, i, array) {
-      return item !== array[i-1];
-    });
-  }
-
   function setPage(val) {
     page = val;
     fetch();
@@ -103,7 +87,7 @@ function RecipeListCtlr($scope, $injector) {
     }
     Recipe.paginate(options).$promise.then(function(data) {
       $scope.items = data.data;
-      $scope.pageList = range(data.pages);
+      $scope.pageList = RangeService.range(page, data.pages);
     });
   }
 
@@ -499,7 +483,7 @@ function EditRecipeItemCtrl($scope, $injector) {
 
 EditRecipeItemCtrl.$inject = ['$scope', '$injector'];
 
-angular.module('recipe', ['lbServices', 'crud', 'ui.select',
+angular.module('recipe', ['lbServices', 'crud', 'utils', 'ui.select',
                           'angularFileUpload', 'html'])
   .controller('RecipeListCtrl', RecipeListCtlr)
   .controller('NewRecipeItemCtrl', NewRecipeItemCtrl)

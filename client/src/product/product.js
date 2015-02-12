@@ -1,6 +1,6 @@
 /*global angular*/
 angular
-  .module('product', ['crud', 'ngSanitize', 'angularFileUpload'])
+  .module('product', ['crud', 'utils', 'ngSanitize', 'angularFileUpload'])
   .config(['$stateProvider', function($stateProvider) {
     $stateProvider
     .state('products', {
@@ -300,6 +300,7 @@ ProductItemCtrl.$inject = ['$scope', '$injector'];
 function ProductListCtrl($scope, $injector) {
     var $state = $injector.get('$state'),
       Collection = $injector.get('Product'),
+      RangeService = $injector.get('RangeService'),
       page = 1,
       size = 10,
       pageList = [];
@@ -311,7 +312,7 @@ function ProductListCtrl($scope, $injector) {
         return pageList;
       },
       set: function(data) {
-        pageList = range(data.pages);
+        pageList = RangeService.range(this.page, data.pages);
       }
     },
     page: {
@@ -332,23 +333,6 @@ function ProductListCtrl($scope, $injector) {
       writable: true
     }
   });
-
-  function range(to) {
-    var start, end, middle;
-    to = to || 1;
-    start = [1, 2, 3];
-    end = [to-2, to-1, to];
-    middle = [page-1, page, page+1];
-
-
-    return start.concat(middle, end).filter(function(item) {
-      return item >0 && item <= to;
-    })
-    .sort()
-    .filter(function(item, i, array) {
-      return item !== array[i-1];
-    });
-  }
 
   function fetch() {
     var options = {

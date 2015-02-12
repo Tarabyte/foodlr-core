@@ -3,6 +3,7 @@ function ArticleListCtrl($scope, $injector) {
   var $state = $injector.get('$state'),
       Rubric = $injector.get('Rubric'),
       Collection = $injector.get('Article'),
+      RangeService = $injector.get('RangeService'),
       page = 1,
       size = 10,
       search = '',
@@ -16,7 +17,7 @@ function ArticleListCtrl($scope, $injector) {
         return pageList;
       },
       set: function(data) {
-        pageList = range(data.pages);
+        pageList = RangeService.range(this.page, data.pages);
       }
     },
     page: {
@@ -54,22 +55,6 @@ function ArticleListCtrl($scope, $injector) {
     }
   });
 
-  function range(to) {
-    var start, end, middle;
-    to = to || 1;
-    start = [1, 2, 3];
-    end = [to-2, to-1, to];
-    middle = [page-1, page, page+1];
-
-
-    return start.concat(middle, end).filter(function(item) {
-      return item >0 && item <= to;
-    })
-    .sort()
-    .filter(function(item, i, array) {
-      return item !== array[i-1];
-    });
-  }
 
   function fetch() {
     var options = {
@@ -277,7 +262,7 @@ function EditArticleItemCtrl($scope, $injector) {
 
 EditArticleItemCtrl.$inject = ['$scope', '$injector'];
 
-angular.module('article', ['lbServices', 'crud',
+angular.module('article', ['lbServices', 'crud', 'utils',
                           'angularFileUpload', 'html'])
   .config(['$stateProvider', function($stateProvider) {
     $stateProvider
