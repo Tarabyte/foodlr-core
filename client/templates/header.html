@@ -34,12 +34,26 @@
     </li>
   </nav>
   <div class="navbar-right"></div>
-  <nav class="nav navbar-nav navbar-right">
+  <nav class="nav navbar-nav navbar-right" is-not-logged>
     <li ui-sref-active="active" is-not-logged>
       <a ui-sref="login"><fa icon="sign-in"/> Войти</a>
     </li>
-    <li is-logged>
-      <logout></logout>
+  </nav>
+  <nav class="nav navbar-nav navbar-right" is-logged>
+    <li>
+      <a data-toggle="dropdown" class="dropdown-toggle">
+        <avatar/>
+        <fa icon="caret-down"/>
+      </a>
+      <ul class="dropdown dropdown-menu dropdown-menu-right dropdown-caret">
+        <li>
+          <a ui-sref="profile"><fa icon="user"/> Профиль</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <logout/>
+        </li>
+      </ul>
     </li>
   </nav>
 

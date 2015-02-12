@@ -1,6 +1,6 @@
 /*global angular*/
 angular
-  .module('auth', ['ui.router', 'lbServices'])
+  .module('auth', ['ui.router', 'lbServices', 'ngMessages'])
   .config(['$httpProvider', function($httpProvider) {
     $httpProvider
       .interceptors
@@ -23,15 +23,48 @@ angular
   }])
   .config(['$stateProvider', function ($stateProvider) {
       $stateProvider
-        .state('login', {
-          url: '/login',
-          data: {
-            unprotected: true
-          },
-          templateUrl: 'templates/auth/login.html',
-          controller: 'LoginCtrl'
+      .state('login', {
+        url: '/login',
+        data: {
+          unprotected: true
+        },
+        templateUrl: 'templates/auth/login.html',
+        controller: 'LoginCtrl'
+      })
+      .state('profile', {
+        url: '/profile',
+        templateUrl: 'src/auth/profile.html',
+        controller: 'ProfileCtrl as ctrl'
       });
 
+  }])
+  .controller('ProfileCtrl', ['$scope', '$injector', function($scope, $injector){
+    var SessionService = $injector.get('SessionService'),
+        user = SessionService.getCurrentUser();
+
+    if(user == null) {
+      SessionService.loadUser().then(function(data) {
+        $scope.user = user = data;
+      });
+    }
+    else {
+      $scope.user = user;
+    }
+
+    angular.extend(this, {
+      data: {
+        title: 'Настройка профиля'
+      },
+      changePassword: {},
+      changePwd: function(valid) {
+        if(!valid) {
+          console.log('invalid');
+          return;
+        }
+        console.log(this.changePassword);
+      }
+
+    });
   }])
   .controller('LoginCtrl', ['$scope', '$injector', function($scope, $injector) {
     var SessionService = $injector.get('SessionService'),
@@ -59,6 +92,28 @@ angular
       });
     };
   }])
+  .directive('equalsTo', function() {
+    return {
+      restrict: 'A',
+      require: '?ngModel',
+      scope: {
+        equalsTo: '='
+      },
+      link: function(scope, element, atts, ngModel) {
+        if(!ngModel) {
+          return;
+        }
+
+        ngModel.$validators.equalsTo = function(modelValue, viewValue) {
+          return  (modelValue || viewValue) === scope.equalsTo;
+        };
+
+        scope.$watch('equalsTo', function() { //if another value changed.
+          ngModel.$validate();
+        });
+      }
+    };
+  })
   .directive('isLogged', ['SessionService', function(SessionService) {
     return {
       restrict: 'A',
@@ -96,6 +151,18 @@ angular
       }
     };
   }])
+  .directive('avatar', ['SessionService', function(SessionService) {
+    return {
+      restrict: 'E',
+      scope: true,
+      template: '<span class="small">Привет,</span> {{user.username}}',
+      link: function(scope) {
+        SessionService.loadUser().then(function(user) {
+          scope.user = user;
+        });
+      }
+    };
+  }])
   .service('SessionService', ['$injector', function($injector) {
     var authService = $injector.get('LoopBackAuth'),
         User = $injector.get('User'),
@@ -115,6 +182,10 @@ angular
     this.clear = function() {
       authService.clearUser();
       authService.clearStorage();
+    };
+
+    this.loadUser = function() {
+      return User.getCurrent().$promise;
     };
 
     this.checkAccess = function(event, to) {
