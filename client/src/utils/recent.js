@@ -12,7 +12,8 @@ function RecentDirective($injector) {
     scope: {
       collection: "@",
       columns: "=",
-      root: '@'
+      root: '@',
+      fields: "="
     },
     templateUrl: 'src/utils/recent.html',
     controller: RecentDirectiveCtrl,
@@ -45,7 +46,8 @@ tmpls.categoryLabel =
 
 function RecentDirectiveCtrl($scope, $injector) {
   var Collection = $injector.get($scope.collection),
-      columns = $scope.columns;
+      columns = $scope.columns,
+      fields = $scope.fields || {};
 
   if(!columns) {
     columns = [
@@ -61,7 +63,7 @@ function RecentDirectiveCtrl($scope, $injector) {
   });
 
 
-  Collection.recent().$promise.then(function(data) {
+  Collection.recent({filter: {fields: fields}}).$promise.then(function(data) {
     $scope.items = data;
   });
 

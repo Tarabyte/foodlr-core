@@ -21,6 +21,12 @@ angular
             {caption: 'Категория', tmpl: 'categoryLabel'}
           ];
 
+          $scope.productFields = $scope.recipeFields = {
+            id: true,
+            caption: true,
+            category: true
+          };
+
           $scope.articleColumns = [
             {caption: 'Название', tmpl: 'link'},
             {caption: 'Текст', tmpl: '{{::item.content|limitTo: 100|html}}...'}
@@ -30,6 +36,12 @@ angular
             {caption: 'Вопрос', tmpl: 'link'},
             {caption: 'Ответ', tmpl: '{{::item.content|limitTo: 100|html}}...'}
           ];
+
+          $scope.articleFields = $scope.faqFields = {
+            id: true,
+            caption: true,
+            content: true
+          }
         }],
         templateUrl: 'templates/index.html'
       });
