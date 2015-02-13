@@ -4,10 +4,10 @@
  * * archive - list all archive models
  */
 module.exports = function(app) {
-  var models = app.models;
+  var models = app.models();
 
-  Object.keys(models).forEach(function(name) {
-    var model = models[name],
+  models.forEach(function(model) {
+    var name = model.definition.name,
         active = model.definition.properties.active;
 
 

@@ -91,12 +91,14 @@ gulp.task('generate-services', function(done) {
   var generateServices = require('loopback-sdk-angular').services;
   var app = require('./server/server');
 
-  var client = generateServices(app, 'lbServices', '/api');
-  require('fs')
-  .writeFile('./client/src/lb-services.js', client, function() {
-    done();
-    this.process.exit();
-  });
+  app.boot(function() {
+      var client = generateServices(app, 'lbServices', '/api');
+      require('fs')
+      .writeFile('./client/src/lb-services.js', client, function() {
+        this.process.exit();
+        done();
+      });
+    });
 });
 
 /**

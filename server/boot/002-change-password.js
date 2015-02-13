@@ -46,7 +46,6 @@ module.exports = function(app, next) {
             });
           }
           else {
-            console.log('Old password: %s, for %s', data.password, user.username);
             user.hasPassword(data.password, function(err, hasPassword) {
               if(err) {
                 next(err);
@@ -62,8 +61,6 @@ module.exports = function(app, next) {
                 }
                 else {
                   user.password = data.newPassword;
-                  console.log('Saving new password.');
-                  console.log(user);
                   user.save(function(err) {
                     if(err) {
                       next(err);
