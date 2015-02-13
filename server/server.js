@@ -1,5 +1,6 @@
 var loopback = require('loopback');
 var boot = require('loopback-boot');
+var helmet = require('helmet');
 
 var app = module.exports = loopback();
 
@@ -24,6 +25,10 @@ app.boot = function(next) {
     }
   });
 };
+
+//protect by helmet
+app.disable('x-powered-by');
+app.use(helmet.frameguard('deny'));
 
 // start the server if `$ node server.js`
 if (require.main === module) {
