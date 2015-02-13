@@ -10,7 +10,10 @@ module.exports = function(app) {
     var model = models[name],
         active = model.definition.properties.active;
 
+
     if(active && active.type === Boolean) {
+      console.log('Adding active/archive methods to %s.', name);
+
       if(!model.archive) {
         model.archive = function(next) {
           model.find({where: {active: false}}, next);

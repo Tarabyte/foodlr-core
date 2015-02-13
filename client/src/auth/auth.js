@@ -40,11 +40,12 @@ angular
   }])
   .controller('ProfileCtrl', ['$scope', '$injector', function($scope, $injector){
     var SessionService = $injector.get('SessionService'),
-        user = SessionService.getCurrentUser();
+        user = SessionService.getCurrentUser(),
+        growl = $injector.get('growl');
 
     if(user == null) {
       SessionService.loadUser().then(function(data) {
-        $scope.user = user = data;
+        $scope.user = user = data.user||data;
       });
     }
     else {
@@ -58,10 +59,15 @@ angular
       changePassword: {},
       changePwd: function(valid) {
         if(!valid) {
-          console.log('invalid');
           return;
         }
-        console.log(this.changePassword);
+        SessionService.changePassword(this.changePassword)
+        .then(function() {
+          growl.info('Пароль сменен.', {ttl: 2000});
+        })
+        .catch(function() {
+          growl.error('Ошибка при смене пароля', {ttl: 5000});
+        });
       }
 
     });
@@ -157,9 +163,14 @@ angular
       scope: true,
       template: '<span class="small">Привет,</span> {{user.username}}',
       link: function(scope) {
-        SessionService.loadUser().then(function(user) {
-          scope.user = user;
-        });
+        function loadUser() {
+          SessionService.loadUser().then(function(user) {
+            scope.user = user;
+          });
+        }
+
+        scope.$on('signInOut', loadUser);
+        loadUser();
       }
     };
   }])
@@ -186,6 +197,11 @@ angular
 
     this.loadUser = function() {
       return User.getCurrent().$promise;
+    };
+
+    this.changePassword = function(data) {
+      return User.changePassword({id: authService.currentUserId, data: data})
+        .$promise;
     };
 
     this.checkAccess = function(event, to) {

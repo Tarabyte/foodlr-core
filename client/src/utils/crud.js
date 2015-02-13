@@ -29,7 +29,7 @@ crud
           },
 
           response: function(response) {
-            if(response.config.method === 'PUT') {
+            if(response && response.config.method === 'PUT') {
               growl.success('Сохранение прошло успешно.', {ttl: 2000});
             }
             return response;

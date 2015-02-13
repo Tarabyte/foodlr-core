@@ -15,7 +15,7 @@
     "public": true
   },
   "ACL": {
-    "dataSource": "mongo",
+    "dataSource": "db",
     "public": false
   },
   "RoleMapping": {
