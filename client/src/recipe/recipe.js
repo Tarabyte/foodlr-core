@@ -232,6 +232,10 @@ function RecipeItemCtrl($scope, $injector) {
         ingredient.txt = ingredientTitle(ingredient);
       }
 
+      if(product.invisible) {
+        ingredient.invisible = true;
+      }
+
       $scope.item.ingredients.push(ingredient);
       emptyIngredient();
     },
@@ -261,6 +265,11 @@ function RecipeItemCtrl($scope, $injector) {
         ingredients[index] = ingredients[index + 1];
         ingredients[index + 1] = item;
       }
+    },
+
+    toggleIngredient: function(index) {
+      var item = $scope.item.ingredients[index];
+      item.invisible = !item.invisible;
     },
 
     isTagSelected: function(tag) {

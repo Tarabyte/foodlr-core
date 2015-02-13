@@ -25,6 +25,10 @@
       "required": true,
       "default": true
     },
+    "invisible": {
+      "type": "boolean",
+      "default": false
+    },
     "calories": {
       "type": "number",
       "required": true

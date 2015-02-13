@@ -138,10 +138,16 @@
         </thead>
         <tbody>
           <tr ng-repeat="ingredient in item.ingredients">
-            <td>{{ingredient.caption}}</td>
+            <td>{{ingredient.caption}} <span ng-if="ingredient.invisible" title="Скрытый" class="label label-default" ng-click="ctrl.toggleIngredient($index)"><fa icon="eye-slash"/></span> <span ng-if="!ingredient.invisible" title="Отображается" class="label label-success" ng-click="ctrl.toggleIngredient($index)"><fa icon="eye"/></span></td>
             <td>
               <button type="button" class="btn btn-danger btn-sm" ng-click="ctrl.removeIngredient($index)" title="Убрать ингердиент"><fa icon="trash"/></button>
               <button type="button" class="btn btn-warning btn-sm" ng-click="ctrl.recalculateIngredientText($index)" title="Обновить количество прописью"><fa icon="eraser"/></button>
+              <button type="button" class="btn btn-sm btn-default" title="Скрыть" ng-click="ctrl.toggleIngredient($index)" ng-hide="ingredient.invisible">
+                <fa icon="eye-slash"/>
+              </button>
+              <button type="button" class="btn btn-sm btn-default" title="Показать" ng-click="ctrl.toggleIngredient($index)" ng-show="ingredient.invisible">
+                <fa icon="eye"/>
+              </button>
               <button type="button" class="btn btn-default btn-sm" ng-click="ctrl.moveIngredientUp($index)" title="Вверх" ng-if="!$first"><fa icon="arrow-up"/></button>
               <button type="button" class="btn btn-default btn-sm" ng-click="ctrl.moveIngredientDown($index)" title="Вниз" ng-if="!$last"><fa icon="arrow-down"/></button>
             </td>
