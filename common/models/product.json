@@ -13,6 +13,9 @@
     "description": {
       "type": "string"
     },
+    "short": {
+      "type": "string"
+    },
     "order": {
       "type": "number",
       "required": true
