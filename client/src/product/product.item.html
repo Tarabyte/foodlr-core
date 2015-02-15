@@ -9,12 +9,23 @@
     <label for="description" class="col-sm-2 control-label">Описание</label>
     <div class="col-sm-8">
       <textarea id="description" name="description" class="form-control" placeholder="Описание" ng-model="item.description" rows="10"></textarea>
+      <div class="progress">
+        <div class="progress-bar" ng-style="{width: (item.description.length || 0)/7 + '%'}" ng-class="{'progress-bar-danger': item.description.length < 200, 'progress-bar-warning':item.description.length >=200 && item.description.length < 500, 'progress-bar-success': item.description.length >= 500}">
+          {{item.description.length || 0}}
+        </div>
+      </div>
     </div>
+
   </div>
   <div class="form-group">
     <label for="short" class="col-sm-2 control-label">Краткое описание</label>
     <div class="col-sm-8">
       <textarea id="short" name="short" class="form-control" placeholder="Краткое описание" ng-model="item.short" rows="5"></textarea>
+      <div class="progress">
+        <div class="progress-bar" ng-style="{width: (item.short.length || 0)/3 + '%'}" ng-class="{'progress-bar-danger': item.short.length < 100, 'progress-bar-warning':item.short.length >=100 && item.short.length < 200, 'progress-bar-success': item.short.length >= 200}">
+          {{item.short.length || 0}}
+        </div>
+      </div>
     </div>
   </div>
   <div class="form-group">
