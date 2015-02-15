@@ -14,6 +14,6 @@ module.exports = {
     name: "images",
     connector: "loopback-component-storage",
     provider: "filesystem",
-    root: "storage"
+    root: env.FILES || "storage"
   }
 };
