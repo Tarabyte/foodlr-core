@@ -1,0 +1,15 @@
+<button type="button" class="btn btn-sm btn-danger" title="Удалить" ng-click="ctrl.remove(item.id)">
+  <fa icon="trash" />
+</button>
+<button type="button" class="btn btn-sm btn-warning" title="Деактивировать" ng-click="ctrl.toggle(item.id)" ng-show="item.active">
+  <fa icon="ban" />
+</button>
+<button type="button" class="btn btn-sm btn-success" title="Активировать" ng-click="ctrl.toggle(item.id)" ng-show="!item.active">
+  <fa icon="check" />
+</button>
+<button type="button" class="btn btn-sm btn-default" title="Вверх" ng-click="ctrl.up(item.id)" ng-show="item.order">
+  <fa icon="arrow-up" />
+</button>
+<button type="button" class="btn btn-sm btn-default" title="Вниз" ng-click="ctrl.down(item.id)" ng-show="item.order < list.length - 1">
+  <fa icon="arrow-down" />
+</button>

@@ -301,6 +301,8 @@ function ProductListCtrl($scope, $injector) {
     var $state = $injector.get('$state'),
       Collection = $injector.get('Product'),
       RangeService = $injector.get('RangeService'),
+      ToggleService = $injector.get('ToggleService'),
+      ReorderService = $injector.get('ReorderService'),
       page = 1,
       size = 10,
       pageList = [];
@@ -349,7 +351,7 @@ function ProductListCtrl($scope, $injector) {
     options.filter = filter;
 
     Collection.paginate(options).$promise.then(function(data) {
-      $scope.items = data.data;
+      $scope.list = data.data;
       $scope.pageList = data;
     });
   }
@@ -360,24 +362,15 @@ function ProductListCtrl($scope, $injector) {
 
   fetch();
 
+  ReorderService.reordify(this, $scope);
+  ToggleService.togglify(this, $scope);
+
   angular.extend(this, {
+    $Collection: Collection,
     data: $state.$current.data,
     remove: function(id) {
       if(confirm('Вы действительно хотите удалить продукт?')) {
         Collection.deleteById({id: id}).$promise.then(first);
-      }
-    },
-    /**
-     * Toggle Active state
-     */
-    toggle: function(id) {
-      var item = $scope.items.filter(function(item){
-        return item.id === id;
-      })[0];
-      if(item) {
-        Collection.toggle({id: id}).$promise.then(function() {
-          item.active = !item.active;
-        });
       }
     },
 

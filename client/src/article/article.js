@@ -4,6 +4,7 @@ function ArticleListCtrl($scope, $injector) {
       Rubric = $injector.get('Rubric'),
       Collection = $injector.get('Article'),
       RangeService = $injector.get('RangeService'),
+      ToggleService = $injector.get('ToggleService'),
       page = 1,
       size = 10,
       search = '',
@@ -87,7 +88,7 @@ function ArticleListCtrl($scope, $injector) {
     }
 
     Collection.paginate(options).$promise.then(function(data) {
-      $scope.items = data.data;
+      $scope.list = data.data;
       $scope.pageList = data;
     });
   }
@@ -103,24 +104,14 @@ function ArticleListCtrl($scope, $injector) {
     $scope.rubrics = data;
   });
 
+  ToggleService.togglify(this, $scope);
+
   angular.extend(this, {
     data: $state.$current.data,
+    $Collection: Collection,
     remove: function(id) {
       if(confirm('Вы действительно хотите удалить статью?')) {
         Collection.deleteById({id: id}).$promise.then(first);
-      }
-    },
-    /**
-     * Toggle Active state
-     */
-    toggle: function(id) {
-      var item = $scope.items.filter(function(item){
-        return item.id === id;
-      })[0];
-      if(item) {
-        Collection.toggle({id: id}).$promise.then(function() {
-          item.active = !item.active;
-        });
       }
     }
   });

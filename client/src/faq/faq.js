@@ -69,6 +69,8 @@ function FaqListCtrl($scope, $injector) {
       data = $state.$current.data,
       Collection = $injector.get(data.collection),
       Range = $injector.get('RangeService'),
+      ToggleService = $injector.get('ToggleService'),
+      ReorderService = $injector.get('ReorderService'),
       pageList = [],
       page = 1;
 
@@ -103,32 +105,23 @@ function FaqListCtrl($scope, $injector) {
     };
 
     Collection.paginate(options).$promise.then(function(data){
-      $scope.items = data.data;
+      $scope.list = data.data;
       $scope.pageList = data;
     })
   }
 
   fetch();
 
+  ToggleService.togglify(this, $scope);
+  ReorderService.reordify(this, $scope);
+
   angular.extend(this, {
     data: data,
+    $Collection: Collection,
     remove: function(id) {
       if(confirm('Вы действительно хотите удалить вопрос?')) {
         Collection.deleteById({id: id}).$promise.then(function() {
           $scope.page = 1;
-        });
-      }
-    },
-    /**
-     * Toggle Active state
-     */
-    toggle: function(id) {
-      var item = $scope.items.filter(function(item){
-        return item.id === id;
-      })[0];
-      if(item) {
-        Collection.toggle({id: id}).$promise.then(function() {
-          item.active = !item.active;
         });
       }
     }

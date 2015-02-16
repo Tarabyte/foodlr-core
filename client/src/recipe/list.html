@@ -42,10 +42,7 @@
               <span class="label label-default label-tag" ng-repeat="tag in item.tags"> {{::tag.caption}} </span>
             </div>
           </td>
-          <td>
-            <button type="button" class="btn btn-sm btn-danger" ng-click="ctrl.remove(item.id)"><fa icon="trash"/></button>
-            <button type="button" class="btn btn-sm btn-warning" title="Деактивировать" ng-click="ctrl.toggle(item.id)" ng-show="item.active"><fa icon="ban"/></button>
-            <button type="button" class="btn btn-sm btn-success" title="Активировать" ng-click="ctrl.toggle(item.id)" ng-show="!item.active"><fa icon="check"/></button>
+          <td actions>
           </td>
           <td>{{item.calories}}
             <div class="text-muted small" ng-if="item.fats || item.proteins ||item.carbs">ЖБУ: {{::item.fats}} : {{::item.proteins}} : {{::item.carbs}}</div>

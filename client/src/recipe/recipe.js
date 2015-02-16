@@ -13,6 +13,7 @@ function RecipeListCtlr($scope, $injector) {
       Category = $injector.get('Category'),
       $state = $injector.get('$state'),
       RangeService = $injector.get('RangeService'),
+      ToggleService = $injector.get('ToggleService'),
       page = 1, size = 10, search = "";
 
 
@@ -93,7 +94,10 @@ function RecipeListCtlr($scope, $injector) {
 
   fetch();
 
+  ToggleService.togglify(this, $scope);
+
   angular.extend(this, {
+    $Collection: Recipe,
     selectCategory: function(id) {
       $scope.currentCategory = $scope.currentCategory === id ? 0 : id;
       setPage(1);

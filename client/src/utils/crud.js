@@ -39,7 +39,85 @@ crud
   }])
   .controller('ListCtrl', ListCtrl)
   .controller('DefaultListCtrl', DefaultListCtrl)
-  .controller('ItemCtrl', ItemCtrl);
+  .controller('ItemCtrl', ItemCtrl)
+  .service('ReorderService', function() {
+    this.reordify = function(instance, $scope) {
+      function lookup(id, shift) {
+        var list = $scope.list,
+            a, b, index;
+
+        list.forEach(function(item, i) {
+          if(item.id === id) {
+            a = item;
+            index = i;
+            b = list[i + shift];
+          }
+        });
+
+        return {a: a, index: index, b: b, all: list};
+      }
+
+      angular.extend(instance, {
+        up: function(id) {
+          var data = lookup(id, -1),
+              a = data.a, b = data.b, index = data.index, all = data.all;
+          if(a && b) {
+            this.$Collection.swap({a: a.id, b: b.id}).$promise.then(function(){
+              var tmp = a.order;
+              a.order = b.order;
+              b.order = tmp;
+              all[index] = b;
+              all[index - 1] = a;
+
+            });
+          }
+        },
+
+        down: function(id) {
+          var data = lookup(id, 1),
+              a = data.a, b = data.b, index = data.index, all = data.all;
+          if(a && b) {
+            this.$Collection.swap({a: a.id, b: b.id}).$promise.then(function(){
+              var tmp = a.order;
+              a.order = b.order;
+              b.order = tmp;
+              all[index] = b;
+              all[index + 1] = a;
+            });
+          }
+        }
+      });
+    };
+
+  })
+  .service('ToggleService', function() {
+    this.togglify = function(instance, $scope) {
+      if(!instance.lookup) {
+        instance.lookup = function(id) {
+          return $scope.list.filter(function(item) {
+            return item.id === id;
+          })[0];
+        }
+      }
+      if(!instance.toggle) {
+        instance.toggle = function(id) {
+          var item = this.lookup(id);
+          if(item) {
+            this.$Collection.toggle({id: item.id}).$promise.then(function() {
+              item.active = !item.active;
+            })
+          }
+        }
+      }
+    }
+  })
+  .directive('actions', function() {
+    return {
+      restrict: 'AE',
+      templateUrl: 'src/utils/actions.html'
+    }
+
+  });
 
 
 
@@ -49,7 +127,9 @@ crud
 function ListCtrl($scope, $injector) {
   var $state = $injector.get('$state'),
       data = $state.$current.data,
-      Collection = $injector.get(data.collection);
+      Collection = $injector.get(data.collection),
+      ReorderService = $injector.get('ReorderService'),
+      ToggleService = $injector.get('ToggleService');
 
   $scope.list = []; //current items
   $scope.item = {}; //editable
@@ -65,6 +145,9 @@ function ListCtrl($scope, $injector) {
   }
 
   fetch();
+
+  ReorderService.reordify(this, $scope);
+  ToggleService.togglify(this, $scope);
 
   extend(this, {
     $Collection: Collection,
@@ -88,14 +171,7 @@ function ListCtrl($scope, $injector) {
       if(confirm('Вы действительно хотите удалить объект?')) {
         Collection.deleteById({id: id}).$promise.then(fetch);
       }
-    },
-
-    lookup: function(id) {
-      return $scope.list.filter(function(item) {
-        return item.id === id;
-      })[0];
     }
-
   });
 
 }
@@ -110,17 +186,6 @@ ListCtrl.$inject = ['$scope', '$injector'];
 function DefaultListCtrl($scope) {
   ListCtrl.apply(this, arguments);
   extend(this, {
-    /**
-     * Toggle item active flag.
-     */
-    toggle: function(id) {
-      var item = this.lookup(id);
-      if(item) {
-        this.$Collection.toggle(item).$promise.then(function() {
-          item.active = !item.active;
-        });
-      }
-    },
     /**
      * Add order based on current items count.
      */

@@ -18,10 +18,7 @@
             <a ui-sref="{{ctrl.data.root}}.item({id: item.id})">{{item.caption}}</a>
             <div class="text-muted small">{{item.description}}</div>
           </td>
-          <td>
-              <button type="button" class="btn btn-sm btn-danger" title="Удалить" ng-click="ctrl.remove(item.id)"><fa icon="trash"/></button>
-            <button type="button" class="btn btn-sm btn-warning" title="Деактивировать" ng-click="ctrl.toggle(item.id)" ng-show="item.active"><fa icon="ban"/></button>
-            <button type="button" class="btn btn-sm btn-success" title="Активировать" ng-click="ctrl.toggle(item.id)" ng-show="!item.active"><fa icon="check"/></button>
+          <td actions>
           </td>
           <td>{{item.active ? 'Да': 'Нет'}}</td>
           <td>{{item.order}}</td>

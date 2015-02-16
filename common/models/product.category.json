@@ -2,6 +2,9 @@
   "name": "ProductCategory",
   "base": "PersistedModel",
   "idInjection": true,
+  "scope": {
+    "order": "order"
+  },
   "properties": {
     "caption": {
       "type": "string",

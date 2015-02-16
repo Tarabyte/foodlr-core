@@ -16,21 +16,33 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="item in items">
+        <tr ng-repeat="item in list">
           <td>
             <a ui-sref="{{ctrl.data.root}}.item({id: item.id})">{{::item.caption}}</a>
           </td>
           <td>
-              <button type="button" class="btn btn-sm btn-danger" title="Удалить" ng-click="ctrl.remove(item.id)"><fa icon="trash"/></button>
-            <button type="button" class="btn btn-sm btn-warning" title="Деактивировать" ng-click="ctrl.toggle(item.id)" ng-show="item.active"><fa icon="ban"/></button>
-            <button type="button" class="btn btn-sm btn-success" title="Активировать" ng-click="ctrl.toggle(item.id)" ng-show="!item.active"><fa icon="check"/></button>
+           <button type="button" class="btn btn-sm btn-danger" title="Удалить" ng-click="ctrl.remove(item.id)">
+              <fa icon="trash" />
+            </button>
+            <button type="button" class="btn btn-sm btn-warning" title="Деактивировать" ng-click="ctrl.toggle(item.id)" ng-show="item.active">
+              <fa icon="ban" />
+            </button>
+            <button type="button" class="btn btn-sm btn-success" title="Активировать" ng-click="ctrl.toggle(item.id)" ng-show="!item.active">
+              <fa icon="check" />
+            </button>
+            <button type="button" class="btn btn-sm btn-default" title="Вверх" ng-click="ctrl.up(item.id)" ng-show="!$first">
+              <fa icon="arrow-up" />
+            </button>
+            <button type="button" class="btn btn-sm btn-default" title="Вниз" ng-click="ctrl.down(item.id)" ng-show="!$last">
+              <fa icon="arrow-down" />
+            </button>
           </td>
           <td>{{item.active ? 'Да': 'Нет'}}</td>
-          <td>{{::item.order}}</td>
+          <td>{{item.order}}</td>
           <td><span class="label label-info">{{::item.category.caption}}</span></td>
         </tr>
       </tbody>
-      <tbody ng-if="!items.length">
+      <tbody ng-if="!list.length">
         <tr>
           <td colspan="5">Нет записей</td>
         </tr>
