@@ -4,8 +4,11 @@ var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
 var mocha = require('gulp-mocha');
 var coffee = require('coffee-script');
-var connect = require('gulp-connect');
+var connect = require('connect');
+var tinyLr = require('tiny-lr');
 var proxy = require('proxy-middleware');
+var static = require('serve-static');
+var http = require('http');
 var _ = require('lodash');
 var less = require('gulp-less');
 
@@ -17,6 +20,19 @@ var tests = './test/**/[^_]*'; // _something is not a test but a fixture of what
 var testSrc = './test/**/*'; //all files
 var client = 'client';
 var lessSrc = './client/styles/**/*.less';
+
+var lr;
+function notifyLr(file) {
+  var fileName = require('path').relative(client, file.path);
+
+  console.log('Reloading: %s', fileName);
+
+  lr.changed({
+    body: {
+      files: [fileName]
+    }
+  })
+}
 
 /**
  * Lint source files
@@ -45,26 +61,27 @@ gulp.task('server', ['backend'], function() {
   var config = require('./server/config.json'),
       apiRoot = config.restApiRoot,
       host = config.host,
-      port = config.port;
-
-  connect.server({
-    livereload: true,
-    port: 8666,
-    root: client,
-    middleware: function() {
-      var options = {
+      port = config.port,
+      server = connect(),
+      options = {
         hostname: host,
         port: port,
         pathname: apiRoot
       };
 
-      options.route = apiRoot;
+  lr = tinyLr();
 
-      return [
-        proxy(options)
-      ];
-    }
-  });
+  lr.listen(35729);
+
+  options.route = apiRoot;
+
+  server.use(proxy(options));
+
+  server.use(static(client, {
+    index: 'index.dev.html'
+  }));
+
+  http.createServer(server).listen(8666);
 });
 
 /**
@@ -121,8 +138,8 @@ gulp.task('watch', function() {
   gulp.watch(sourceJs, ['lint', 'test']);
   gulp.watch(sourceJs.concat(testSrc), ['test']);
   gulp.watch(lessSrc, ['less']);
-  gulp.watch('client/**/*', _.debounce(function() {
-    return gulp.src('client').pipe(connect.reload());
+  gulp.watch('client/**/*', _.debounce(function(arg) {
+    notifyLr(arg);
   }, 1000));
 });
 
