@@ -1,4 +1,4 @@
-define(['angular', 'utils/crud', 'utils/utils', 'ngSanitize',
+define(['angular', '../utils/crud', '../utils/utils', 'ngSanitize',
        'angular-file-upload'], function(angular){
   angular
     .module('product', ['crud', 'utils', 'ngSanitize', 'angularFileUpload'])

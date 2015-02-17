@@ -1,4 +1,4 @@
-define(['angular', 'utils/crud'], function(angular){
+define(['angular', '../utils/crud'], function(angular){
   'use strict';
   angular.module('faq', ['crud'])
     .config(['$stateProvider', function($stateProvider){

@@ -1,5 +1,5 @@
-define(['angular', 'lbServices', 'utils/crud', 'utils/utils',
-       'ui.select', 'angular-file-upload', 'html/html'], function(angular){
+define(['angular', 'lbServices', '../utils/crud', '../utils/utils',
+       'ui.select', 'angular-file-upload', '../html/html'], function(angular){
   'use strict';
 
   function round(val, to) {

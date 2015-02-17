@@ -1,4 +1,4 @@
-define(['angular', 'lbServices', 'utils/crud'], function(angular){
+define(['angular', 'lbServices', '../utils/crud'], function(angular){
   angular.module('category', ['lbServices', 'crud'])
     .config(['$stateProvider', function($stateProvider) {
       $stateProvider

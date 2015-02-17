@@ -139,6 +139,10 @@ gulp.task('less', function() {
     .pipe(gulp.dest('./client/styles/'));
 });
 
+
+/**
+ * Concat and minify css files,
+ */
 gulp.task('css', ['less'], function() {
   return gulp.src(cssSrc)
       .pipe(rebaseCss({root: client}))
@@ -146,6 +150,32 @@ gulp.task('css', ['less'], function() {
       .pipe(minifyCss())
       .pipe(gulp.dest(client));
 });
+
+/**
+ * Minify js files.
+ */
+gulp.task('scripts', function(next) {
+  var requirejs = require('requirejs'),
+      config = require('./client/config');
+  var settings = {
+    uglify2: true,
+    out: 'client/foodlr.min.js',
+    name: 'src/main',
+    optimize: 'uglify2',
+    baseUrl: 'client',
+    paths: config.paths,
+    shim: config.shim
+  };
+
+  requirejs.optimize(settings, function(data){
+      console.log('Production build ok!');
+      next();
+  }, function(err) {
+      console.log('Production build fail!', err);
+      next();
+  });
+});
+
 
 /**
  * Big Brother.

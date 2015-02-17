@@ -149,9 +149,9 @@ define(['angular','ui.router', 'lbServices', 'ngMessages', 'dropdown'], function
       return {
         restrict: 'E',
         scope: true,
-        controller: function($scope) {
+        controller: ['$scope', function($scope) {
           $scope.logout = SessionService.signOut.bind(SessionService);
-        },
+        }],
         link: function(scope, element) {
           element.replaceWith(tmpl(scope));
         }

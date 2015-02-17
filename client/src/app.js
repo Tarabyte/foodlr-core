@@ -1,5 +1,5 @@
-define(['angular' , 'ui.router', 'utils/crud', 'auth/auth', 'utils/utils',
-        'recipe/recipe', 'product/product', 'article/article', 'category/category', 'rubric/rubric', 'faq/faq'], function(angular){
+define(['angular' , 'ui.router', './utils/crud', './auth/auth', './utils/utils',
+        './recipe/recipe', './product/product', './article/article', './category/category', './rubric/rubric', './faq/faq'], function(angular){
   angular
     .module('app',
       ['crud', 'ui.router', 'auth', 'utils', 'rubric', 'category', 'recipe',

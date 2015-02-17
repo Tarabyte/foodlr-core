@@ -1,5 +1,5 @@
-define(['angular','lbServices', 'utils/crud', 'utils/utils',
-        'angular-file-upload', 'html/html'], function(angular){
+define(['angular','lbServices', '../utils/crud', '../utils/utils',
+        'angular-file-upload', '../html/html'], function(angular){
   function ArticleListCtrl($scope, $injector) {
     var $state = $injector.get('$state'),
         Rubric = $injector.get('Rubric'),
