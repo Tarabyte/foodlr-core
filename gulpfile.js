@@ -14,7 +14,7 @@ var less = require('gulp-less');
 var minifyCss = require('gulp-minify-css');
 var concat = require('gulp-concat');
 var rebaseCss = require('gulp-css-rebase-urls');
-
+var angularTemplates = require('gulp-angular-templatecache');
 
 
 coffee.register();
@@ -25,6 +25,7 @@ var testSrc = './test/**/*'; //all files
 var client = 'client';
 var lessSrc = './client/styles/**/*.less';
 var cssSrc = ["client/vendor/font-awesome/css/font-awesome.css", "client/vendor/angular-ui-select/dist/select.css", "client/vendor/textAngular/src/textAngular.css", "client/vendor/angular-growl-v2/build/angular-growl.css", "client/styles/foodlr.css",'client/vendor/angular/angular-csp.css'];
+var templateSrc = ['client/templates/**/*.html', 'client/src/**/*.html'];
 
 var lr;
 
@@ -152,11 +153,29 @@ gulp.task('css', ['less'], function() {
 });
 
 /**
+ * Preload and cache templates.
+ */
+gulp.task('templates', function() {
+  return gulp.src(templateSrc)
+    .pipe(angularTemplates('templates.prod.js', {
+      moduleSystem: 'RequireJS',
+      standalone: true,
+      module: 'templates',
+      root: 'src'
+    }))
+    .pipe(gulp.dest('client/src/templates'));
+});
+
+/**
  * Minify js files.
  */
-gulp.task('scripts', function(next) {
+gulp.task('scripts', ['templates'], function(next) {
   var requirejs = require('requirejs'),
-      config = require('./client/config');
+      config = require('./client/config'),
+      paths = config.paths;
+
+  paths.templates = 'src/templates/templates.prod'
+
   var settings = {
     uglify2: true,
     out: 'client/foodlr.min.js',
@@ -164,7 +183,8 @@ gulp.task('scripts', function(next) {
     optimize: 'uglify2',
     baseUrl: 'client',
     paths: config.paths,
-    shim: config.shim
+    shim: config.shim,
+
   };
 
   requirejs.optimize(settings, function(data){
@@ -190,3 +210,5 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', ['lint', 'test', 'less', 'watch', 'server']);
+
+gulp.task('build', ['css', 'scripts']);

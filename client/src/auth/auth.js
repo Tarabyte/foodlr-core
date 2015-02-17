@@ -28,7 +28,7 @@ define(['angular','ui.router', 'lbServices', 'ngMessages', 'dropdown'], function
           data: {
             unprotected: true
           },
-          templateUrl: 'templates/auth/login.html',
+          templateUrl: 'src/auth/login.html',
           controller: 'LoginCtrl'
         })
         .state('profile', {

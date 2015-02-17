@@ -22,7 +22,9 @@
 
       growl: 'vendor/angular-growl-v2/build/angular-growl',
 
-      dropdown: 'vendor/bootstrap/js/dropdown'
+      dropdown: 'vendor/bootstrap/js/dropdown',
+
+      templates: 'src/templates/templates'
     },
     name: 'main',
     shim: {

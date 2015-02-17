@@ -22,13 +22,15 @@
     <!--noindex-->
     <div growl></div>
     <div class="container-main">
-      <ng-include src="'templates/header.html'"></ng-include>
+      <ng-include src="'src/templates/header.html'"></ng-include>
       <div class="container-fluid" ui-view></div>
       <div class="push"></div>
     </div>
-    <ng-include src="'templates/footer.html'"></ng-include>
-    <script src="vendor/requirejs/require.js" data-main="src/main.js"></script>
+    <ng-include src="'src/templates/footer.html'"></ng-include>
+    <script src="vendor/requirejs/require.js"></script>
     <script src="foodlr.min.js"></script>
-
+    <script>
+      require(['src/main'], function(){});
+    </script>
   </body>
 </html>

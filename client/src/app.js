@@ -1,9 +1,9 @@
 define(['angular' , 'ui.router', './utils/crud', './auth/auth', './utils/utils',
-        './recipe/recipe', './product/product', './article/article', './category/category', './rubric/rubric', './faq/faq'], function(angular){
+        './recipe/recipe', './product/product', './article/article', './category/category', './rubric/rubric', './faq/faq', 'templates'], function(angular){
   angular
     .module('app',
       ['crud', 'ui.router', 'auth', 'utils', 'rubric', 'category', 'recipe',
-       'article', 'product', 'faq']
+       'article', 'product', 'faq', 'templates']
       )
     .config(['$stateProvider', '$urlRouterProvider',
       function($stateProvider, $urlRouterProvider) {
@@ -45,7 +45,7 @@ define(['angular' , 'ui.router', './utils/crud', './auth/auth', './utils/utils',
               content: true
             }
           }],
-          templateUrl: 'templates/index.html'
+          templateUrl: 'src/templates/index.html'
         });
 
     }])
