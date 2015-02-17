@@ -11,6 +11,10 @@ var static = require('serve-static');
 var http = require('http');
 var _ = require('lodash');
 var less = require('gulp-less');
+var minifyCss = require('gulp-minify-css');
+var concat = require('gulp-concat');
+var rebaseCss = require('gulp-css-rebase-urls');
+
 
 
 coffee.register();
@@ -20,8 +24,10 @@ var tests = './test/**/[^_]*'; // _something is not a test but a fixture of what
 var testSrc = './test/**/*'; //all files
 var client = 'client';
 var lessSrc = './client/styles/**/*.less';
+var cssSrc = ["client/vendor/font-awesome/css/font-awesome.css", "client/vendor/angular-ui-select/dist/select.css", "client/vendor/textAngular/src/textAngular.css", "client/vendor/angular-growl-v2/build/angular-growl.css", "client/styles/foodlr.css",'client/vendor/angular/angular-csp.css'];
 
 var lr;
+
 function notifyLr(file) {
   var fileName = require('path').relative(client, file.path);
 
@@ -47,7 +53,9 @@ gulp.task('lint', function() {
  * Test source files.
  */
 gulp.task('test', function() {
-  return gulp.src(tests, {read: false})
+  return gulp.src(tests, {
+    read: false
+  })
     .pipe(mocha({
       reporter: 'nyan',
       ui: 'bdd'
@@ -59,15 +67,15 @@ gulp.task('test', function() {
  */
 gulp.task('server', ['backend'], function() {
   var config = require('./server/config.json'),
-      apiRoot = config.restApiRoot,
-      host = config.host,
-      port = config.port,
-      server = connect(),
-      options = {
-        hostname: host,
-        port: port,
-        pathname: apiRoot
-      };
+    apiRoot = config.restApiRoot,
+    host = config.host,
+    port = config.port,
+    server = connect(),
+    options = {
+      hostname: host,
+      port: port,
+      pathname: apiRoot
+    };
 
   lr = tinyLr();
 
@@ -90,7 +98,7 @@ gulp.task('server', ['backend'], function() {
 gulp.task('backend', function(next) {
   //process.env.DEBUG = "loopback:connector:mongodb";
 
-  require('child_process').exec('slc run', process, function (error, stdout, stderr) {
+  require('child_process').exec('slc run', process, function(error, stdout, stderr) {
     console.log('stdout: ' + stdout);
     console.log('stderr: ' + stderr);
     if (error !== null) {
@@ -109,13 +117,13 @@ gulp.task('generate-services', function(done) {
   var app = require('./server/server');
 
   app.boot(function() {
-      var client = generateServices(app, 'lbServices', '/api');
-      require('fs')
+    var client = generateServices(app, 'lbServices', '/api');
+    require('fs')
       .writeFile('./client/src/lb-services.js', client, function() {
         this.process.exit();
         done();
       });
-    });
+  });
 });
 
 /**
@@ -129,6 +137,14 @@ gulp.task('less', function() {
       this.end();
     }))
     .pipe(gulp.dest('./client/styles/'));
+});
+
+gulp.task('css', ['less'], function() {
+  return gulp.src(cssSrc)
+      .pipe(rebaseCss({root: client}))
+      .pipe(concat('foodlr.min.css'))
+      .pipe(minifyCss())
+      .pipe(gulp.dest(client));
 });
 
 /**

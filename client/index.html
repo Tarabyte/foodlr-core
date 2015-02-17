@@ -8,16 +8,18 @@
     <meta name="description" content="Панель администратора foodlr.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="fav.png">
-    <link rel="stylesheet" type="text/css" href="foodlr.css">
+    <link rel="stylesheet" type="text/css" href="foodlr.min.css">
   </head>
 
   <body ng-app="app">
+    <!--noindex-->
     <noscript>
       Для работы приложения очень нужен javascript. Это же панель администратора в конце-то концов.
     </noscript>
     <!--[if lt IE 10]>
             <p class="browserupgrade">Ты используешь устаревший браузер. :) Нужно что-нибудь сильно поновее.</p>
     <![endif]-->
+    <!--noindex-->
     <div growl></div>
     <div class="container-main">
       <ng-include src="'templates/header.html'"></ng-include>
@@ -25,7 +27,8 @@
       <div class="push"></div>
     </div>
     <ng-include src="'templates/footer.html'"></ng-include>
-
+    <script src="config.js"></script>
+    <script src="vendor/requirejs/require.js" data-main="src/main.js"></script>
 
   </body>
 </html>
