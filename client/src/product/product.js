@@ -346,7 +346,8 @@ define(['angular', '../utils/crud', '../utils/utils', 'ngSanitize',
         where: {},
         fields: {
           images: false
-        }
+        },
+        order: 'order DESC'
       };
 
       options.filter = filter;
