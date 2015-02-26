@@ -73,5 +73,9 @@
   "faq": {
     "dataSource": "mongo",
     "public": true
+  },
+  "subscription": {
+    "dataSource": "mongo",
+    "public": true
   }
 }

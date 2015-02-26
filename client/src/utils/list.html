@@ -24,7 +24,7 @@
           <td>{{item.order}}</td>
         </tr>
       </tbody>
-      <tfoot>
+      <tfoot ng-if="!ctrl.data.readonly">
         <tr>
           <td colspan="4">
             <form class="form-inline" ng-submit="ctrl.save()">
