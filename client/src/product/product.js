@@ -318,13 +318,19 @@ define(['angular', '../utils/crud', '../utils/utils', 'ngSanitize',
           pageList = RangeService.range(this.page, data.pages);
         }
       },
+      lastPage: {
+        enumerable: true,
+        get: function() {
+          return this.pageList.slice(-1)[0] || 1;
+        }
+      },
       page: {
         enumerable: true,
         get: function() {
           return page;
         },
         set: function(val) {
-          if(val > 0 && val <= this.pageList.length) {
+          if(val > 0 && val <= this.lastPage) {
             page = val;
             fetch();
           }

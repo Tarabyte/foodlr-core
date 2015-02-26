@@ -119,8 +119,11 @@ define(['angular', 'lbServices', '../utils/crud', '../utils/utils',
           setPage(index);
         }
       },
+      lastPage: function() {
+        return $scope.pageList.slice(-1)[0] || 1;
+      },
       next: function() {
-        if(page < $scope.pageList.length) {
+        if(page <= this.lastPage()) {
           setPage(++page);
 
         }

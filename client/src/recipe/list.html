@@ -76,7 +76,7 @@
               <li ng-repeat="current in pageList" ng-class="{active: current===page}">
                 <a ng-click="ctrl.goto(current)" href="javascript: void 0;">{{current}}</a>
               </li>
-              <li ng-class="{disabled: page===pageList.length}">
+              <li ng-class="{disabled: page===ctrl.lastPage()}">
                 <a ng-click="ctrl.next()" href="javascript: void 0;">&raquo;</a>
               </li>
             </ul>

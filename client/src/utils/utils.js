@@ -27,7 +27,9 @@ define(['angular', './recent'], function(angular) {
         return start.concat(middle, end).filter(function(item) {
           return item > 0 && item <= max;
         })
-        .sort()
+        .sort(function(a, b) {
+          return a - b;
+        })
         .filter(function(item, i, array) {
           return item !== array[i-1];
         });

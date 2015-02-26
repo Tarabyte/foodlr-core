@@ -52,7 +52,7 @@
           </td>
         </tr>
       </tbody>
-      <tbody ng-if="!items.length">
+      <tbody ng-if="!list.length">
         <tr>
           <td colspan="5">Нет записей</td>
         </tr>
@@ -67,7 +67,7 @@
               <li ng-repeat="current in pageList" ng-class="{active: current===page}">
                 <a ng-click="page = current" href="javascript: void 0;">{{current}}</a>
               </li>
-              <li ng-class="{disabled: page===pageList.length}">
+              <li ng-class="{disabled: page===lastPage}">
                 <a ng-click="page = page + 1" href="javascript: void 0;">&raquo;</a>
               </li>
             </ul>
