@@ -119,49 +119,12 @@
     <div class="text-center">
       <label class="control-label">Питательные вещества</label>
     </div>
-    <div class="col-xs-6 col-sm-3">
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="nutrient in item.nutrients" ng-if="$index%4 === 0">
-          <div class="input-group input-group-sm">
-            <span class="input-group-addon">{{nutrient.caption}}</span>
-            <input type="number" ng-model="nutrient.value" class="form-control" step="any">
-            <span class="input-group-addon">{{nutrient.unit}}</span>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="col-xs-6 col-sm-3">
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="nutrient in item.nutrients" ng-if="$index%4 === 1">
-          <div class="input-group input-group-sm">
-            <span class="input-group-addon">{{nutrient.caption}}</span>
-            <input type="number" ng-model="nutrient.value" class="form-control" step="any">
-            <span class="input-group-addon">{{nutrient.unit}}</span>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="col-xs-6 col-sm-3">
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="nutrient in item.nutrients" ng-if="$index%4 === 2">
-          <div class="input-group input-group-sm">
-            <span class="input-group-addon">{{nutrient.caption}}</span>
-            <input type="number" ng-model="nutrient.value" class="form-control" step="any">
-            <span class="input-group-addon">{{nutrient.unit}}</span>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="col-xs-6 col-sm-3">
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="nutrient in item.nutrients" ng-if="$index%4 === 3">
-          <div class="input-group input-group-sm">
-            <span class="input-group-addon">{{nutrient.caption}}</span>
-            <input type="number" ng-model="nutrient.value" class="form-control" step="any">
-            <span class="input-group-addon">{{nutrient.unit}}</span>
-          </div>
-        </li>
-      </ul>
+    <div class="col-lg-3 col-md-4 col-xs-6 input-group-nutrient" ng-repeat="nutrient in item.nutrients">
+      <div class="input-group input-group-sm">
+        <span class="input-group-addon" title="{{::nutrient.caption}}">{{::nutrient.caption}}</span>
+        <input type="number" ng-model="nutrient.value" class="form-control" step="any">
+        <span class="input-group-addon">{{::nutrient.unit}}</span>
+      </div>
     </div>
   </div>
 
