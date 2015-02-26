@@ -42,7 +42,7 @@ define(['angular', 'lbServices', '../utils/crud', '../utils/utils',
       $scope.categories = data;
     });
 
-    $scope.items = [];
+    $scope.list = [];
     Object.defineProperty($scope, 'page', {
       get: function() {
         return page;
@@ -88,7 +88,7 @@ define(['angular', 'lbServices', '../utils/crud', '../utils/utils',
         }
       }
       Recipe.paginate(options).$promise.then(function(data) {
-        $scope.items = data.data;
+        $scope.list = data.data;
         $scope.pageList = RangeService.range(page, data.pages);
       });
     }
@@ -120,7 +120,7 @@ define(['angular', 'lbServices', '../utils/crud', '../utils/utils',
         }
       },
       lastPage: function() {
-        return $scope.pageList.slice(-1)[0] || 1;
+        return $scope.pageList ? $scope.pageList.slice(-1)[0] : 1;
       },
       next: function() {
         if(page <= this.lastPage()) {
@@ -133,20 +133,7 @@ define(['angular', 'lbServices', '../utils/crud', '../utils/utils',
           setPage(--page);
         }
       },
-      data: $state.$current.data,
-      /**
-       * Toggle Active state
-       */
-      toggle: function(id) {
-        var item = $scope.items.filter(function(item){
-          return item.id === id;
-        })[0];
-        if(item) {
-          Recipe.toggle({id: id}).$promise.then(function() {
-            item.active = !item.active;
-          });
-        }
-      }
+      data: $state.$current.data
     });
   }
 

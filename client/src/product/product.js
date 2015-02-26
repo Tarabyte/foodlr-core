@@ -304,9 +304,24 @@ define(['angular', '../utils/crud', '../utils/utils', 'ngSanitize',
         RangeService = $injector.get('RangeService'),
         ToggleService = $injector.get('ToggleService'),
         ReorderService = $injector.get('ReorderService'),
+        Category = $injector.get('ProductCategory'),
+        Tag = $injector.get('Tag'),
         page = 1,
         size = 10,
-        pageList = [];
+        pageList = [],
+        currentCategory = 0,
+        currentTag = 0,
+        search = "";
+
+    Category.active().$promise.then(function(data) {
+      data.unshift({id: 0, caption: 'Все'});
+      $scope.categories = data;
+    });
+
+    Tag.active().$promise.then(function(data) {
+      data.unshift({id: 0, caption: 'Все'});
+      $scope.tags = data;
+    });
 
     Object.defineProperties($scope, {
       pageList: {
@@ -340,6 +355,37 @@ define(['angular', '../utils/crud', '../utils/utils', 'ngSanitize',
         enumerable: true,
         value: {},
         writable: true
+      },
+      currentCategory: {
+        enumerable: true,
+        get: function() {
+          return currentCategory;
+        },
+        set: function(val) {
+          currentCategory = val === currentCategory ? 0 : val;
+          this.page = 1;
+        }
+      },
+      currentTag: {
+        enumerable: true,
+        get: function() {
+          return currentTag;
+        },
+        set: function(val) {
+          currentTag = val === currentTag ? 0 : val;
+          this.page = 1;
+        }
+      },
+
+      search: {
+        enumerable: true,
+        get: function() {
+          return search;
+        },
+        set: function(val) {
+          search = val;
+          this.page = 1;
+        }
       }
     });
 
@@ -357,6 +403,27 @@ define(['angular', '../utils/crud', '../utils/utils', 'ngSanitize',
       };
 
       options.filter = filter;
+
+      if(currentCategory) {
+        filter.where['category.id'] = $scope.currentCategory;
+      }
+
+      if(currentTag) {
+        filter.where['tags.id'] = $scope.currentTag;
+      }
+
+      if(search) {
+        var tokens = search.split(' ').filter(Boolean);
+        if(tokens.length > 1) { //fulltext mode
+          filter.where.$text = {search: search};
+        }
+        else {
+          filter.where.or = [
+            {caption: {like: search}},
+            {content: {like: search}}
+          ];
+        }
+      }
 
       Collection.paginate(options).$promise.then(function(data) {
         $scope.list = data.data;

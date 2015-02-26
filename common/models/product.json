@@ -2,6 +2,23 @@
   "name": "product",
   "base": "PersistedModel",
   "idInjection": true,
+  "indexes": {
+    "fulltext": {
+      "keys": {
+        "caption": "text",
+        "description": "text",
+        "short": "text"
+      },
+      "options": {
+        "default_language": "russian",
+        "weights": {
+          "caption": 10,
+          "description": 1,
+          "short": 1
+        }
+      }
+    }
+  },
   "scope": {
     "order": "order"
   },

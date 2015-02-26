@@ -34,7 +34,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="item in items">
+        <tr ng-repeat="item in list">
           <td>
             <a ui-sref="{{ctrl.data.root}}.item({id: item.id})">{{::item.caption}}</a>
             <span class="badge" title="Количество публикаций">{{::item.publications}}</span>
@@ -61,7 +61,7 @@
           </td>
         </tr>
       </tbody>
-      <tbody ng-if="!items.length">
+      <tbody ng-if="!list.length">
         <tr>
           <td colspan="7">Нет записей</td>
         </tr>
