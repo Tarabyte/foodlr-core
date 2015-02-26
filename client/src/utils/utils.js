@@ -1,6 +1,7 @@
-define(['angular', './recent'], function(angular) {
+/*global define*/
+define(['angular', './recent', './progress.bar/progress.bar'], function(angular) {
   'use strict';
-  angular.module('utils', ['recent'])
+  angular.module('utils', ['recent', 'utils.progress.bar'])
     .directive('fa', function() {
       return {
         restrict: 'E',

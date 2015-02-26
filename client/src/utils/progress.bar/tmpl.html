@@ -1,0 +1,5 @@
+<div class="progress">
+  <div class="progress-bar" style="max-width:100%;" ng-style="{width: (value || 0)*100/expected + '%'}" ng-class="{'progress-bar-danger': value < error, 'progress-bar-warning':value >= error && value < warn, 'progress-bar-success': value >= warn}">
+    {{value || 0}}
+  </div>
+</div>
