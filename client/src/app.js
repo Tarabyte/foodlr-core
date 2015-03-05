@@ -12,7 +12,7 @@ define(['angular' , 'ui.router', './utils/crud', './auth/auth', './utils/utils',
         $stateProvider
         .state('index', {
           url: '/',
-          controller: ['$scope', function($scope) {
+          controller: ['$scope', '$injector', function($scope, $injector) {
             $scope.recipeColumns = [
               {caption: 'Название', tmpl: 'link'},
               {caption: 'Категория', tmpl: 'categoryLabel'}
@@ -43,7 +43,17 @@ define(['angular' , 'ui.router', './utils/crud', './auth/auth', './utils/utils',
               id: true,
               caption: true,
               content: true
-            }
+            };
+
+            //count
+            $injector.get('Recipe').count().$promise.then(function(data){
+              $scope.recipeCount = data.count;
+            });
+
+            $injector.get('Product').count().$promise.then(function(data){
+              $scope.productCount = data.count;
+            });
+
           }],
           templateUrl: 'src/templates/index.html'
         });

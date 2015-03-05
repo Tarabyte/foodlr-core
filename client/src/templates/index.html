@@ -5,6 +5,7 @@
 <div class="row">
   <div class="col-sm-6">
     <h2><a ui-sref="recipies.list">Рецептики</a> <a ui-sref="recipies.new" class="btn btn-success btn-sm"><fa icon="plus"/></a></h2>
+    <progress-bar value="recipeCount" expected="1000"></progress-bar>
     <recent collection="Recipe" root="recipies" columns="recipeColumns" fields="recipeFields"></recent>
   </div>
   <div class="col-sm-6">
@@ -15,6 +16,7 @@
 <div class="row">
   <div class="col-sm-6">
     <h2><a ui-sref="products.main.list">Продуктики</a></h2>
+    <progress-bar value="productCount" expected="500"></progress-bar>
     <recent collection="Product" root="products" columns="productColumns" fields="productFields"></recent>
   </div>
   <div class="col-sm-6">
