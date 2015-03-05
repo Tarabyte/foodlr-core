@@ -39,7 +39,7 @@
             <a ui-sref="{{ctrl.data.root}}.item({id: item.id})">{{::item.caption}}</a>
             <span class="badge" title="Количество публикаций">{{::item.publications}}</span>
             <div>
-              <span class="label label-default label-tag" ng-repeat="tag in item.tags"> {{::tag.caption}} </span>
+              <span ng-repeat="tag in item.tags"><span class="label label-default" >{{::tag.caption}}</span>&nbsp; </span>
             </div>
           </td>
           <td actions>
@@ -49,10 +49,10 @@
             <div class="small text-muted">Порций: {{::item.portions}}</div>
           </td>
           <td>{{::item.content|limitTo:100 |html}}...</td>
-          <td><span class="label label-info label-category" ng-click="ctrl.selectCategory(item.category.id)">{{::item.category.caption}}</span>
+          <td><span class="label label-info clickable" ng-click="ctrl.selectCategory(item.category.id)">{{::item.category.caption}}</span>
           </td>
           <td>
-            <span class="label label-primary label-rubric" ng-repeat="rubric in item.rubrics" ng-click="ctrl.selectRubric(rubric.id)"> {{::rubric.caption}} </span>
+            <span ng-repeat="rubric in item.rubrics"><span class="label label-primary clickable" ng-click="ctrl.selectRubric(rubric.id)">{{::rubric.caption}}</span>&nbsp; </span>
           </td>
           <td>
             <div class="small text-muted" ng-if="item.lastModifiedAt">

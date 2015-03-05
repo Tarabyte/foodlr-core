@@ -24,6 +24,11 @@
           <td>{{item.order}}</td>
         </tr>
       </tbody>
+      <tbody ng-if="!list.length">
+        <tr>
+          <td colspan="4">Нет записей</td>
+        </tr>
+      </tbody>
       <tfoot ng-if="!ctrl.data.readonly">
         <tr>
           <td colspan="4">

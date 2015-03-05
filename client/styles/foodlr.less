@@ -1,5 +1,4 @@
 @theme: slate;
-@labelGap: 5px;
 @import (inline) "../vendor/bootswatch/@{theme}/bootstrap.css";
 @import "../vendor/bootswatch/@{theme}/variables.less";
 
@@ -34,17 +33,7 @@ html, body {
   margin: 0; //why because it is sticky!
 }
 
-
-//all recipes list
-.label-rubric, .label-tag {
-  margin-right: @labelGap; //add separator
-
-  &:last-child {
-    margin-right: 0; //not for the last one.
-  }
-}
-
-.label-category, .label-rubric, .label-tag {
+.clickable {
   cursor: pointer; //reacts on click
 }
 

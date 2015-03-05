@@ -55,9 +55,10 @@
           <td>{{item.order}}</td>
           <td>{{::item.calories}} ({{::item.fats}} | {{::item.proteins}} | {{::item.carbs}})
           </td>
-          <td><span class="label label-info label-category" ng-click="currentCategory = item.category.id">{{::item.category.caption}}</span>
+          <td><span class="label label-info clickable" ng-click="currentCategory = item.category.id">{{::item.category.caption}}</span>
           </td>
-          <td><span class="label label-primary label-tag" ng-repeat="tag in item.tags" ng-click="currentTag = tag.id">{{::tag.caption}}</span>
+          <td>
+            <span ng-repeat="tag in tags"><span class="label label-primary clickable"  ng-click="currentTag = tag.id">{{::tag.caption}}</span>&nbsp; </span>
           </td>
         </tr>
       </tbody>
