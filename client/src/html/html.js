@@ -162,8 +162,9 @@ define(['angular', 'ngSanitize', 'textAngular', 'ui.select'], function(angular){
    * Add insert local image tool
    */
   var imageSelectorTmpl = [
-    '<div ng-if="active" style="position:absolute;">',
-      '<ul>',
+    '<div>',
+      '<i class="fa fa-plug"></i>',
+      '<ul  ng-if="active" style="position:absolute;">',
         '<li class="thumbnail" ng-repeat="img in images" ng-click="insertImage(img)">',
           '<img ng-src="{{img.src}}" class="img-preview">',
         '</li>',
@@ -174,15 +175,12 @@ define(['angular', 'ngSanitize', 'textAngular', 'ui.select'], function(angular){
 
   function registerInsertLocalImage(register, translation) {
     register(insertLocalImageStr, {
-      iconclass: 'fa fa-plug',
       tooltiptext: translation.insertLocalImage.tooltip,
-      buttontext: imageSelectorTmpl,
+      display: imageSelectorTmpl,
       action: function(later) {
         var $editor = this.$editor();
         if(this.active) { //close dropdown
           this.active = false;
-          this.cleanUp();
-          later.resolve();
         }
         else { //activate
           this.active = true;
@@ -191,11 +189,7 @@ define(['angular', 'ngSanitize', 'textAngular', 'ui.select'], function(angular){
             $editor.wrapSelection('insertImage', image.src, true);
             later.resolve();
           };
-
-          this.cleanUp = function() {
-            later.resolve();
-            this.cleanUp = null;
-          };
+          return false;
         }
       }
     });
@@ -206,29 +200,29 @@ define(['angular', 'ngSanitize', 'textAngular', 'ui.select'], function(angular){
    */
 
   var productSelectorTmpl = [
-    '<div ng-if="active" class="form-inline" style="position:absolute;">',
-    '<ui-select ng-model="product" on-select="insertLink()" class="product-select" theme="bootstrap" reset-search-input="true">',
+    '<div>',
+    '<i class="fa fa-flask"></i>',
+    '<div ng-if="active" class="form-inline" style="position:absolute;" ng-click="preventClosing($event)">',
+    '<ui-select ng-model="product" on-select="insertLink()" class="product-select" theme="bootstrap" reset-search-input="true" autofocus>',
     '<ui-select-match placeholder="Поиск продукта">{{$select.selected.caption}}</ui-select-match>',
     '<ui-select-choices repeat="product in products| filter: $select.search| orderBy: \'caption\'">',
     '<div ng-bind-html="product.caption | highlight: $select.search"></div>',
     '</ui-select-choices>',
     '</ui-select>',
-    '/<div>'
+    '</div>',
+    '</div>'
   ].join('');
 
   function registerInsertProductLink(register, translation) {
     register(insertProductLinkStr, {
-      iconclass: 'fa fa-flask',
       tooltiptext: translation.insertProductLink.tooltip,
-      buttontext: productSelectorTmpl,
+      display: productSelectorTmpl,
       action: function(later, selection) {
         var $editor = this.$editor(),
             scope = this;
 
-        if(this.active && this.product) {
+        if(this.active) {
           this.active = false;
-          this.cleanUp();
-          later.resolve();
         }
         else {
           this.active = true;
@@ -245,13 +239,14 @@ define(['angular', 'ngSanitize', 'textAngular', 'ui.select'], function(angular){
             selection();
             $editor.wrapSelection('insertHTML', html, false);
             scope.active = false;
-            this.product = null;
             later.resolve();
           };
-          this.cleanUp = function() {
-            later.resolve();
-            this.cleanUp = null;
+
+          this.preventClosing = function($event) {
+            $event.stopPropagation();
           };
+
+          return false;
         }
       }
     });
