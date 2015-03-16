@@ -29,6 +29,12 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "create"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "readonly",
+      "permission": "ALLOW"
     }
   ],
   "methods": []
