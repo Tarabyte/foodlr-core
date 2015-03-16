@@ -8,8 +8,11 @@ define(['angular','ui.router', 'lbServices', 'ngMessages', 'dropdown'], function
           return {
             responseError: function(rejection) {
               var status = rejection.status,
-                  growl;
-              if(status === 401 || status === 403) {
+                  growl,
+                  url = rejection.config.url,
+                  isUserRequest = url.indexOf('/api/Users/') === 0;
+
+              if(!isUserRequest && (status === 401 || status === 403)) {
                 growl = $injector.get('growl');
 
                 growl.error('Нет доступа.', {ttl: 5000});
