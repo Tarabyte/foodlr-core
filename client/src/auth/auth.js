@@ -8,11 +8,12 @@ define(['angular','ui.router', 'lbServices', 'ngMessages', 'dropdown'], function
           return {
             responseError: function(rejection) {
               var status = rejection.status,
-                  SessionService;
+                  growl;
               if(status === 401 || status === 403) {
-                SessionService = $injector.get('SessionService');
-                SessionService.clear();
-                SessionService.toLogin();
+                growl = $injector.get('growl');
+
+                growl.error('Нет доступа.', {ttl: 5000});
+
                 return;
               }
 
@@ -74,7 +75,8 @@ define(['angular','ui.router', 'lbServices', 'ngMessages', 'dropdown'], function
     }])
     .controller('LoginCtrl', ['$scope', '$injector', function($scope, $injector) {
       var SessionService = $injector.get('SessionService'),
-          $state = $injector.get('$state');
+          $state = $injector.get('$state'),
+          growl = $injector.get('growl');
 
       $scope.user = {};
       $scope.signIn = function() {
@@ -84,7 +86,7 @@ define(['angular','ui.router', 'lbServices', 'ngMessages', 'dropdown'], function
           $state.go('index');
         })
         .catch(function() {
-          alert('ooops');
+          growl.error('Неправильное имя пользователя или пароль.');
         });
       };
 
@@ -94,7 +96,7 @@ define(['angular','ui.router', 'lbServices', 'ngMessages', 'dropdown'], function
           $state.go('login');
         })
         .catch(function() {
-          alert('ooops');
+          growl.error('Произошла ошибка при выходе.');
         });
       };
     }])
