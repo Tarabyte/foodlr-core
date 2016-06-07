@@ -30,3 +30,7 @@ client/vendor
 
 # Users Environment Variables
 .lock-wscript
+
+# Sublime project files
+*.sublime-project
+*.sublime-workspace
