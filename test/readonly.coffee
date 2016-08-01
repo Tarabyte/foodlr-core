@@ -1,10 +1,10 @@
 {app, should} = require './_bootstrap.coffee'
 
-describe.only 'Readonly user', ->
+describe 'Readonly user', ->
   readonlyUser = null
   it 'should be defined', (done) ->
     app.models.User.findOne where: username: 'readonly', (err, user) ->
-      should.equal err, null
+      should.not.exist err
       should.exist user
       user.should.be.defined
       user.username.should.equal 'readonly'
@@ -29,7 +29,7 @@ describe.only 'Readonly user', ->
       condition = {principalId: readonlyUser.getId(), roleId: role.getId()}
 
       app.models.RoleMapping.findOne condition, (err, result) ->
-        should.equal err, null
+        should.not.exist err
 
         result.should.be.ok
 

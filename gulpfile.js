@@ -20,7 +20,7 @@ var angularTemplates = require('gulp-angular-templatecache');
 coffee.register();
 
 var sourceJs = ['./server/**/*.js', './common/**/*'];
-var tests = './test/**/[^_]*'; // _something is not a test but a fixture of whatever
+var tests = './test/**/[^_]*.coffee'; // _something is not a test but a fixture of whatever
 var testSrc = './test/**/*'; //all files
 var client = 'client';
 var lessSrc = './client/styles/**/*.less';

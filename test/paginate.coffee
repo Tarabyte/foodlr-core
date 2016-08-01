@@ -25,7 +25,7 @@ describe 'Paginate Mixin', ->
 
     it 'should return paginated values', (next) ->
       Recipe.paginate 2, (err, data) ->
-        should.equal(err, null)
+        should.not.exist err
         data.should.be.defined
         data.data.should.be.an 'array'
         data.pages.should.be.equal Math.ceil count/2
@@ -35,7 +35,7 @@ describe 'Paginate Mixin', ->
 
     it 'should honor offset',  (next) ->
       Recipe.paginate 2, 1, (err, data) ->
-        should.equal(err, null)
+        should.not.exist err
         data.should.be.defined
         data.data.should.be.an 'array'
         data.pages.should.be.equal Math.ceil count/2
@@ -48,7 +48,7 @@ describe 'Paginate Mixin', ->
         items.length.should.be.equal 1
         id = items[0].id
         Recipe.paginate 10, 0, {where: id: id}, (err, items) ->
-          should.equal err, null
+          should.not.exist err
           items.data.length.should.be.equal 1
           items.data[0].id.toString().should.be.equal id.toString()
           next()
@@ -58,7 +58,7 @@ describe 'Paginate Mixin', ->
         items.length.should.be.equal 1
         id = items[0].id
         Recipe.paginate 10, {where: id: id}, (err, items) ->
-          should.equal err, null
+          should.not.exist err
           items.data.length.should.be.equal 1
           items.data[0].id.toString().should.be.equal id.toString()
           next()
