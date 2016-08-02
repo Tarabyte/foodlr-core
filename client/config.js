@@ -2,6 +2,7 @@
   var ng = ['angular'],
       jq = ['jquery'],
       config;
+
   win.require = config = {
     baseUrl: '.',
     paths: {
@@ -14,16 +15,18 @@
 
       'ui.router': 'vendor/angular-ui-router/release/angular-ui-router',
       'ui.select': 'vendor/angular-ui-select/dist/select',
-      'angular-file-upload': 'vendor/angular-file-upload/angular-file-upload',
-      textAngular: 'vendor/textAngular/dist/textAngular.min',
+      'angular-file-upload': 'vendor/angular-file-upload/dist/angular-file-upload',
+      textAngular: 'vendor/textAngular/dist/textAngular.umd',
       rangy: 'vendor/textAngular/dist/textAngular-rangy.min',
+      'rangy/lib/rangy-selectionsaverestore': 'vendor/rangy/rangy-selectionsaverestore.min',
+      'rangy/lib/rangy-core': 'vendor/rangy/rangy-core',
 
-      lbServices: 'src/lb-services',
 
       growl: 'vendor/angular-growl-v2/build/angular-growl',
 
       dropdown: 'vendor/bootstrap/js/dropdown',
 
+      lbServices: 'src/lb-services',
       templates: 'src/templates/templates'
     },
     name: 'main',
@@ -36,7 +39,12 @@
 
       'ui.router': ng,
       'ui.select': ng,
-      textAngular: ng.concat(['ngSanitize', 'rangy']),
+      textAngular: ng.concat(['ngSanitize']),
+
+      'angular-file-upload': {
+        deps: ng,
+        exports: 'angularFileUpload'
+      },
 
       lbServices: ng.concat(['ngResource']),
 
