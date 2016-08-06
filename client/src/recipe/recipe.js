@@ -147,6 +147,7 @@ define(['angular', 'lbServices', '../utils/crud', '../utils/utils',
         Category = $injector.get('Category'),
         Rubric = $injector.get('Rubric'),
         Tag = $injector.get('Tag'),
+        Cuisine = $injector.get('Cuisine'),
         productsCache = {},
         selectedRubrics = {},
         selectedTags = {},
@@ -154,6 +155,7 @@ define(['angular', 'lbServices', '../utils/crud', '../utils/utils',
 
     $scope.rubrics = [];
     $scope.categories = [];
+    $scope.cuisines = [];
     $scope.selectedRubrics = selectedRubrics;
     $scope.selectedTags = selectedTags;
 
@@ -185,6 +187,10 @@ define(['angular', 'lbServices', '../utils/crud', '../utils/utils',
 
     Tag.active().$promise.then(function(items) {
       $scope.tags = items;
+    });
+
+    Cuisine.active().$promise.then(function(items) {
+      $scope.cuisines = items;
     });
 
     function ingredientTitle(ingredient) {
@@ -317,6 +323,15 @@ define(['angular', 'lbServices', '../utils/crud', '../utils/utils',
               })[0];
             }
           },
+          cuisine: {
+            enumerable: true,
+            get: function() {
+              var id = $scope.cuisineId;
+              return $scope.cuisines.filter(function(item) {
+                return item.id === id;
+              })[0];
+            }
+          },
           weight: {
             enumerable: false,
             get: function() {
@@ -420,15 +435,26 @@ define(['angular', 'lbServices', '../utils/crud', '../utils/utils',
 
 
     Recipe.findById({id: id}).$promise.then(function(recipe){
-      var category = recipe.category, uploader, images = recipe.images || [],
-          container = 'api/containers/recipe_' + id;
+      var category = recipe.category,
+        uploader,
+        images = recipe.images || [],
+        container = 'api/containers/recipe_' + id,
+        cuisine = recipe.cuisine;
       instance.makeRecipe(recipe);
+
       if(recipe.portions == null) {
         recipe.portions = 1;
       }
+
       if(category) {
         $scope.categoryId = category.id;
       }
+      
+      if(cuisine) {
+        $scope.cuisineId = cuisine.id;
+      }
+
+
       $scope.item = recipe;
 
       uploader = $scope.uploader = new FileUploader({

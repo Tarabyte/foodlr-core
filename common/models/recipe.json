@@ -77,6 +77,9 @@
     },
     "cookingTime": {
       "type": "number"
+    },
+    "cuisine": {
+      "type": "object"
     }
   },
   "validations": [],

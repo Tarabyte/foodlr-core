@@ -4,7 +4,7 @@
 </ol>
 
 <form class="form-horizontal" ng-submit="ctrl.save()" name="makingRecipe">
-  <div ng-if="!ctrl.isNew && makingRecipe.$dirty" class="alert alert-warning">
+  <div ng-if="!ctrl.isNew && makingRecipe.$dirty" class="alert alert-warning recipe-modified-warning">
     Рецепт был изменен, не забудь сохранить!
   </div>
   <div class="form-group">
@@ -77,6 +77,15 @@
       <label class="btn" ng-repeat="category in categories track by category.id"
           ng-class="{'btn-info':category.id===item.category.id}">
         <input type="radio" value="{{category.id}}" name="category" ng-model="$parent.categoryId">{{category.caption}}
+      </label>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="cuisine" class="col-sm-2 control-label">Кухня</label>
+    <div class="btn-group col-sm-8">
+      <label class="btn" ng-repeat="cuisine in cuisines track by cuisine.id"
+          ng-class="{'btn-info':cuisine.id===item.cuisine.id}">
+        <input type="radio" value="{{cuisine.id}}" name="cuisine" ng-model="$parent.cuisineId">{{cuisine.caption}}
       </label>
     </div>
   </div>

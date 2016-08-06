@@ -29,6 +29,7 @@
           <th>Калорийность</th>
           <th>Рецепт</th>
           <th>Категория</th>
+          <th>Кухня</th>
           <th>Рубрики</th>
           <th>История</th>
         </tr>
@@ -55,6 +56,8 @@
           <td>{{::item.content|limitTo:100 |html}}...</td>
           <td><span class="label label-info clickable" ng-click="ctrl.selectCategory(item.category.id)">{{::item.category.caption}}</span>
           </td>
+          <td><span class="label label-info">{{::item.cuisine.caption}}</span>
+          </td>
           <td>
             <span ng-repeat="rubric in item.rubrics"><span class="label label-primary clickable" ng-click="ctrl.selectRubric(rubric.id)">{{::rubric.caption}}</span>&nbsp; </span>
           </td>
@@ -67,12 +70,12 @@
       </tbody>
       <tbody ng-if="!list.length">
         <tr>
-          <td colspan="7">Нет записей</td>
+          <td colspan="8">Нет записей</td>
         </tr>
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="7">
+          <td colspan="8">
             <ul class="pagination" style="margin: 0;">
               <li ng-class="{disabled: page===1}">
                 <a ng-click="ctrl.prev()" href="javascript: void 0;">&laquo;</a>

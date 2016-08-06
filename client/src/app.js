@@ -1,8 +1,16 @@
 define(['angular' , 'ui.router', './utils/crud', './auth/auth', './utils/utils',
-        './recipe/recipe', './product/product', './article/article', './category/category', './rubric/rubric', './faq/faq', './profile/profile', 'templates'], function(angular){
+        './recipe/recipe', 
+        './cuisine/cuisine', 
+        './product/product', 
+        './article/article', 
+        './category/category', 
+        './rubric/rubric', 
+        './faq/faq', 
+        './profile/profile',
+        'templates'], function(angular){
   angular
     .module('app',
-      ['crud', 'ui.router', 'auth', 'utils', 'rubric', 'category', 'recipe',
+      ['crud', 'ui.router', 'auth', 'utils', 'rubric', 'category', 'recipe', 'cuisine',
        'article', 'product', 'faq', 'templates', 'profile']
       )
     .config(['$stateProvider', '$urlRouterProvider',

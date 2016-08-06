@@ -39,6 +39,15 @@ html, body {
 
 
 //recipe item
+
+.recipe-modified-warning {
+  position: fixed;
+  top: 1em;
+  z-index: @zindex-modal;
+  width: 100vw;
+  pointer-events: none;
+}
+
 .product-select {
   &.ui-select-bootstrap .ui-select-choices-row>a {
     color: inherit;
