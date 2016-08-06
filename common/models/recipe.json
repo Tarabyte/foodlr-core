@@ -74,6 +74,9 @@
     "publications": {
       "type": "number",
       "default": 1
+    },
+    "cookingTime": {
+      "type": "number"
     }
   },
   "validations": [],

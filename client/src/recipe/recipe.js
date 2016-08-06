@@ -207,6 +207,8 @@ define(['angular', 'lbServices', '../utils/crud', '../utils/utils',
 
       afterSave: function(data) {
         $injector.get('$state').go('recipies.item', {id: data.id});
+        // mark form as saved after save
+        $scope.makingRecipe.$setPristine();
       },
 
       list: go,
@@ -487,11 +489,35 @@ define(['angular', 'lbServices', '../utils/crud', '../utils/utils',
 
   EditRecipeItemCtrl.$inject = ['$scope', '$injector'];
 
+  function pad(x) {
+      x = x.toString();
+      return x.length === 1 ? ('0' + x) : x
+  }
+
+  function durationFilter() {
+    return function(input) {
+      input = input || 0;
+
+      var minutes = input % 60;
+      var hours = (input - minutes) / 60;
+
+      if(hours) {
+        return pad(hours) + ':' + pad(minutes)
+      }
+      if(minutes) {
+        return pad(minutes)
+      }
+
+      return 'не указано';
+    }
+  }
+
   angular.module('recipe', ['lbServices', 'crud', 'utils', 'ui.select',
                             'angularFileUpload', 'html'])
     .controller('RecipeListCtrl', RecipeListCtlr)
     .controller('NewRecipeItemCtrl', NewRecipeItemCtrl)
     .controller('EditRecipeItemCtrl', EditRecipeItemCtrl)
+    .filter('duration', durationFilter)
     .config(['$stateProvider', function($stateProvider) {
       $stateProvider
       .state('recipies', {
