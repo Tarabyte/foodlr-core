@@ -16,11 +16,15 @@
       'ui.router': 'vendor/angular-ui-router/release/angular-ui-router',
       'ui.select': 'vendor/angular-ui-select/dist/select',
       'angular-file-upload': 'vendor/angular-file-upload/dist/angular-file-upload',
-      textAngular: 'vendor/textAngular/dist/textAngular.umd',
-      rangy: 'vendor/textAngular/dist/textAngular-rangy.min',
-      'rangy/lib/rangy-selectionsaverestore': 'vendor/rangy/rangy-selectionsaverestore.min',
-      'rangy/lib/rangy-core': 'vendor/rangy/rangy-core',
-
+      textAngular: 'vendor/textAngular/dist/textAngular.min',
+      /**
+       * Right now you need to monkey patch.
+       * I was not able to properly configure paths for this library.
+       * rangy-core: 14 define(factory); -> define('rangy', factory);
+       * rangy-selectionsaverestore: 18 define([".rangy-core"], factory); -> define(["rangy"], factory);
+       */
+      rangy: 'vendor/rangy/rangy-core',
+      'rangy/lib/rangy-selectionsaverestore': 'vendor/rangy/rangy-selectionsaverestore',
 
       growl: 'vendor/angular-growl-v2/build/angular-growl',
 
@@ -39,7 +43,10 @@
 
       'ui.router': ng,
       'ui.select': ng,
-      textAngular: ng.concat(['ngSanitize']),
+
+      textAngular: {
+        deps: ng
+      },
 
       'angular-file-upload': {
         deps: ng,
