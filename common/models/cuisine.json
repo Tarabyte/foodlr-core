@@ -63,6 +63,13 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "popular"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "lucky"
     }
   ],
   "methods": {}

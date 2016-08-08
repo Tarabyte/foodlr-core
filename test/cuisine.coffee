@@ -1,6 +1,6 @@
 {app} = require './_bootstrap.coffee'
 
-describe.only 'Cuisine', ->
+describe 'Cuisine', ->
   Cuisine = null
   before ->
     {Cuisine} = app.models
@@ -15,7 +15,12 @@ describe.only 'Cuisine', ->
   describe 'popularity', ->
     it 'should have popular method', ->
       Cuisine.should.have.property 'popular'
-        .that.is.a 'function'  
+        .that.is.a 'function'
+
+  describe 'lucky', ->
+    it 'should be a function', ->
+      Cuisine.should.have.property 'lucky'
+        .that.is.a 'function'
     
 
     

@@ -1,3 +1,5 @@
+var lucky = require('../core/random');
+
 module.exports = function(Cuisine) {
 
   /**
@@ -26,6 +28,10 @@ module.exports = function(Cuisine) {
       root: true
     }
   });
+
+  // add lucky support
+  lucky(Cuisine, 'lucky');
+  
 
   return Cuisine;
 };

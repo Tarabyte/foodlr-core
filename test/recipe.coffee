@@ -260,3 +260,15 @@ describe 'Recipies', ->
           data.length.should.be.equal 10
 
         done()
+
+  describe 'Lucky', ->
+    it 'should be a fun', ->
+      Recipe.lucky.should.be.a 'function'
+
+    it 'should return random recipe', (done) ->
+      Recipe.lucky (err, recipe) ->
+        if err
+          done err
+        else
+          recipe.should.be.ok
+          done()
