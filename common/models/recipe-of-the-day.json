@@ -9,7 +9,8 @@
   "properties": {
     "date": {
       "type": "date",
-      "required": true
+      "required": true,
+      "defaultFn": "now"
     }
   },
   "validations": [],

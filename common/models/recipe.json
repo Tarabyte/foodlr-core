@@ -80,6 +80,9 @@
     },
     "cuisine": {
       "type": "object"
+    },
+    "recipeOfTheDay": {
+      "type": "date"
     }
   },
   "validations": [],

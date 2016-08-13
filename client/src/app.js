@@ -62,6 +62,16 @@ define(['angular' , 'ui.router', './utils/crud', './auth/auth', './utils/utils',
               $scope.productCount = data.count;
             });
 
+            //recipe of the day
+            $injector.get('Recipe').todays().$promise.then(function(data){
+              data.mainImg = data.images.filter(function(image) {
+                return image.name === data.mainImg
+              })[0];
+              
+              $scope.recipeOfTheDay = data;
+
+            })
+
           }],
           templateUrl: 'src/templates/index.html'
         });

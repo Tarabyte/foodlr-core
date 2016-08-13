@@ -1,26 +1,53 @@
 <div class="page-header">
     <h1>Главная страница</h1>
 </div>
-
-<div class="row">
-  <div class="col-sm-6">
-    <h2><a ui-sref="recipies.list">Рецептики</a> <a ui-sref="recipies.new" class="btn btn-success btn-sm"><fa icon="plus"/></a></h2>
-    <progress-bar value="recipeCount" expected="1000"></progress-bar>
-    <recent collection="Recipe" root="recipies" columns="recipeColumns" fields="recipeFields"></recent>
+<div class="container-fluid">  
+  <div class="row">
+    <div class="col-sm-6">
+      <h2><a ui-sref="recipies.list">Рецептики</a> <a ui-sref="recipies.new" class="btn btn-success btn-sm"><fa icon="plus"/></a></h2>
+      <progress-bar value="recipeCount" expected="1000"></progress-bar>
+      <recent collection="Recipe" root="recipies" columns="recipeColumns" fields="recipeFields"></recent>
+    </div>
+    <div class="col-sm-6">
+      <h2><a ui-sref="articles.list">Статеички</a> <a ui-sref="articles.new" class="btn btn-success btn-sm"><fa icon="plus"/></a></h2>
+      <recent collection="Article" root="articles" columns="articleColumns" fields="articleFields"></recent>
+    </div>
   </div>
-  <div class="col-sm-6">
-    <h2><a ui-sref="articles.list">Статеички</a> <a ui-sref="articles.new" class="btn btn-success btn-sm"><fa icon="plus"/></a></h2>
-    <recent collection="Article" root="articles" columns="articleColumns" fields="articleFields"></recent>
+  <div class="row">
+    <div class="col-sm-6">
+      <h2><a ui-sref="products.main.list">Продуктики</a></h2>
+      <progress-bar value="productCount" expected="500"></progress-bar>
+      <recent collection="Product" root="products" columns="productColumns" fields="productFields"></recent>
+    </div>
+    <div class="col-sm-6">
+      <h2><a ui-sref="articles.list">Вопросики</a> <a ui-sref="faq.main.new" class="btn btn-success btn-sm"><fa icon="plus"/></a></h2>
+      <recent collection="Faq" root="faq" columns="faqColumns" fields="faqFields"></recent>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-sm-6">
-    <h2><a ui-sref="products.main.list">Продуктики</a></h2>
-    <progress-bar value="productCount" expected="500"></progress-bar>
-    <recent collection="Product" root="products" columns="productColumns" fields="productFields"></recent>
+  <div class="row">
+    <h2>Рецепт дня</h2>    
+    <div class="media">
+      <div class="media-left">
+        <a ui-sref="recipies.item({id: recipeOfTheDay.id})">
+          <img class="img-preview" ng-src="{{recipeOfTheDay.mainImg.src}}">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a ui-sref="recipies.item({id: recipeOfTheDay.id})">{{recipeOfTheDay.caption}}</a></h3>
+        <div>
+          {{recipeOfTheDay.content | limitTo: 2000|html}}
+        </div>
+        <div class="row">
+          <div class="col-sm-3" ng-repeat="img in recipeOfTheDay.images">
+            <div class="thumbnail">
+              <img class="img-preview media-object" ng-src="{{img.src}}"/>
+              <div class="caption">
+                {{img.caption}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="col-sm-6">
-    <h2><a ui-sref="articles.list">Вопросики</a> <a ui-sref="faq.main.new" class="btn btn-success btn-sm"><fa icon="plus"/></a></h2>
-    <recent collection="Faq" root="faq" columns="faqColumns" fields="faqFields"></recent>
-  </div>
-</div>
+<div>

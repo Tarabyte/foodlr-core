@@ -32,6 +32,10 @@ define(['angular', 'lbServices', '../utils/crud', '../utils/utils',
       }
     });
 
+    Recipe.todays().$promise.then(function(data){
+      $scope.recipeOfTheDay = data.id;
+    })
+
     Rubric.active().$promise.then(function(data) {
       data.unshift({caption: 'Все', id: 0});
       $scope.rubrics = data;
@@ -483,6 +487,14 @@ define(['angular', 'lbServices', '../utils/crud', '../utils/utils',
       id: id,
       title: 'Редактирование рецепта',
       isNew: false,
+      makeTodaysRecipe: function() {
+        Recipe
+          .makeTodaysRecipe({id: id})
+          .$promise
+          .then(function(date){
+            $scope.item.recipeOfTheDay = new Date(date.$data);
+          })
+      },
       removeImage: function(img){
         var item = $scope.item,
             images = item.images,

@@ -1,47 +1,16 @@
-function isSameDay(date) {
-  return {
-    between: [
-      new Date(date).setHours(0, 0, 0, 0),
-      new Date(date).setHours(23, 59, 59, 999)
-    ]
-  };
-}
-
-
-function applyValidations(RecipeOfTheDay) {
-  RecipeOfTheDay.validatesPresenceOf('recipeId');
-  RecipeOfTheDay.validateAsync('date', uniqueDate, {
-    message: 'Recipe for the day has already been defined'
-  });
-
-  function uniqueDate(fail, done) {  
-    RecipeOfTheDay.find({
-      where: {
-        date: isSameDay(this.date)
-      },
-      fields: 'id'
-    }).then(
-      function(found) {
-        if(found.length > 0) {
-          fail();
-        }
-
-        done();    
-      },
-      done
-    );
-  }
-}
-
 module.exports = function(RecipeOfTheDay) {
-
   // Validations pysh-pysh
-  applyValidations(RecipeOfTheDay);
+  RecipeOfTheDay.validatesPresenceOf('recipeId');
 
   RecipeOfTheDay.forDate = function(date) {
+    console.log(date, typeof date);
+
     return RecipeOfTheDay.findOne({
+      order: "date DESC",
       where: {
-        date: isSameDay(date)
+        date: {
+          lte: date
+        }
       },
       include: 'recipeOfTheDay'
     })

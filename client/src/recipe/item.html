@@ -203,7 +203,12 @@
     </div>
   </div>
   <div class="form-group">
-    <div class="col-sm-4 col-sm-offset-6">
+    <div class="col-sm-2 col-sm-offset-2">
+      <div class="btn-group">
+        <button type="button" class="btn btn-default" ng-if="!ctrl.isNew" ng-click="ctrl.makeTodaysRecipe()"><fa icon="calendar-check-o"/> Сделать рецептом дня <span ng-if="item.recipeOfTheDay">(был {{item.recipeOfTheDay | date:'medium'}})</span></button>        
+      </div>
+    </div>
+    <div class="col-sm-4 col-sm-offset-2">
       <div class="bth-group pull-right">
         <button type="submit" class="btn btn-success" ng-if="ctrl.isNew"><fa icon="plus"/> Создать</button>
         <button type="submit" class="btn btn-success" ng-if="!ctrl.isNew"><fa icon="save"/> Сохранить</button>
