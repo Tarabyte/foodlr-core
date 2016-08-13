@@ -81,5 +81,9 @@
   "cuisine": {
     "dataSource": "mongo",
     "public": true
+  },
+  "RecipeOfTheDay": {
+    "dataSource": "mongo",
+    "public": true
   }
 }
