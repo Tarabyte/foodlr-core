@@ -20,7 +20,7 @@ module.exports = function(Recipe) {
           lte: new Date()
         }
       }
-    }, next)
+    }, next);
   };
 
   Recipe.remoteMethod('todays', {
@@ -39,7 +39,7 @@ module.exports = function(Recipe) {
       .then(function(recipe){
         recipe.recipeOfTheDay = new Date();
 
-        return recipe.save()
+        return recipe.save();
       })
       .then(
         function(item) {
@@ -66,5 +66,5 @@ module.exports = function(Recipe) {
     returns: {
       type: 'date', root: true
     }
-  })
+  });
 };
