@@ -63,11 +63,18 @@
   </div>
   <div class="form-group">
     <label for="cookingTime" class="col-sm-2 control-label">Время приготовления </label>
-    <div class="col-sm-8">
+    <div class="col-sm-4">
       <div class="input-group">
-        <span class="input-group-addon">Минут:</span>
+        <span class="input-group-addon">Активное:</span>
         <input type="number" step="1" id="cookingTime" name="cookingTime" class="form-control" placeholder="Время приготовления в минутах" ng-model="item.cookingTime">
         <span class="input-group-addon">{{item.cookingTime | duration}}</span>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="input-group">
+        <span class="input-group-addon">Полное:</span>
+        <input type="number" step="1" id="cookingTime" name="totalCookingTime" class="form-control" placeholder="Полное врммя приготовления" ng-model="item.totalCookingTime">
+        <span class="input-group-addon">{{item.totalCookingTime | duration}}</span>
       </div>
     </div>
   </div>

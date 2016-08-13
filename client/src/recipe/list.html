@@ -40,7 +40,7 @@
             <span class="label label-warning" title="Рецепт дня {{::item.recipeOfTheDay | date}}" ng-if="item.id === recipeOfTheDay"><fa icon="calendar-check-o"/></span>
             <a ui-sref="{{ctrl.data.root}}.item({id: item.id})">{{::item.caption}}</a>
             <span class="badge" title="Количество публикаций">{{::item.publications}}</span>
-            <span title="Время приготовления"><fa icon="clock-o"/> {{::item.cookingTime | duration}}</span>
+            <span title="Время приготовления"><fa icon="clock-o"/> {{::item.cookingTime | duration}} <span title="Полное время приготовления" ng-if="item.totalCookingTime">({{::item.totalCookingTime | duration}})</span></span>
             <span class="small text-muted">Порций: {{::item.portions}}</span>
 
             <div>

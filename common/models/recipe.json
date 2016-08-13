@@ -83,6 +83,9 @@
     },
     "recipeOfTheDay": {
       "type": "date"
+    },
+    "totalCookingTime": {
+      "type": "number"
     }
   },
   "validations": [],
