@@ -129,7 +129,31 @@ define(['angular', 'growl'], function(angular){
         data = $state.$current.data,
         Collection = $injector.get(data.collection),
         ReorderService = $injector.get('ReorderService'),
-        ToggleService = $injector.get('ToggleService');
+        ToggleService = $injector.get('ToggleService'),
+        defaultFields = [
+          {
+            caption: 'Название',
+            name: 'caption',
+            required: true
+          },
+          {
+            caption: 'Номер (опционально)',
+            name: 'order',
+            type: 'number'
+          },
+          {
+            caption: 'Описание',
+            name: 'description'
+          }
+        ],
+        fields = data.fields;
+
+    if(!fields) {
+      fields = defaultFields;
+    }
+    else if(typeof fields === 'function') {
+      fields = fields(defaultFields);
+    }
 
     $scope.list = []; //current items
     $scope.item = {}; //editable
@@ -154,6 +178,7 @@ define(['angular', 'growl'], function(angular){
       clear: clean,
       reload: fetch,
       data: data,
+      fields: fields,
       presave: function(item) {
         return item;
       },

@@ -9,7 +9,14 @@ define(['angular', 'lbServices', '../utils/crud'], function(angular){
         data: {
           collection: 'Rubric',
           title: 'Рубрики',
-          root: 'rubrics'
+          root: 'rubrics',
+          fields: function(defaultFields) {
+            // inject keyword after caption
+            return [].concat(defaultFields[0], {
+              caption: 'Ключевое слово',
+              name: 'keyword'
+            }, defaultFields.slice(1))
+          },
         }
       })
       .state('rubrics.list', {
@@ -19,7 +26,7 @@ define(['angular', 'lbServices', '../utils/crud'], function(angular){
       })
       .state('rubrics.item', {
         url: '/:id',
-        templateUrl: 'src/utils/item.html',
+        templateUrl: 'src/rubric/item.html',
         controller: 'ItemCtrl as ctrl'
       });
     }]);

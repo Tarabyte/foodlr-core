@@ -34,9 +34,13 @@
           <td colspan="4">
             <form class="form-inline" ng-submit="ctrl.save()">
               <button type="submit" class="btn btn-success" title="Добавить"><fa icon="plus"/></button>
-              <input type="text" class="form-control" id="caption" placeholder="Название" ng-model="item.caption" required>
-              <input type="number" class="form-control" id="order" placeholder="Номер (опционально)" ng-model="item.order">
-              <input type="text" class="form-control" id="description" placeholder="Описание" ng-model="item.description">
+              <input ng-repeat="field in ctrl.fields track by field.name"
+                type="{{field.type || 'text'}}"
+                class="form-control"
+                id="{{field.name}}"
+                placeholder="{{field.caption}}"
+                ng-required="field.required"
+                ng-model="item[field.name]">
             </form>
           </td>
         </tr>
