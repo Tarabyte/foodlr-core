@@ -272,3 +272,47 @@ describe 'Recipies', ->
         else
           recipe.should.be.ok
           done()
+
+  describe 'ByRubric', ->
+    it 'should be a function', ->
+      Recipe.rubric.should.be.a 'function'
+
+    it 'should filter by rubrics.id', (done) ->
+      Recipe.find where: 'rubrics.id': '54be3bbb28903b3007e11cda'
+        .then (items) ->
+          items.length.should.be.gt 0
+          done()
+        .catch done
+
+    it 'should lookup by keyword', (done) ->
+      Recipe.rubric 'addNumber', null, (err, itemz) ->
+        if err?
+          done err
+        else
+          itemz.should.be.an 'array'
+          itemz.length.should.be.gt 0
+          done()
+
+
+    it 'should allow to pass filter', (done) ->
+      Recipe.rubric 'addNumber', {limit: 1, fields: ['caption']}, (err, items) ->
+        if err?
+          done err
+        else
+          items.length.should.be.equal 1
+          [item] = items
+          item.should.have.property 'id', undefined
+
+          done()
+
+    it 'should allow to pass filter with where', (done) ->
+      Recipe.rubric 'addNumber', {where: id: '54cea131117ba5d40603ad49'}, (err, items) ->
+        if err?
+          done err
+        else
+          items.length.should.be.equal 1
+          [item] = items
+          item.should.have.property 'id'
+          item.id.toString().should.be.equal '54cea131117ba5d40603ad49'
+
+          done()
