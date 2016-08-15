@@ -8,11 +8,7 @@
   "session": {},
   "auth": {},
   "parse": {},
-  "routes:before": {
-    "loopback#status": {
-      "paths": "/api/status"
-    }
-  },
+  "routes": {},
   "files": {},
   "final": {
     "loopback#urlNotFound": {}
