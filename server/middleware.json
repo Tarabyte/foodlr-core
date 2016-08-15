@@ -8,9 +8,9 @@
   "session": {},
   "auth": {},
   "parse": {},
-  "routes": {
+  "routes:before": {
     "loopback#status": {
-      "paths": "/"
+      "paths": "/api/status"
     }
   },
   "files": {},
