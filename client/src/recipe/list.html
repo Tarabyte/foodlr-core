@@ -3,9 +3,16 @@
 </ol>
 <div class="row">
   <div class="col-xs-2">
+    <h3>Рубрики</h3>
     <ul class="nav nav-pills nav-stacked">
       <li ng-repeat="rubric in rubrics" ng-class="{active: rubric.id===currentRubric}">
         <a ng-click="ctrl.selectRubric(rubric.id)" href="javascript: void 0;">{{::rubric.caption}}</a>
+      </li>
+    </ul>
+    <h3>Ярлыки</h3>
+    <ul class="nav nav-pills nav-stacked">
+      <li ng-repeat="tag in tags" ng-class="{active: tag.id===currentTag}">
+        <a ng-click="ctrl.selectTag(tag.id)" href="javascript: void 0;">{{::tag.caption}}</a>
       </li>
     </ul>
   </div>
@@ -44,7 +51,7 @@
             <span class="small text-muted">Порций: {{::item.portions}}</span>
 
             <div>
-              <span ng-repeat="tag in item.tags"><span class="label label-default" >{{::tag.caption}}</span>&nbsp; </span>
+              <span ng-repeat="tag in item.tags" ng-click="ctrl.selectTag(tag.id)"><span class="label label-default clickable" >{{::tag.caption}}</span>&nbsp; </span>
             </div>
             
           </td>
@@ -57,7 +64,7 @@
           <td>{{::item.content|limitTo:100 |html}}...</td>
           <td><span class="label label-info clickable" ng-click="ctrl.selectCategory(item.category.id)">{{::item.category.caption}}</span>
           </td>
-          <td><span class="label label-info">{{::item.cuisine.caption}}</span>
+          <td><span class="label label-success clickable" ng-click="ctrl.selectCuisine(item.cuisine.id)">{{::item.cuisine.caption}}</span>
           </td>
           <td>
             <span ng-repeat="rubric in item.rubrics"><span class="label label-primary clickable" ng-click="ctrl.selectRubric(rubric.id)">{{::rubric.caption}}</span>&nbsp; </span>
@@ -96,9 +103,16 @@
 
   </div>
   <div class="col-xs-2">
+    <h3>Категории рецептов</h3>
     <ul class="nav nav-pills nav-stacked">
       <li ng-repeat="category in categories" ng-class="{active: category.id===currentCategory}">
         <a ng-click="ctrl.selectCategory(category.id)" href="javascript: void 0;">{{category.caption}}</a>
+      </li>
+    </ul>
+    <h3>Кухни</h3>
+    <ul class="nav nav-pills nav-stacked">
+      <li ng-repeat="cuisine in cuisines" ng-class="{active: cuisine.id===currentCuisine}">
+        <a ng-click="ctrl.selectCuisine(cuisine.id)" href="javascript: void 0;">{{::cuisine.caption}}</a>
       </li>
     </ul>
   </div>

@@ -4,12 +4,16 @@ define(['angular','lbServices', '../utils/crud', '../utils/utils',
     var $state = $injector.get('$state'),
         Rubric = $injector.get('Rubric'),
         Collection = $injector.get('Article'),
+        Cuisine = $injector.get('Cuisine'),
+        Tag = $injector.get('Tag'),
         RangeService = $injector.get('RangeService'),
         ToggleService = $injector.get('ToggleService'),
         page = 1,
         size = 10,
         search = '',
         currentRubric = 0,
+        currentCuisine = 0,
+        currentTag = 0,
         pageList = [];
 
     Object.defineProperties($scope, {
@@ -51,6 +55,28 @@ define(['angular','lbServices', '../utils/crud', '../utils/utils',
         }
       },
 
+      currentCuisine: {
+        enumerable: true,
+        get: function() {
+          return currentCuisine;
+        },
+        set: function(val) {
+          currentCuisine = currentCuisine === val ? 0 : val;
+          first();
+        }
+      },
+
+      currentTag: {
+        enumerable: true,
+        get: function() {
+          return currentTag;
+        },
+        set: function(val) {
+          currentTag = currentTag === val ? 0 : val;
+          first();
+        }
+      },
+
       search: {
         enumerable: true,
         get: function() {
@@ -80,6 +106,12 @@ define(['angular','lbServices', '../utils/crud', '../utils/utils',
 
       if(currentRubric) {
         filter.where['rubrics.id'] = currentRubric;
+      }
+      if(currentCuisine) {
+        filter.where['cuisine.id'] = currentCuisine;
+      }
+      if(currentTag) {
+        filter.where['tags.id'] = currentTag;
       }
       if(search) {
         var tokens = search.split(' ').filter(Boolean);
@@ -111,6 +143,16 @@ define(['angular','lbServices', '../utils/crud', '../utils/utils',
       $scope.rubrics = data;
     });
 
+    Cuisine.active().$promise.then(function(data) {
+      data.unshift({id: 0, caption: 'Все'});
+      $scope.cuisines = data;
+    });
+
+    Tag.active().$promise.then(function(data) {
+      data.unshift({id: 0, caption: 'Все'});
+      $scope.tags = data;
+    });
+
     ToggleService.togglify(this, $scope);
 
     angular.extend(this, {
@@ -135,25 +177,36 @@ define(['angular','lbServices', '../utils/crud', '../utils/utils',
         data = $state.$current.data,
         Collection = $injector.get(data.collection),
         Rubric = $injector.get('Rubric'),
-        Product = $injector.get('Product');
+        Cuisine = $injector.get('Cuisine'),
+        Tag = $injector.get('Tag'),
+        Product = $injector.get('Product'),
+        related = {
+          products: Product,
+          cuisines: Cuisine,
+          rubrics: Rubric,
+          tags: Tag
+        };
 
-    angular.extend($scope, {
-      rubrics: [],
-      selectedRubrics: {},
-      products: []
-    });
+    $scope.selectedRubrics = {};
 
-    Rubric.active().$promise.then(function(data) {
-      $scope.rubrics = data;
-    });
+    Object.keys(related).forEach(function load(name) {
+      $scope[name] = [];
 
-    Product.active().$promise.then(function(data) {
-      $scope.products = data;
-    });
+      related[name].active().$promise.then(function(data) {
+        $scope[name] = data;
+      })
+    })    
 
 
     function initRubrics(rubrics) {
       $scope.selectedRubrics = (rubrics || []).reduce(function(cache, rubric){
+        cache[rubric.id] = true;
+        return cache;
+      }, {});
+    }
+
+    function initTags(tags) {
+      $scope.selectedTags = (tags || []).reduce(function(cache, rubric){
         cache[rubric.id] = true;
         return cache;
       }, {});
@@ -164,6 +217,7 @@ define(['angular','lbServices', '../utils/crud', '../utils/utils',
       Collection: Collection,
       wrapItem: function(item) {
         initRubrics(item.rubrics);
+        initTags(item.tags);
         Object.defineProperties(item, {
           rubrics: {
             enumerable: true,
@@ -172,6 +226,24 @@ define(['angular','lbServices', '../utils/crud', '../utils/utils',
               return $scope.rubrics.filter(function(rubric){
                 return selected[rubric.id];
               });
+            }
+          },
+          tags: {
+            enumerable: true,
+            get: function() {
+              var selected = $scope.selectedTags;
+              return $scope.tags.filter(function(tag){
+                return selected[tag.id];
+              });
+            }
+          },
+          cuisine: {
+            enumerable: true,
+            get: function() {
+              var id = $scope.cuisineId;
+              return $scope.cuisines.filter(function(item) {
+                return item.id === id;
+              })[0];
             }
           }
         });
@@ -227,6 +299,7 @@ define(['angular','lbServices', '../utils/crud', '../utils/utils',
           }),
           images = item.images || [];
 
+      $scope.cuisineId = item.cuisine && item.cuisine.id;
       $scope.uploader = uploader;
       $scope.item = instance.wrapItem(item);
       $scope.item.images = images; //in case it was empty

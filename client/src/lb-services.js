@@ -4038,6 +4038,44 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
 
             /**
              * @ngdoc method
+             * @name lbServices.Recipe#rubric
+             * @methodOf lbServices.Recipe
+             *
+             * @description
+             *
+             * <em>
+             * (The remote method definition does not provide any description.)
+             * </em>
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `key` – `{string}` -
+             *
+             *  - `filter` – `{object=}` -
+             *
+             * @param {function(Array.<Object>,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Array.<Object>} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Recipe` object.)
+             * </em>
+             */
+            "rubric": {
+              isArray: true,
+              url: urlBase + "/recipes/rubric/:key",
+              method: "GET",
+            },
+
+            /**
+             * @ngdoc method
              * @name lbServices.Recipe#todays
              * @methodOf lbServices.Recipe
              *
@@ -9103,6 +9141,44 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
             "recent": {
               isArray: true,
               url: urlBase + "/articles/recent",
+              method: "GET",
+            },
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Article#rubric
+             * @methodOf lbServices.Article
+             *
+             * @description
+             *
+             * <em>
+             * (The remote method definition does not provide any description.)
+             * </em>
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `key` – `{string}` -
+             *
+             *  - `filter` – `{object=}` -
+             *
+             * @param {function(Array.<Object>,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Array.<Object>} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Article` object.)
+             * </em>
+             */
+            "rubric": {
+              isArray: true,
+              url: urlBase + "/articles/rubric/:key",
               method: "GET",
             },
 

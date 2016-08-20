@@ -12,14 +12,24 @@ define(['angular', 'lbServices', '../utils/crud', '../utils/utils',
     var Recipe = $injector.get('Recipe'),
         Rubric = $injector.get('Rubric'),
         Category = $injector.get('Category'),
+        Cuisine =  $injector.get('Cuisine'),
+        Tag = $injector.get('Tag'),
         $state = $injector.get('$state'),
         RangeService = $injector.get('RangeService'),
         ToggleService = $injector.get('ToggleService'),
-        page = 1, size = 10, search = "";
+        page = 1, size = 10, search = "",
+        filters = {
+          rubrics: Rubric,
+          categories: Category,
+          cuisines: Cuisine,
+          tags: Tag
+        };
 
 
     $scope.currentCategory = 0;
     $scope.currentRubric = 0;
+    $scope.currentCuisine = 0;
+    $scope.currentTag = 0;
 
     Object.defineProperty($scope, 'search', {
       enumerable: true,
@@ -36,15 +46,13 @@ define(['angular', 'lbServices', '../utils/crud', '../utils/utils',
       $scope.recipeOfTheDay = data.id;
     })
 
-    Rubric.active().$promise.then(function(data) {
-      data.unshift({caption: 'Все', id: 0});
-      $scope.rubrics = data;
-    });
+    Object.keys(filters).forEach(function(filter) {
+      filters[filter].active().$promise.then(function(data) {
+        data.unshift({caption: 'Все', id: 0});
+        $scope[filter] = data;
+      })
+    })
 
-    Category.active().$promise.then(function(data) {
-      data.unshift({caption: 'Все', id: 0});
-      $scope.categories = data;
-    });
 
     $scope.list = [];
     Object.defineProperty($scope, 'page', {
@@ -73,12 +81,18 @@ define(['angular', 'lbServices', '../utils/crud', '../utils/utils',
       options.filter = filter;
 
       if($scope.currentCategory) {
-
         filter.where['category.id'] =$scope.currentCategory;
       }
       if($scope.currentRubric) {
         filter.where['rubrics.id'] = $scope.currentRubric;
       }
+      if($scope.currentCuisine) {
+        filter.where['cuisine.id'] = $scope.currentCuisine;
+      }
+      if($scope.currentTag) {
+        filter.where['tags.id'] = $scope.currentTag;
+      }
+
       if(search) {
         var tokens = search.split(' ').filter(Boolean);
         if(tokens.length > 1) { //fulltext mode
@@ -109,6 +123,14 @@ define(['angular', 'lbServices', '../utils/crud', '../utils/utils',
       },
       selectRubric: function(id) {
         $scope.currentRubric = $scope.currentRubric === id ? 0 : id;
+        setPage(1);
+      },
+      selectCuisine: function(id) {
+        $scope.currentCuisine = $scope.currentCuisine === id ? 0 : id;
+        setPage(1);
+      },
+      selectTag: function(id) {
+        $scope.currentTag = $scope.currentTag === id ? 0 : id;
         setPage(1);
       },
       remove: function(id) {

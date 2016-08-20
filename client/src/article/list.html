@@ -3,9 +3,16 @@
 </ol>
 <div class="row">
   <div class="col-xs-2">
+    <h3>Рубрики</h3>
     <ul class="nav nav-pills nav-stacked">
       <li ng-repeat="rubric in rubrics" ng-class="{active: rubric.id===currentRubric}">
         <a ng-click="currentRubric = rubric.id" href="javascript: void 0;">{{::rubric.caption}}</a>
+      </li>
+    </ul>
+    <h3>Ярлыки</h3>
+    <ul class="nav nav-pills nav-stacked">
+      <li ng-repeat="tag in tags" ng-class="{active: tag.id===currentTag}">
+        <a ng-click="currentTag = tag.id" href="javascript: void 0;">{{::tag.caption}}</a>
       </li>
     </ul>
   </div>
@@ -27,6 +34,7 @@
           <th>Название</th>
           <th>Действия</th>
           <th>Текст</th>
+          <th>Кухня</th>
           <th>Рубрики</th>
           <th>История</th>
         </tr>
@@ -35,6 +43,9 @@
         <tr ng-repeat="item in list">
           <td>
             <a ui-sref="{{ctrl.data.root}}.item({id: item.id})">{{::item.caption}}</a>
+            <div>
+              <span ng-repeat="tag in item.tags" ng-click="currentTag = tag.id"><span class="label label-default clickable" >{{::tag.caption}}</span>&nbsp; </span>
+            </div>
           </td>
           <td>
             <button type="button" class="btn btn-sm btn-danger" ng-click="ctrl.remove(item.id)"><fa icon="trash"/></button>
@@ -42,6 +53,9 @@
             <button type="button" class="btn btn-sm btn-success" title="Активировать" ng-click="ctrl.toggle(item.id)" ng-show="!item.active"><fa icon="check"/></button>
           </td>
           <td>{{::item.content|limitTo:100 |html}}...</td>
+          <td>
+            <span class="label label-info clickable" ng-click="currentCuisine = item.cuisine.id">{{::item.cuisine.caption}}</span>
+          </td>
           <td>
             <span  ng-repeat="rubric in item.rubrics"><span class="label label-primary clickable" ng-click="currentRubric = rubric.id">{{::rubric.caption}}</span>&nbsp; </span>
           </td>
@@ -54,12 +68,12 @@
       </tbody>
       <tbody ng-if="!list.length">
         <tr>
-          <td colspan="5">Нет записей</td>
+          <td colspan="6">Нет записей</td>
         </tr>
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="7">
+          <td colspan="6">
             <ul class="pagination" style="margin: 0;">
               <li ng-class="{disabled: page===1}">
                 <a ng-click="page = page - 1" href="javascript: void 0;">&laquo;</a>
@@ -75,7 +89,13 @@
         </tr>
       </tfoot>
     </table>
-
-
+  </div>
+  <div class="col-xs-2">
+    <h3>Кухни</h3>
+    <ul class="nav nav-pills nav-stacked">
+      <li ng-repeat="cuisine in cuisines" ng-class="{active: cuisine.id===currentCuisine}">
+        <a ng-click="currentCuisine = cuisine.id" href="javascript: void 0;">{{::cuisine.caption}}</a>
+      </li>
+    </ul>
   </div>
 </div>

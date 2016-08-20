@@ -48,11 +48,29 @@
     </div>
   </div>
   <div class="form-group">
+    <label for="cuisine" class="col-sm-2 control-label">Кухня</label>
+    <div class="btn-group col-sm-8">
+      <label class="btn" ng-repeat="cuisine in cuisines track by cuisine.id"
+          ng-class="{'btn-info':cuisine.id===item.cuisine.id}">
+        <input type="radio" value="{{cuisine.id}}" name="cuisine" ng-model="$parent.cuisineId">{{cuisine.caption}}
+      </label>
+    </div>
+  </div>
+  <div class="form-group">
     <label for="rubric" class="col-sm-2 control-label">Рубрики</label>
     <div class="btn-group col-sm-8">
       <label class="btn" ng-repeat="rubric in rubrics track by rubric.id"
           ng-class="{'btn-info':selectedRubrics[rubric.id]}">
         <input type="checkbox" value="{{rubric.id}}" name="category" ng-model="$parent.selectedRubrics[rubric.id]">{{rubric.caption}}
+      </label>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="tags" class="col-sm-2 control-label">Ярлыки</label>
+    <div class="btn-group col-sm-8">
+      <label class="btn" ng-repeat="tag in tags track by tag.id"
+          ng-class="{'btn-info':selectedTags[tag.id]}">
+        <input type="checkbox" value="{{tag.id}}" ng-model="$parent.selectedTags[tag.id]">{{tag.caption}}
       </label>
     </div>
   </div>

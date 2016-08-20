@@ -35,6 +35,14 @@
       "type": "boolean",
       "required": true,
       "default": true
+    },
+    "cuisine": {
+      "type": "object"
+    },
+    "tags": {
+      "type": [
+        "object"
+      ]
     }
   },
   "validations": [],
