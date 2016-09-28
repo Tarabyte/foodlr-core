@@ -32,6 +32,5 @@ app.use(helmet.frameguard('deny'));
 
 // start the server if `$ node server.js`
 if (require.main === module) {
-  app.boot();
-  app.start();
+  app.boot(app.start);
 }
