@@ -37,6 +37,7 @@
     "gulp-mocha": "^2.2.0",
     "jshint": "^2.9.2",
     "jshint-stylish": "^2.2.0",
+    "less": "^2.7.1",
     "lodash": "^4.14.1",
     "loopback-component-explorer": "^2.6.0",
     "loopback-sdk-angular": "^1.9.0",
